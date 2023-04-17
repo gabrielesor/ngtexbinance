@@ -1,0 +1,16 @@
+#
+# build
+#
+/target/
+
+#
+# eclipse
+#
+.classpath
+.project
+/.settings/
+
+#
+# ngttrading
+#
+/src/private

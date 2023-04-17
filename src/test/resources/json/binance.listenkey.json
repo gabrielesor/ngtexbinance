@@ -1,0 +1,16 @@
+{
+    "id":"86a520ae-90f7-4afa-b165-e8a39ab974ef",
+    "status":200,
+    "result":{
+       "listenKey":"b17dw6WB5SFpsEaZKfTGGrSAOZgnJR2PMaa2cXvKHOtDUjnKy11m5qj0d72J"
+    },
+    "rateLimits":[
+       {
+          "rateLimitType":"REQUEST_WEIGHT",
+          "interval":"MINUTE",
+          "intervalNum":1,
+          "limit":1200,
+          "count":2
+       }
+    ]
+ }

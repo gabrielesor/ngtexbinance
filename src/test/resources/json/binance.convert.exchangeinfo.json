@@ -1,0 +1,2882 @@
+[
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ETH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "92",
+    "toAssetMinAmount": "0.00048",
+    "toAssetMaxAmount": "1300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BNB",
+    "fromAssetMinAmount": "0.0000033",
+    "fromAssetMaxAmount": "120",
+    "toAssetMinAmount": "0.0003",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BUSD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "120",
+    "toAssetMinAmount": "1",
+    "toAssetMaxAmount": "3800000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "USDT",
+    "fromAssetMinAmount": "0.0000033",
+    "fromAssetMaxAmount": "120",
+    "toAssetMinAmount": "0.1",
+    "toAssetMaxAmount": "3700000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "USDC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "49",
+    "toAssetMinAmount": "1",
+    "toAssetMaxAmount": "1500000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TUSD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "5.4",
+    "toAssetMinAmount": "1",
+    "toAssetMaxAmount": "170000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BCH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.2",
+    "toAssetMinAmount": "0.0075",
+    "toAssetMaxAmount": "740"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "EOS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.5",
+    "toAssetMinAmount": "0.8",
+    "toAssetMaxAmount": "110000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XRP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "26",
+    "toAssetMinAmount": "1.9",
+    "toAssetMaxAmount": "1500000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GLM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.9",
+    "toAssetMaxAmount": "31000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TRX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "15",
+    "toAssetMaxAmount": "120000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ETC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.9",
+    "toAssetMinAmount": "0.045",
+    "toAssetMaxAmount": "6600"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LTC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "10",
+    "toAssetMinAmount": "0.01",
+    "toAssetMaxAmount": "3100"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ADA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "11",
+    "toAssetMinAmount": "2.2",
+    "toAssetMaxAmount": "780000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ATOM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "6.1",
+    "toAssetMinAmount": "0.081",
+    "toAssetMaxAmount": "15000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DASH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.9",
+    "toAssetMinAmount": "0.017",
+    "toAssetMaxAmount": "1400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HBAR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.6",
+    "toAssetMinAmount": "14",
+    "toAssetMaxAmount": "1100000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LINK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "8.4",
+    "toAssetMinAmount": "0.13",
+    "toAssetMaxAmount": "33000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MATIC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "16",
+    "toAssetMinAmount": "0.86",
+    "toAssetMaxAmount": "440000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NEO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.2",
+    "toAssetMinAmount": "0.078",
+    "toAssetMaxAmount": "5400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "QTUM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.98",
+    "toAssetMinAmount": "0.3",
+    "toAssetMaxAmount": "9200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WRX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "5.5",
+    "toAssetMaxAmount": "180000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XMR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "10",
+    "toAssetMinAmount": "0.0061",
+    "toAssetMaxAmount": "1800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XTZ",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.7",
+    "toAssetMinAmount": "0.87",
+    "toAssetMaxAmount": "75000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AUD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "16",
+    "toAssetMinAmount": "1.5",
+    "toAssetMaxAmount": "750000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BIDR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "15000",
+    "toAssetMaxAmount": "110000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BRL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "13",
+    "toAssetMinAmount": "5",
+    "toAssetMaxAmount": "1900000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BTS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "86",
+    "toAssetMaxAmount": "3400000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BTTC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1600000",
+    "toAssetMaxAmount": "12000000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BURGER",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.5",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CKB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "220",
+    "toAssetMaxAmount": "1200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "COCOS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.64",
+    "toAssetMaxAmount": "5100"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CREAM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "0.069",
+    "toAssetMaxAmount": "400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CVC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "9",
+    "toAssetMaxAmount": "71000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CVP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.1",
+    "toAssetMaxAmount": "16000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DAI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "11",
+    "toAssetMinAmount": "1",
+    "toAssetMaxAmount": "330000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DENT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "860",
+    "toAssetMaxAmount": "4200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DEXE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.32",
+    "toAssetMaxAmount": "2500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DF",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "14",
+    "toAssetMaxAmount": "110000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "EPX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "2900",
+    "toAssetMaxAmount": "17000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ERN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.39",
+    "toAssetMaxAmount": "3100"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "EUR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "19",
+    "toAssetMinAmount": "0.91",
+    "toAssetMaxAmount": "540000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FTT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.1",
+    "toAssetMinAmount": "0.48",
+    "toAssetMaxAmount": "1500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FUN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "160",
+    "toAssetMaxAmount": "1200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GBP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "14",
+    "toAssetMinAmount": "0.81",
+    "toAssetMaxAmount": "340000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GFT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "22",
+    "toAssetMaxAmount": "180000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GHST",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.87",
+    "toAssetMaxAmount": "6900"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HIFI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.3",
+    "toAssetMaxAmount": "18000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HOT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "480",
+    "toAssetMaxAmount": "19000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "JUV",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.26",
+    "toAssetMaxAmount": "2000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KEY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "120",
+    "toAssetMaxAmount": "920000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KP3R",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "0.012",
+    "toAssetMaxAmount": "78"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LEVER",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "450",
+    "toAssetMaxAmount": "3500000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LUNA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.5",
+    "toAssetMinAmount": "0.71",
+    "toAssetMaxAmount": "52000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LUNC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.8",
+    "toAssetMinAmount": "7900",
+    "toAssetMaxAmount": "900000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MASK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.23",
+    "toAssetMinAmount": "0.17",
+    "toAssetMaxAmount": "1200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MBL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.24",
+    "toAssetMinAmount": "300",
+    "toAssetMaxAmount": "2200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NGN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "740",
+    "toAssetMaxAmount": "5900000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OOKI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "230",
+    "toAssetMaxAmount": "1300000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PERL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "30",
+    "toAssetMaxAmount": "240000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PLN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "4.2",
+    "toAssetMaxAmount": "33000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PNT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "4.7",
+    "toAssetMaxAmount": "31000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PROS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.8",
+    "toAssetMaxAmount": "14000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PUNDIX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2",
+    "toAssetMaxAmount": "15000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RAY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.7",
+    "toAssetMaxAmount": "29000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "REEF",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "330",
+    "toAssetMaxAmount": "1800000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "REI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "30",
+    "toAssetMaxAmount": "170000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RON",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "4.5",
+    "toAssetMaxAmount": "36000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RSR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "210",
+    "toAssetMaxAmount": "10000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RUB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "82",
+    "toAssetMaxAmount": "660000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "230",
+    "toAssetMaxAmount": "9100000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SHIB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "10",
+    "toAssetMinAmount": "89000",
+    "toAssetMaxAmount": "26000000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SLP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "340",
+    "toAssetMaxAmount": "15000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SPELL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "1300",
+    "toAssetMaxAmount": "7800000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SRM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "4.8",
+    "toAssetMaxAmount": "30000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SUN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.99",
+    "toAssetMinAmount": "160",
+    "toAssetMaxAmount": "4700000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "T",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.14",
+    "toAssetMinAmount": "27",
+    "toAssetMaxAmount": "120000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TORN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.14",
+    "toAssetMinAmount": "0.11",
+    "toAssetMaxAmount": "490"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TROY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "260",
+    "toAssetMaxAmount": "2100000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TRY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "20",
+    "toAssetMaxAmount": "160000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "UAH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "37",
+    "toAssetMaxAmount": "290000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "UFT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.4",
+    "toAssetMaxAmount": "19000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "USDP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "5.4",
+    "toAssetMinAmount": "1",
+    "toAssetMaxAmount": "170000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "USTC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.6",
+    "toAssetMinAmount": "44",
+    "toAssetMaxAmount": "4800000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "VGX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.9",
+    "toAssetMaxAmount": "23000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "VTHO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "690",
+    "toAssetMaxAmount": "5500000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WIN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "11000",
+    "toAssetMaxAmount": "88000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WNXM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.034",
+    "toAssetMaxAmount": "260"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XEC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "31000",
+    "toAssetMaxAmount": "1500000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XEM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.2",
+    "toAssetMinAmount": "23",
+    "toAssetMaxAmount": "920000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XVG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "390",
+    "toAssetMaxAmount": "13000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "YFII",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.5",
+    "toAssetMinAmount": "0.00089",
+    "toAssetMaxAmount": "66"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ZAR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "18",
+    "toAssetMaxAmount": "140000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "1INCH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.2",
+    "toAssetMinAmount": "1.8",
+    "toAssetMaxAmount": "68000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AAVE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "0.012",
+    "toAssetMaxAmount": "520"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ACA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.13",
+    "toAssetMinAmount": "9.7",
+    "toAssetMaxAmount": "38000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ACH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "25",
+    "toAssetMaxAmount": "200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ACM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.33",
+    "toAssetMaxAmount": "2600"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ADX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.97",
+    "toAssetMinAmount": "5.1",
+    "toAssetMaxAmount": "150000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AERGO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "7.2",
+    "toAssetMaxAmount": "57000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AGIX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.9",
+    "toAssetMinAmount": "2.2",
+    "toAssetMaxAmount": "320000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AGLD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "1.8",
+    "toAssetMaxAmount": "9600"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AKRO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.82",
+    "toAssetMinAmount": "190",
+    "toAssetMaxAmount": "4800000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ALCX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "0.048",
+    "toAssetMaxAmount": "300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ALGO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.8",
+    "toAssetMinAmount": "4.4",
+    "toAssetMaxAmount": "640000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ALICE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.79",
+    "toAssetMinAmount": "0.58",
+    "toAssetMaxAmount": "13000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ALPACA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.4",
+    "toAssetMaxAmount": "27000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ALPHA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "8.2",
+    "toAssetMaxAmount": "320000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ALPINE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "0.26",
+    "toAssetMaxAmount": "13000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AMB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "67",
+    "toAssetMaxAmount": "530000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AMP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "260",
+    "toAssetMaxAmount": "1400000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ANKR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "27",
+    "toAssetMaxAmount": "1300000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ANT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.81",
+    "toAssetMinAmount": "0.27",
+    "toAssetMaxAmount": "6800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "APE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "5.6",
+    "toAssetMinAmount": "0.22",
+    "toAssetMaxAmount": "37000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "API3",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.6",
+    "toAssetMaxAmount": "4700"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "APT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.078",
+    "toAssetMaxAmount": "620"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ARB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.6",
+    "toAssetMinAmount": "0.6",
+    "toAssetMaxAmount": "67000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "0.11",
+    "toAssetMaxAmount": "5000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ARDR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "10",
+    "toAssetMaxAmount": "350000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ARK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.9",
+    "toAssetMaxAmount": "23000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ARPA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.99",
+    "toAssetMinAmount": "22",
+    "toAssetMaxAmount": "670000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ASR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.3",
+    "toAssetMaxAmount": "2400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ASTR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "13",
+    "toAssetMaxAmount": "710000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ATA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "5.7",
+    "toAssetMaxAmount": "45000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ATM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.3",
+    "toAssetMaxAmount": "2400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AUCTION",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.17",
+    "toAssetMaxAmount": "1300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AUDIO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "3",
+    "toAssetMaxAmount": "140000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AUTO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.0086",
+    "toAssetMaxAmount": "68"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AVA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.5",
+    "toAssetMaxAmount": "12000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AVAX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "11",
+    "toAssetMinAmount": "0.052",
+    "toAssetMaxAmount": "18000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "AXS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.7",
+    "toAssetMinAmount": "0.11",
+    "toAssetMaxAmount": "9200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BADGER",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.33",
+    "toAssetMaxAmount": "2600"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BAKE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.85",
+    "toAssetMinAmount": "4.6",
+    "toAssetMaxAmount": "110000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BAL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.97",
+    "toAssetMinAmount": "0.14",
+    "toAssetMaxAmount": "4100"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BAND",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.1",
+    "toAssetMinAmount": "0.51",
+    "toAssetMaxAmount": "32000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BAR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.23",
+    "toAssetMaxAmount": "1800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BAT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "3.5",
+    "toAssetMaxAmount": "100000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BEL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BETA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "10",
+    "toAssetMaxAmount": "61000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BETH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.00048",
+    "toAssetMaxAmount": "3"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BICO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "2.4",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BIFI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.0019",
+    "toAssetMaxAmount": "15"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BLZ",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "11",
+    "toAssetMaxAmount": "90000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BNT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "1.9",
+    "toAssetMaxAmount": "74000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BNX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.6",
+    "toAssetMaxAmount": "13000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BOND",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.23",
+    "toAssetMaxAmount": "1800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "BSW",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "5.3",
+    "toAssetMaxAmount": "210000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "C98",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "3.5",
+    "toAssetMaxAmount": "170000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CAKE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.8",
+    "toAssetMinAmount": "0.28",
+    "toAssetMaxAmount": "32000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CELO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.2",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "100000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CELR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "42",
+    "toAssetMaxAmount": "260000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CFX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "2.7",
+    "toAssetMaxAmount": "130000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CHESS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "3.7",
+    "toAssetMaxAmount": "20000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CHR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "5.8",
+    "toAssetMaxAmount": "290000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CHZ",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.6",
+    "toAssetMinAmount": "7.5",
+    "toAssetMaxAmount": "1000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CITY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.17",
+    "toAssetMaxAmount": "1300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CLV",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "14",
+    "toAssetMaxAmount": "88000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "COMP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "0.022",
+    "toAssetMaxAmount": "900"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "COS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.22",
+    "toAssetMinAmount": "140",
+    "toAssetMaxAmount": "950000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "COTI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "11",
+    "toAssetMaxAmount": "500000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CRV",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.5",
+    "toAssetMinAmount": "0.92",
+    "toAssetMaxAmount": "44000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CTK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.84",
+    "toAssetMinAmount": "1.2",
+    "toAssetMaxAmount": "31000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CTSI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "6",
+    "toAssetMaxAmount": "190000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CTXC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.22",
+    "toAssetMinAmount": "4.2",
+    "toAssetMaxAmount": "30000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "CVX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "0.17",
+    "toAssetMaxAmount": "810"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DAR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.82",
+    "toAssetMinAmount": "5.3",
+    "toAssetMaxAmount": "130000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DATA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "25",
+    "toAssetMaxAmount": "200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DCR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "0.047",
+    "toAssetMaxAmount": "2300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DEGO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.45",
+    "toAssetMaxAmount": "3500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DGB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "99",
+    "toAssetMaxAmount": "790000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DIA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.5",
+    "toAssetMaxAmount": "19000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DOCK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "42",
+    "toAssetMaxAmount": "340000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DODO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.2",
+    "toAssetMinAmount": "5.3",
+    "toAssetMaxAmount": "200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DOGE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "13",
+    "toAssetMinAmount": "11",
+    "toAssetMaxAmount": "4500000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DOT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "8.2",
+    "toAssetMinAmount": "0.15",
+    "toAssetMaxAmount": "37000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DREP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.1",
+    "toAssetMaxAmount": "16000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DUSK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "5.2",
+    "toAssetMaxAmount": "25000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "DYDX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.2",
+    "toAssetMinAmount": "0.37",
+    "toAssetMaxAmount": "36000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "EGLD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "6.4",
+    "toAssetMinAmount": "0.023",
+    "toAssetMaxAmount": "4500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ELF",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.83",
+    "toAssetMinAmount": "3.1",
+    "toAssetMaxAmount": "80000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ENJ",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.9",
+    "toAssetMinAmount": "2.3",
+    "toAssetMaxAmount": "130000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ENS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.072",
+    "toAssetMaxAmount": "570"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FARM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.23",
+    "toAssetMinAmount": "0.027",
+    "toAssetMaxAmount": "190"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FET",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "6.5",
+    "toAssetMinAmount": "2.4",
+    "toAssetMaxAmount": "480000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FIDA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "2.3",
+    "toAssetMaxAmount": "13000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FIL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.8",
+    "toAssetMinAmount": "0.16",
+    "toAssetMaxAmount": "13000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FIO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.68",
+    "toAssetMinAmount": "27",
+    "toAssetMaxAmount": "570000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FIRO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.44",
+    "toAssetMaxAmount": "3400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FIS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "1.8",
+    "toAssetMaxAmount": "73000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FLM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "9.3",
+    "toAssetMaxAmount": "280000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FLOW",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "0.96",
+    "toAssetMaxAmount": "38000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FLUX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FOR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "38",
+    "toAssetMaxAmount": "300000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FORTH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "0.26",
+    "toAssetMaxAmount": "1700"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FRONT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "4.1",
+    "toAssetMaxAmount": "32000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FTM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.3",
+    "toAssetMinAmount": "2",
+    "toAssetMaxAmount": "190000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "FXS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.24",
+    "toAssetMinAmount": "0.096",
+    "toAssetMaxAmount": "710"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GALA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.3",
+    "toAssetMinAmount": "23",
+    "toAssetMaxAmount": "2200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GAL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.6",
+    "toAssetMinAmount": "0.48",
+    "toAssetMaxAmount": "37000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GAS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.29",
+    "toAssetMaxAmount": "2300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GLMR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.5",
+    "toAssetMaxAmount": "19000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GMT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.7",
+    "toAssetMinAmount": "2.5",
+    "toAssetMaxAmount": "210000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GMX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.012",
+    "toAssetMaxAmount": "93"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GNS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.13",
+    "toAssetMaxAmount": "1000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GRT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.9",
+    "toAssetMinAmount": "6.1",
+    "toAssetMaxAmount": "910000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "GTC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "0.52",
+    "toAssetMaxAmount": "3300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HARD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "5.3",
+    "toAssetMaxAmount": "42000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HFT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HIGH",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "0.45",
+    "toAssetMaxAmount": "2500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HIVE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.3",
+    "toAssetMaxAmount": "18000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "HOOK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.47",
+    "toAssetMaxAmount": "3700"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ICP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.9",
+    "toAssetMinAmount": "0.18",
+    "toAssetMaxAmount": "21000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ICX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.2",
+    "toAssetMinAmount": "2.7",
+    "toAssetMaxAmount": "260000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ID",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.2",
+    "toAssetMaxAmount": "9900"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "IDEX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "17",
+    "toAssetMaxAmount": "610000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ILV",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "0.016",
+    "toAssetMaxAmount": "78"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "IMX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.22",
+    "toAssetMinAmount": "0.83",
+    "toAssetMaxAmount": "5800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "INJ",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.2",
+    "toAssetMinAmount": "0.13",
+    "toAssetMaxAmount": "12000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "IOST",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "86",
+    "toAssetMaxAmount": "2900000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "IOTA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "4.5",
+    "toAssetMaxAmount": "35000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "IOTX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "34",
+    "toAssetMaxAmount": "1500000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "IRIS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.23",
+    "toAssetMinAmount": "29",
+    "toAssetMaxAmount": "210000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "JASMY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.2",
+    "toAssetMinAmount": "150",
+    "toAssetMaxAmount": "19000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "JOE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "1.6",
+    "toAssetMaxAmount": "9400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "JST",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "35",
+    "toAssetMaxAmount": "1200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KAVA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "1.1",
+    "toAssetMaxAmount": "53000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KDA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.9",
+    "toAssetMinAmount": "0.94",
+    "toAssetMaxAmount": "110000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KLAY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "3.7",
+    "toAssetMaxAmount": "180000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KMD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.6",
+    "toAssetMaxAmount": "28000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KNC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.99",
+    "toAssetMinAmount": "1.3",
+    "toAssetMaxAmount": "38000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "KSM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.9",
+    "toAssetMinAmount": "0.027",
+    "toAssetMaxAmount": "1500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LAZIO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "0.31",
+    "toAssetMaxAmount": "12000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LDO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.2",
+    "toAssetMinAmount": "0.39",
+    "toAssetMaxAmount": "38000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LINA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "69",
+    "toAssetMaxAmount": "410000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LIT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.86",
+    "toAssetMaxAmount": "6800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LOKA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "1.7",
+    "toAssetMaxAmount": "8700"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LOOM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "15",
+    "toAssetMaxAmount": "120000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LPT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.15",
+    "toAssetMaxAmount": "1200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LQTY",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.41",
+    "toAssetMaxAmount": "3200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LRC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.5",
+    "toAssetMinAmount": "2.5",
+    "toAssetMaxAmount": "110000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LSK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.9",
+    "toAssetMaxAmount": "7200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "LTO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "8.8",
+    "toAssetMaxAmount": "70000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MAGIC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.65",
+    "toAssetMaxAmount": "5100"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MANA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.1",
+    "toAssetMinAmount": "1.6",
+    "toAssetMaxAmount": "100000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MBOX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "2",
+    "toAssetMaxAmount": "12000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "2.7",
+    "toAssetMaxAmount": "14000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MDT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "17",
+    "toAssetMaxAmount": "130000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MDX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "11",
+    "toAssetMaxAmount": "470000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MINA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.9",
+    "toAssetMinAmount": "1.2",
+    "toAssetMaxAmount": "140000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MKR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "0.0013",
+    "toAssetMaxAmount": "64"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MLN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.043",
+    "toAssetMaxAmount": "340"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MOB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "0.7",
+    "toAssetMaxAmount": "3800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MOVR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "0.11",
+    "toAssetMaxAmount": "530"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MTL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.67",
+    "toAssetMinAmount": "0.77",
+    "toAssetMaxAmount": "15000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "MULTI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.087",
+    "toAssetMaxAmount": "690"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NEAR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.2",
+    "toAssetMinAmount": "0.43",
+    "toAssetMaxAmount": "42000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NEBL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.19",
+    "toAssetMinAmount": "1.9",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NEXO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NKN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.99",
+    "toAssetMinAmount": "7.8",
+    "toAssetMaxAmount": "230000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NMR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.052",
+    "toAssetMaxAmount": "410"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "NULS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.6",
+    "toAssetMaxAmount": "28000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OCEAN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "2.4",
+    "toAssetMaxAmount": "13000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.096",
+    "toAssetMaxAmount": "750"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OGN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "7.7",
+    "toAssetMaxAmount": "280000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "26",
+    "toAssetMaxAmount": "210000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OMG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.1",
+    "toAssetMinAmount": "0.69",
+    "toAssetMaxAmount": "44000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ONE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.8",
+    "toAssetMinAmount": "44",
+    "toAssetMaxAmount": "3700000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ONG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.3",
+    "toAssetMaxAmount": "26000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ONT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.7",
+    "toAssetMinAmount": "3.8",
+    "toAssetMaxAmount": "200000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.9",
+    "toAssetMinAmount": "0.37",
+    "toAssetMaxAmount": "56000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ORN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "1.1",
+    "toAssetMaxAmount": "33000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OSMO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.2",
+    "toAssetMaxAmount": "9400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "OXT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "11",
+    "toAssetMaxAmount": "88000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PAXG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "7.4",
+    "toAssetMinAmount": "0.0005",
+    "toAssetMaxAmount": "100"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PEOPLE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "41",
+    "toAssetMaxAmount": "320000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PERP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.2",
+    "toAssetMinAmount": "1.2",
+    "toAssetMaxAmount": "80000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PHA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "6.2",
+    "toAssetMaxAmount": "49000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PHB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "0.86",
+    "toAssetMaxAmount": "4800"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PIVX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.9",
+    "toAssetMaxAmount": "23000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PLA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "4.3",
+    "toAssetMaxAmount": "27000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "POLS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.1",
+    "toAssetMaxAmount": "17000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "POLYX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "5.6",
+    "toAssetMaxAmount": "45000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "POND",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "94",
+    "toAssetMaxAmount": "520000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PORTO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.99",
+    "toAssetMinAmount": "0.33",
+    "toAssetMaxAmount": "9900"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "POWR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.24",
+    "toAssetMinAmount": "5.1",
+    "toAssetMaxAmount": "37000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PROM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.19",
+    "toAssetMaxAmount": "1500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PSG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.17",
+    "toAssetMaxAmount": "1300"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "PYR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.4",
+    "toAssetMinAmount": "0.25",
+    "toAssetMaxAmount": "18000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "QI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "93",
+    "toAssetMaxAmount": "510000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "QKC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "87",
+    "toAssetMaxAmount": "690000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "QNT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.8",
+    "toAssetMinAmount": "0.0083",
+    "toAssetMaxAmount": "1200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "QUICK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "0.012",
+    "toAssetMaxAmount": "590"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RAD",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.22",
+    "toAssetMinAmount": "0.52",
+    "toAssetMaxAmount": "3500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RARE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.18",
+    "toAssetMinAmount": "7.9",
+    "toAssetMaxAmount": "44000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RDNT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "2.3",
+    "toAssetMaxAmount": "17000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "REN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "9.3",
+    "toAssetMaxAmount": "410000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "REQ",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "9.6",
+    "toAssetMaxAmount": "300000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RIF",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "7.4",
+    "toAssetMaxAmount": "58000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RLC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "0.54",
+    "toAssetMaxAmount": "26000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RNDR",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.57",
+    "toAssetMaxAmount": "4500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ROSE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.6",
+    "toAssetMinAmount": "13",
+    "toAssetMaxAmount": "1000000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RPL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.019",
+    "toAssetMaxAmount": "150"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RUNE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "5",
+    "toAssetMinAmount": "0.6",
+    "toAssetMaxAmount": "91000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "RVN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.2",
+    "toAssetMinAmount": "37",
+    "toAssetMaxAmount": "2600000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SAND",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.9",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "130000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SANTOS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.9",
+    "toAssetMinAmount": "0.19",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SCRT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.14",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "6200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SFP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.6",
+    "toAssetMinAmount": "2",
+    "toAssetMaxAmount": "150000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SKL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "22",
+    "toAssetMaxAmount": "140000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SNM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "10000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SNT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "34",
+    "toAssetMaxAmount": "270000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SNX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.8",
+    "toAssetMinAmount": "0.36",
+    "toAssetMaxAmount": "19000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SOL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "11",
+    "toAssetMinAmount": "0.041",
+    "toAssetMaxAmount": "14000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SSV",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.029",
+    "toAssetMaxAmount": "230"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "STEEM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "4.5",
+    "toAssetMaxAmount": "35000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "STG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.1",
+    "toAssetMaxAmount": "8700"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "STMX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "170",
+    "toAssetMaxAmount": "1300000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "STORJ",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.81",
+    "toAssetMinAmount": "2.5",
+    "toAssetMaxAmount": "61000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "STPT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "18",
+    "toAssetMaxAmount": "140000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "STRAX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.6",
+    "toAssetMaxAmount": "13000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "STX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.2",
+    "toAssetMinAmount": "1.2",
+    "toAssetMaxAmount": "7200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SUPER",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.1",
+    "toAssetMinAmount": "6.9",
+    "toAssetMaxAmount": "230000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SUSHI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "0.85",
+    "toAssetMaxAmount": "43000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SXP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.5",
+    "toAssetMaxAmount": "11000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SYN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1",
+    "toAssetMaxAmount": "8000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "SYS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "5.9",
+    "toAssetMaxAmount": "29000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TFUEL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "17",
+    "toAssetMaxAmount": "550000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "THETA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.4",
+    "toAssetMinAmount": "0.89",
+    "toAssetMaxAmount": "68000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TKO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "2.6",
+    "toAssetMaxAmount": "100000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TLM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "46",
+    "toAssetMaxAmount": "1900000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TOMO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.65",
+    "toAssetMinAmount": "1.4",
+    "toAssetMaxAmount": "27000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TRB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "0.064",
+    "toAssetMaxAmount": "2100"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TRU",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "13",
+    "toAssetMaxAmount": "510000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TVK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "22",
+    "toAssetMaxAmount": "180000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "TWT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.8",
+    "toAssetMaxAmount": "6400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "UMA",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.21",
+    "toAssetMinAmount": "0.47",
+    "toAssetMaxAmount": "3000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "UNFI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.18",
+    "toAssetMaxAmount": "1400"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "UNI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.2",
+    "toAssetMinAmount": "0.16",
+    "toAssetMaxAmount": "15000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "UTK",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "8.7",
+    "toAssetMaxAmount": "69000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "VET",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.2",
+    "toAssetMinAmount": "38",
+    "toAssetMaxAmount": "2700000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "VIB",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "10",
+    "toAssetMaxAmount": "84000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "VIDT",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "26",
+    "toAssetMaxAmount": "210000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "VITE",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "40",
+    "toAssetMaxAmount": "320000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "VOXEL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.16",
+    "toAssetMinAmount": "3.7",
+    "toAssetMaxAmount": "18000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WAN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.6",
+    "toAssetMaxAmount": "28000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WAVES",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "3.3",
+    "toAssetMinAmount": "0.44",
+    "toAssetMaxAmount": "45000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WAXP",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.23",
+    "toAssetMinAmount": "13",
+    "toAssetMaxAmount": "94000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WBTC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.000033",
+    "toAssetMaxAmount": "0.26"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WING",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "0.14",
+    "toAssetMaxAmount": "1000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WOO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "3.3",
+    "toAssetMaxAmount": "26000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "WTC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "4.5",
+    "toAssetMaxAmount": "36000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XLM",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.9",
+    "toAssetMinAmount": "9.3",
+    "toAssetMaxAmount": "1300000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XNO",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.26",
+    "toAssetMinAmount": "1.1",
+    "toAssetMaxAmount": "8700"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "XVS",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.6",
+    "toAssetMinAmount": "0.13",
+    "toAssetMaxAmount": "6200"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "YFI",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "4.2",
+    "toAssetMinAmount": "0.00011",
+    "toAssetMaxAmount": "14"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "YGG",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "0.11",
+    "toAssetMinAmount": "3.6",
+    "toAssetMaxAmount": "12000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ZEC",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "2.4",
+    "toAssetMinAmount": "0.023",
+    "toAssetMaxAmount": "1700"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ZEN",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.3",
+    "toAssetMinAmount": "0.089",
+    "toAssetMaxAmount": "3500"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ZIL",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1.4",
+    "toAssetMinAmount": "32",
+    "toAssetMaxAmount": "1400000"
+  },
+  {
+    "fromAsset": "BTC",
+    "toAsset": "ZRX",
+    "fromAssetMinAmount": "0.000033",
+    "fromAssetMaxAmount": "1",
+    "toAssetMinAmount": "3.4",
+    "toAssetMaxAmount": "100000"
+  }
+]

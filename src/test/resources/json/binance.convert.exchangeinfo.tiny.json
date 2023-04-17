@@ -1,0 +1,10 @@
+[
+    {
+      "fromAsset": "BTC",
+      "toAsset": "ETH",
+      "fromAssetMinAmount": "0.000033",
+      "fromAssetMaxAmount": "92",
+      "toAssetMinAmount": "0.00048",
+      "toAssetMaxAmount": "1300"
+    }
+]
