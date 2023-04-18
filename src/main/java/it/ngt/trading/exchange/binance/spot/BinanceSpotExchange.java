@@ -188,6 +188,8 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 				balance.setCurrency(bbalance.getAsset());
 				balance.setLocked(Double.valueOf(bbalance.getLocked()));
 				balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
+				balance.setCurrencyValuation("BTC");
+				balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
 				balancesMap.put(balance.getCurrency(), balance);
 			}
 		} catch (JsonProcessingException e) {
