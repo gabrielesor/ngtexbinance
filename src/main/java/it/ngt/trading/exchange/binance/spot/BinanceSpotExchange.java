@@ -27,6 +27,7 @@ import it.ngt.trading.core.entity.TraderActionCode;
 import it.ngt.trading.core.entity.WayType;
 import it.ngt.trading.core.messages.IMessageType;
 import it.ngt.trading.core.util.JsonUtil;
+import it.ngt.trading.core.util.TimeUtil;
 import it.ngt.trading.exchange.ExchangeAbstract;
 import it.ngt.trading.exchange.ExchangeErrorCode;
 import it.ngt.trading.exchange.ExchangeException;
@@ -72,6 +73,8 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 	private final Trade tradeClient;
 	
 	private Map<String, Pair> pairs;
+	
+	private static final int DAYS_OFFSET_MAX = 30;	
 	
 	public BinanceSpotExchange(String accountName, String apiKey, String apiSecret) {
 		super(accountName);
@@ -432,13 +435,48 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 	 * @return
 	 * @throws ExchangeException
 	 */
-	public List<BinanceConvertOrder> getOrdersConvert(Instant fromTime, Instant toTime) throws ExchangeException {
+	public List<BinanceConvertOrder> getOrdersConvert(long fromTime, long toTime) throws ExchangeException {
+		
+		List<BinanceConvertOrder> borders = new ArrayList<>();
+        
+		if (fromTime == 0 ||  toTime == 0) {
+			String message = "fromTime and toTime cannot be equal at zero, fromTime: " + fromTime + ", toTime: " + toTime;
+			if (log.isErrorEnabled()) log.error(message);
+			throw new ExchangeException(message);			
+		}
+		long betweenDays = TimeUtil.betweenDays(fromTime, toTime);
+		if (log.isDebugEnabled()) log.debug("fromTime: " + fromTime + ", toTime: " + toTime + ", betweenDays: " + betweenDays);
+						
+		long fromTimeDo = fromTime;
+		long toTimeDo;
+		long now = Instant.now().toEpochMilli();
+		int counterDo = 0;		
+		do {
+			counterDo++;
+			toTimeDo = TimeUtil.addDays(fromTimeDo, DAYS_OFFSET_MAX).toEpochMilli();
+			if (log.isDebugEnabled()) log.debug("counterDo: " + counterDo
+											  + ", fromTimeDo: " + fromTimeDo + ", toTimeDo: " + toTimeDo + ", now: " + now
+											  + ", fromTimeDo: " + Instant.ofEpochMilli(fromTimeDo)
+											  + ", toTimeDo: " + Instant.ofEpochMilli(toTimeDo)
+											  + ", now: " + Instant.ofEpochMilli(now)
+											  );
+			List<BinanceConvertOrder> bordersDo = this.getOrdersConvertBetween(fromTimeDo, toTimeDo);	
+			if (log.isDebugEnabled()) log.debug("retrieved Convert orders, numberOfOrder: " + bordersDo.size());			
+			borders.addAll(bordersDo);
+			fromTimeDo = toTimeDo + 1;	//add 1 ms		
+		} while(toTimeDo<now);
+		
+		return borders;
+		
+	}
+	
+	private List<BinanceConvertOrder> getOrdersConvertBetween(long fromTime, long toTime) throws ExchangeException {
 		
 		List<BinanceConvertOrder> borders;
 		
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-        parameters.put("startTime", fromTime.toEpochMilli());
-        parameters.put("endTime",   toTime.toEpochMilli());
+        parameters.put("startTime", fromTime);
+        parameters.put("endTime",   toTime);
         String result = convertClient.tradeFlow(parameters);
         
         BinanceConvertResponse response;
@@ -452,7 +490,7 @@ public class BinanceSpotExchange extends ExchangeAbstract {
         
 		return borders;
 		
-	}
+	}	
 
 	
 	private TraderActionCode buildActionCode(String bside, String border) {
@@ -621,9 +659,6 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 		
 		return pairs;
 		
-	}
-	
-	private void getPairsConvert() throws ExchangeException {
 	}
 
 }
