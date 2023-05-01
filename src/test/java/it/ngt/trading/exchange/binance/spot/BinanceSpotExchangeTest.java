@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -22,6 +23,9 @@ import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.exchange.ExchangeException;
 import it.ngt.trading.exchange.IExchange;
+import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
+import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Filter;
+import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Symbol;
 
 class BinanceSpotExchangeTest {
 
@@ -67,7 +71,8 @@ class BinanceSpotExchangeTest {
 	private void testGetPairs() throws ExchangeException {
 		
 		Map<String, Pair> pairs = this.exchange.getPairs();
-		System.out.println("pairs: " + pairs);
+		System.out.println("numberOfPairs: " + pairs.size());
+		System.out.println("pair: " + pairs.get("XRPEUR"));
 		
 	}
 	
@@ -82,6 +87,114 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
+	private void testGetPrices() throws ExchangeException {
+		
+		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
+		
+		List<BinancePrice> prices = exchange.getPrices();
+		int i=0;
+		for(BinancePrice price : prices) {
+			i++;
+			System.out.println("i: " + i + ", price: " + price);
+		}
+		
+	}
+	
+	private void testGetSymbols() throws ExchangeException {
+		
+		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
+		List<Symbol> symbols = exchange.getSymbols();
+		
+		System.out.println("numberOfSymbols: " + symbols.size());
+		
+		int i=0;
+		
+		//
+		// check lot_size
+		//
+		if (false) {
+			System.out.println("\n\n\ncheck lot size2");
+			for(Symbol symbol : symbols) {
+				List<Filter> filters = symbol.getFilters();			
+				for(Filter filter : filters) {
+					if (filter.getFilterType().equals("LOT_SIZE")) {
+						String stepSize = filter.getStepSize();
+						Float stepSizeD = Float.valueOf(stepSize);
+						System.out.println("lotsize2:\t" +  symbol.getSymbol() + "\t" + filter.getStepSize() + "\t" + BigDecimal.valueOf(stepSizeD).scale() + ", " + stepSizeD);
+					}
+				}			
+			}				
+		}
+		
+		//
+		// check lot_size
+		//
+		System.out.println("\n\n\ncheck lot size");
+		for(Symbol symbol : symbols) {
+			List<Filter> filters = symbol.getFilters();			
+			for(Filter filter : filters) {
+				if (filter.getFilterType().equals("PRICE_FILTER")) {
+					String stepSize = filter.getTickSize();
+					if (false
+					||	stepSize.equals("10.00000000")
+					||	stepSize.equals("1.0")
+					||	stepSize.equals("1.00")
+					||	stepSize.equals("1.00000000")
+					||  stepSize.equals("0.10")
+					||  stepSize.equals("0.10000000")
+					||  stepSize.equals("0.01")
+					||  stepSize.equals("0.01000000")
+					||  stepSize.equals("0.00100000")
+					||  stepSize.equals("0.00010000")
+					||  stepSize.equals("0.00001000")
+					||  stepSize.equals("0.00000100")
+					||  stepSize.equals("0.00000010")
+					||  stepSize.equals("0.00000001")
+					) {		
+					} else {
+						System.err.println("stepSize: " + symbol.getSymbol() + ", " + stepSize);
+					}
+				}
+			}			
+		}
+		
+		if (true) return;
+		
+		//
+		// print minimum quote quantity
+		//
+		System.out.println("\n\n\nNOTIONAL");
+		i=0;
+		for(Symbol symbol : symbols) {
+			i++;
+			if (symbol.getQuoteAsset().equals("EUR")) {
+				List<Filter> filters = symbol.getFilters();
+				for(Filter filter : filters) {
+					if (filter.getFilterType().equals("NOTIONAL")) {
+						System.out.println("notional: " + symbol.getSymbol() + ", " + filter.getMinNotional());
+					}
+				}
+			}
+		}
+		//
+		// print minimum quote quantity
+		//
+		System.out.println("\n\n\nLOT_SIZE");
+		i=0;
+		for(Symbol symbol : symbols) {
+			i++;
+			if (symbol.getQuoteAsset().equals("EUR")) {
+				List<Filter> filters = symbol.getFilters();
+				for(Filter filter : filters) {
+					if (filter.getFilterType().equals("LOT_SIZE")) {
+						System.out.println("lotSize: " + symbol.getSymbol() + ", " + filter.getStepSize());
+					}
+				}
+			}
+		}		
+		
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ExchangeException {
 		
 		BinanceSpotExchangeTest main = new BinanceSpotExchangeTest();
@@ -89,9 +202,11 @@ class BinanceSpotExchangeTest {
 		main.switchSubaccount("adara.keys.bit1.binance.main.001");
 		//main.switchSubaccount("adara.keys.bseo.binance.main.001");
 		
-		main.testGetBalances();
+		//main.testGetBalances();
 		//main.testGetOpenOrders();
-		//main.testGetPairs();
+		main.testGetPairs();
+		//main.testGetPrices();
+		//main.testGetSymbols();
 		
 	}
 	

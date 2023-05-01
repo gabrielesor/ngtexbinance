@@ -1,8 +1,11 @@
 package it.ngt.trading.exchange.binance.spot;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +40,7 @@ import it.ngt.trading.exchange.binance.spot.beans.BinanceBalance;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertResponse;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceOrder;
+import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.ExchangeInfoSpot;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Filter;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Symbol;
@@ -46,6 +50,10 @@ import lombok.extern.slf4j.Slf4j;
  * Api documentation:
  * 	https://docs.binance.us/
  * 	https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data
+ * 	Orders filters
+ * 		https://dev.binance.vision/t/min-notional-filter-error/9746
+ * 		https://dev.binance.vision/t/precision-vs-scale-for-quantityprecision/3966/5
+ * 		https://mwlang.github.io/binance/Binance/Responses/PriceFilter.html
  * 
  * Binance Convert
  * 	https://www.binance.com/en/blog/otc/3-reasons-why-traders-use-binance-convert-421499824684903125
@@ -156,7 +164,8 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 		Map<String, Balance> balancesMap = new TreeMap<>();
 		
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-        parameters.put("type", "SPOT");		
+        parameters.put("type", "SPOT");	
+        parameters.put("needBtcValuation", "true");        
 		String result = walletClient.getUserAsset(parameters);
 		System.out.println("result:\n" + result);
 		if (log.isDebugEnabled()) log.debug("API executed getBalances, binanceResult:\n" + result);
@@ -191,7 +200,7 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 				balance.setCurrency(bbalance.getAsset());
 				balance.setLocked(Double.valueOf(bbalance.getLocked()));
 				balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
-				balance.setCurrencyValuation("BTC");
+				balance.setValuationAsset("BTC");	//TODO:param
 				balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
 				balancesMap.put(balance.getCurrency(), balance);
 			}
@@ -210,10 +219,54 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 		return null;
 	}
 
+	/**
+		{
+		  "symbol": "BTCEUR",
+		  "orderId": 2881224314,
+		  "orderListId": -1,
+		  "clientOrderId": "NzOZ9fWYKjCjPIboJA2rY2",
+		  "transactTime": 1682533597834,
+		  "price": "25000.00000000",
+		  "origQty": "0.00050000",
+		  "executedQty": "0.00000000",
+		  "cummulativeQuoteQty": "0.00000000",
+		  "status": "NEW",
+		  "timeInForce": "GTC",
+		  "type": "LIMIT",
+		  "side": "BUY",
+		  "workingTime": 1682533597834,
+		  "fills": [],
+		  "selfTradePreventionMode": "NONE"
+		}
+	 */
 	@Override
 	public String doOrderRaw(TraderAction action) throws ExchangeException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if (log.isDebugEnabled()) log.debug("doOrderRaw started, action: " + action);
+		
+		String orderId;
+		
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("symbol", "BTCEUR");
+        parameters.put("side", "SELL");
+        parameters.put("type", "LIMIT");
+        parameters.put("quantity", "0.0005");  
+        parameters.put("price", "27705");
+        parameters.put("timeInForce", "GTC");
+        String result = client.createTrade().newOrder(parameters);
+        try {
+			BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
+			if (log.isDebugEnabled()) log.debug("doOrderRaw order executed, order: " + border);
+			long borderId = border.getOrderId();
+			orderId = borderId + "";
+		} catch (JsonProcessingException e) {
+			String message = "exchange error in doOrder, action: " + action + ", exception: "  + e;
+			if (log.isErrorEnabled()) log.error(message);
+			throw new ExchangeException(message);
+		}
+		
+		return orderId;
+		
 	}
 	
 	@Override
@@ -616,6 +669,17 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 		}	
 		if (log.isDebugEnabled()) log.debug("retrieving the pairs");
 		
+		//
+		// retrieve the Prices to determine the minimum quantity
+		//
+		List<BinancePrice> prices = this.getPrices();
+		if (log.isDebugEnabled()) log.debug("retrieved the prices, numberOfPrices: " + prices.size());
+		Map<String, BinancePrice> pricesMap = new TreeMap<>();
+		for(BinancePrice price : prices) {
+			pricesMap.put(price.getSymbol(), price);
+		}
+		if (log.isDebugEnabled()) log.debug("loaded the pricesMap, numberOfPricesMap: " + pricesMap.size());
+		
 		this.pairs = new TreeMap<>();
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
 		String result = marketClient.exchangeInfo(parameters);
@@ -623,28 +687,56 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 			ExchangeInfoSpot ei = (ExchangeInfoSpot) JsonUtil.fromJson(result, ExchangeInfoSpot.class);
 			
 			List<Symbol> symbols = ei.getSymbols();
+			if (log.isDebugEnabled()) log.debug("retrievied the symbols, numberOfSymbols: " + symbols.size());
+			
 			for(Symbol symbol : symbols) {
 				
 				Float minQuantity = null;
+				Integer priceDecimals = null;
+				Integer quantityDecimals = null;
 				List<Filter> filters = symbol.getFilters();
 				for(Filter filter : filters) {
 					switch(filter.getFilterType()) {
+					case "NOTIONAL":
+						BinancePrice price = pricesMap.get(symbol.getSymbol());
+						if (price != null) {
+							Float minNotationalDouble = Float.valueOf(filter.getMinNotional());
+							Float priceDouble = Float.valueOf(price.getPrice());
+							minQuantity = minNotationalDouble / priceDouble;
+							if (log.isTraceEnabled()) log.trace("symbolName: " + symbol.getSymbol() + ", minNotationalDouble: " + minNotationalDouble
+																+ ", priceDouble: " + priceDouble + ", minQuantity: " + minQuantity);
+						} else {
+							if (log.isWarnEnabled()) log.warn("pair not found in Prices; minQuantity set to 1, pair: " + symbol.getSymbol());
+							minQuantity = -1.0f;
+						}
+						break;
+					case "PRICE_FILTER":
+						priceDecimals = this.computeNumberOfDecimals(filter.getTickSize(), symbol);
+						break;
 					case "LOT_SIZE":
-						minQuantity = Float.valueOf(filter.getMinQty());
+						quantityDecimals = this.computeNumberOfDecimals(filter.getMinQty(), symbol);
 						break;
 					}
 				}
 				if (minQuantity == null) {
-					throw new ExchangeException("missing LOT_SIZE in getPairs, symbol: " + symbol);
+					throw new ExchangeException("missing NOTIONAL for minQuantity in getPairs, symbol: " + symbol);
 				}
+				if (priceDecimals == null) {
+					throw new ExchangeException("missing PRICE_FILTER for priceDecimals in getPairs, symbol: " + symbol);
+				}				
+				if (quantityDecimals == null) {
+					throw new ExchangeException("missing LOT_SIZE for quantityDecimals in getPairs, symbol: " + symbol);
+				}
+				BigDecimal minQuantityBig = BigDecimal.valueOf(minQuantity).setScale(quantityDecimals, RoundingMode.CEILING);
+				minQuantity = minQuantityBig.floatValue();
 				
 				Pair pair = new Pair();
 				pair.setBase(symbol.getBaseAsset());
 				pair.setFeeMaker(0);	//TODO:bseo
 				pair.setFeeTaker(0);	//TODO:bseo
 				pair.setName(symbol.getSymbol());
-				pair.setPriceDecimals(symbol.getQuoteAssetPrecision());
-				pair.setQuantityDecimals(symbol.getBaseAssetPrecision());
+				pair.setPriceDecimals(priceDecimals);
+				pair.setQuantityDecimals(quantityDecimals);
 				pair.setQuantityMin(minQuantity);
 				pair.setQuote(symbol.getQuoteAsset());
 				pair.setSymbol(symbol.getSymbol());
@@ -659,6 +751,119 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 		
 		return pairs;
 		
+	}
+	
+	//	10		->  -1
+	//	1		->	0	10000
+	//	0.1		->	1	1000
+	//	0.01	->	2	100
+	//	0.0001	->	4	1
+	private int computeNumberOfDecimals(String value, Symbol symbol) throws ExchangeException {
+		
+		int nod;
+		
+		switch(value) {
+		case "10.00000000":
+			nod = -1;
+			break;
+		case "1.0":
+			nod = 0;
+			break;
+		case "1.00":
+			nod = 0;
+			break;
+		case "1.00000000":
+			nod = 0;
+			break;
+		case "0.10":
+			nod = 1;
+			break;
+		case "0.10000000":
+			nod = 1;
+			break;
+		case "0.01":
+			nod = 2;
+			break;			
+		case "0.01000000":
+			nod = 2;
+			break;			
+		case "0.00100000":
+			nod = 3;
+			break;
+		case "0.00010000":
+			nod = 4;
+			break;			
+		case "0.00001000":
+			nod = 5;
+			break;			
+		case "0.00000100":
+			nod = 6;
+			break;			
+		case "0.00000010":
+			nod = 7;
+			break;
+		case "0.00000001":
+			nod = 8;
+			break;			
+		default:
+			throw new ExchangeException("stepSize invalid, stepSize: " + value + ", symbol: " + symbol);			
+		}
+		
+		return nod;
+		
+	}
+	
+	/**
+	 	https://dev.binance.vision/t/min-notional-filter-error/9746
+			The value shown in MIN_NOTIONAL is the minimum value you can purchased for a symbol.
+			For example, if MIN_NOTIONAL is 10, the order must be at least of 10 USDT.
+	
+			LOT_SIZE refers to the quantity of your order.
+			You must obey the stepSize shown in the filter.
+			If stepSize = 0.01, this means that your quantity cannot exceed 2 decimal places.
+	 */
+	protected List<Symbol> getSymbols() throws ExchangeException {
+		
+		if (log.isDebugEnabled()) log.debug("retrieving the symbols");
+		
+		List<Symbol> symbols;
+		
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		String result = marketClient.exchangeInfo(parameters);
+		try {
+			ExchangeInfoSpot ei = (ExchangeInfoSpot) JsonUtil.fromJson(result, ExchangeInfoSpot.class);
+			
+			symbols = ei.getSymbols();
+			
+		} catch (JsonProcessingException e) {
+			throw new ExchangeException("invalid response in getPairs exception: " + e);
+		}
+		
+		if (log.isDebugEnabled()) log.debug("retrieved the symbols, numberOfSymbols: " + symbols.size());
+		
+		return symbols;
+	
+	}
+
+	protected List<BinancePrice> getPrices() throws ExchangeException {
+		
+		if (log.isDebugEnabled()) log.debug("retrieving the prices");
+		
+		List<BinancePrice> prices;
+		
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		String result = marketClient.tickerSymbol(parameters);
+		try {
+			BinancePrice[] pricesArray = (BinancePrice[]) JsonUtil.fromJson(result, BinancePrice[].class);
+			prices = Arrays.asList(pricesArray);		
+		} catch (JsonProcessingException e) {
+			throw new ExchangeException("invalid response in getPairs exception: " + e);
+		}
+		
+		if (log.isDebugEnabled()) log.debug("retrieved the prices, numberOfPrices: " + prices.size());
+		
+		return prices;
+	
 	}
 
 }
