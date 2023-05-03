@@ -68,6 +68,13 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
+	private void testGetPair() throws ExchangeException {
+		
+		Pair pair = this.exchange.getPair("BTC", "EUR");
+		System.out.println("pair: " + pair);
+		
+	}
+	
 	private void testGetPairs() throws ExchangeException {
 		
 		Map<String, Pair> pairs = this.exchange.getPairs();
@@ -204,7 +211,8 @@ class BinanceSpotExchangeTest {
 		
 		//main.testGetBalances();
 		//main.testGetOpenOrders();
-		main.testGetPairs();
+		main.testGetPair();
+		//main.testGetPairs();
 		//main.testGetPrices();
 		//main.testGetSymbols();
 		

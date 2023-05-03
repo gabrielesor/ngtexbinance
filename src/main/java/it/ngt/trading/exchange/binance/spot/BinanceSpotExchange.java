@@ -159,6 +159,12 @@ public class BinanceSpotExchange extends ExchangeAbstract {
 	}
 
 	@Override
+	public String buildPairAliased(String baseCurrency, String quoteCurrency) {
+		return baseCurrency + quoteCurrency;
+	}
+
+	
+	@Override
 	public Map<String, Balance> getBalances() throws ExchangeException {
 		
 		Map<String, Balance> balancesMap = new TreeMap<>();
