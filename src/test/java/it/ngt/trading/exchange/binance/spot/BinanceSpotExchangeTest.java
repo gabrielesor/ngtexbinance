@@ -21,6 +21,7 @@ import it.ngt.trading.core.KrakenException;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
+import it.ngt.trading.core.entity.Price;
 import it.ngt.trading.exchange.ExchangeException;
 import it.ngt.trading.exchange.IExchange;
 import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
@@ -41,7 +42,7 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
-	private void switchSubaccount(String accountName) {
+	private void switchSubaccount(String accountName) throws ExchangeException {
 
 		String apiKey;
 		String apiSecret ;	
@@ -77,7 +78,7 @@ class BinanceSpotExchangeTest {
 	
 	private void testGetPairs() throws ExchangeException {
 		
-		Map<String, Pair> pairs = this.exchange.getPairs();
+		Map<String, Pair> pairs = this.exchange.getPairsMap();
 		System.out.println("numberOfPairs: " + pairs.size());
 		System.out.println("pair: " + pairs.get("XRPEUR"));
 		
@@ -98,12 +99,10 @@ class BinanceSpotExchangeTest {
 		
 		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
 		
-		List<BinancePrice> prices = exchange.getPrices();
-		int i=0;
-		for(BinancePrice price : prices) {
-			i++;
-			System.out.println("i: " + i + ", price: " + price);
-		}
+		Map<String, Price> prices = exchange.getPricesMap();
+		prices.forEach((asset, price) -> {
+			System.out.println("price: " + price);			
+		});
 		
 	}
 	
@@ -202,19 +201,32 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
+	private void testPairsAndPrices() throws ExchangeException {
+		
+		Map<String, Pair> pairs = this.exchange.getPairsMap();
+		Map<String, Price> prices = this.exchange.getPricesMap();
+		System.out.println("pairsSize: " + pairs.size() + ", pricesSize: " + prices.size());
+		pairs.forEach((pairName, pair) -> {
+			if (!prices.containsKey(pairName)) {
+				System.out.println("prices not in pairs, pairName: " + pairName);
+			}
+		});
+	}	
+	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ExchangeException {
 		
 		BinanceSpotExchangeTest main = new BinanceSpotExchangeTest();
 		
-		main.switchSubaccount("adara.keys.bit1.binance.main.001");
-		//main.switchSubaccount("adara.keys.bseo.binance.main.001");
+		//main.switchSubaccount("adara.keys.bit1.binance.main.001");
+		main.switchSubaccount("adara.keys.bseo.binance.main.001");
 		
 		//main.testGetBalances();
 		//main.testGetOpenOrders();
-		main.testGetPair();
+		//main.testGetPair();
 		//main.testGetPairs();
 		//main.testGetPrices();
 		//main.testGetSymbols();
+		main.testPairsAndPrices();
 		
 	}
 	
