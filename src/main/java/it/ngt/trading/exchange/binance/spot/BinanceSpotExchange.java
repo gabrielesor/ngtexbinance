@@ -18,7 +18,6 @@ import com.binance.connector.client.impl.spot.Trade;
 import com.binance.connector.client.impl.spot.Wallet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import it.ngt.trading.core.KrakenException;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.ChannelType;
 import it.ngt.trading.core.entity.ITick;
@@ -88,8 +87,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	private final List<Pair> pairs;
 	private final Map<String, Pair> pairsMap;
 
-	private final List<Price> prices;
-	private final Map<String, Price> pricesMap;
+	private List<Price> prices;
+	private Map<String, Price> pricesMap;
 	
 	private static final int DAYS_OFFSET_MAX = 30;	
 	
@@ -103,7 +102,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 		pricesMap = this.loadPricesMap();
 		pairsMap = this.loadPairsMap();
-		this.updatePrices();
+		//this.updatePrices();
 		
 		prices = this.loadPrices();
 		pairs = this.loadPairs();
@@ -176,7 +175,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	}
 
 	@Override
-	public String buildPair(String baseCurrency, String quoteCurrency) {
+	public String buildPairName(String baseCurrency, String quoteCurrency) {
 		return baseCurrency + quoteCurrency;
 	}
 
@@ -782,6 +781,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			for(Symbol symbol : symbols) {
 				
 				Float minQuantity = null;
+				Float minQuote = null;
 				Integer priceDecimals = null;
 				Integer quantityDecimals = null;
 				List<Filter> filters = symbol.getFilters();
@@ -793,8 +793,9 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 							Float minNotationalDouble = Float.valueOf(filter.getMinNotional());
 							Float priceDouble = Float.valueOf(price.getPrice());
 							minQuantity = minNotationalDouble / priceDouble;
+							minQuote = minNotationalDouble;
 							if (log.isTraceEnabled()) log.trace("symbolName: " + symbol.getSymbol() + ", minNotationalDouble: " + minNotationalDouble
-																+ ", priceDouble: " + priceDouble + ", minQuantity: " + minQuantity);
+																+ ", priceDouble: " + priceDouble + ", minQuantity: " + minQuantity + ", minQuote: " + minQuote);
 						} else {
 							if (log.isWarnEnabled()) log.warn("pair not found in Prices; minQuantity set to 1, pair: " + symbol.getSymbol());
 							minQuantity = -1.0f;
@@ -811,6 +812,9 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				if (minQuantity == null) {
 					throw new ExchangeException("missing NOTIONAL for minQuantity in getPairs, symbol: " + symbol);
 				}
+				if (minQuote == null) {
+					throw new ExchangeException("missing NOTIONAL for minQuote in getPairs, symbol: " + symbol);
+				}
 				if (priceDecimals == null) {
 					throw new ExchangeException("missing PRICE_FILTER for priceDecimals in getPairs, symbol: " + symbol);
 				}				
@@ -819,6 +823,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				}
 				BigDecimal minQuantityBig = BigDecimal.valueOf(minQuantity).setScale(quantityDecimals, RoundingMode.CEILING);
 				minQuantity = minQuantityBig.floatValue();
+				
+				
 				
 				Pair pair = new Pair();
 				pair.setName(symbol.getSymbol());
@@ -830,7 +836,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				pair.setName(symbol.getSymbol());
 				pair.setPriceDecimals(priceDecimals);
 				pair.setQuantityDecimals(quantityDecimals);
-				pair.setQuantityMin(minQuantity);
+				pair.setBaseMin(minQuantity);
+				pair.setQuoteMin(minQuote);
 				pair.setQuote(symbol.getQuoteAsset());
 				map.put(pair.getName(), pair);
 			}
@@ -839,7 +846,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			throw new ExchangeException("invalid response in getPairs exception: " + e);
 		}
 		
-		if (log.isDebugEnabled()) log.debug("retrieved the pairs, numberOfPairs: " + pairsMap.size());
+		if (log.isDebugEnabled()) log.debug("retrieved the pairs, numberOfPairs: " + map.size());
 		
 		return map;
 		
@@ -963,18 +970,26 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		return list;
 		
 	}
+	@Override
+	public void refreshPrices() throws ExchangeException {
+		
+		pricesMap = this.loadPricesMap();
+		this.updatePrices();
+		
+	}	
 	
 	private void updatePrices() throws ExchangeException {
 		
 		this.pricesMap.forEach((pairCode, price)-> {	
 			Pair pair = this.pairsMap.get(pairCode);
 			if (pair == null) {
-				throw new KrakenException("pair not fout in updatePrice, pairCode: " + pairCode + ", pair: " + pair);
+				if (log.isWarnEnabled()) log.warn("pair not found in updatePrice, pairCode: " + pairCode + ", pair: " + pair);
+			} else {
+				price.setPairName(pair.getName());				
 			}
-			price.setPairName(pair.getName());
 			
 		});
-		throw new ExchangeException("pair not fout in updatePrice, pairCode: ");
+		
 	}
 		
 	private Map<String, Price> loadPricesMap() throws ExchangeException {
@@ -991,7 +1006,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			for(BinancePrice bprice : bprices) {
 				Price price = new Price();
 				price.setPairCode(bprice.getSymbol());
-				price.setPairName(null);	//it will be updated
+				price.setPairName(bprice.getSymbol());
 				price.setPrice(bprice.getPrice());
 				
 				prices.put(price.getPairName(), price);
@@ -1033,6 +1048,14 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	@Override
 	public boolean isConvertOrdersManaged() {
 		return true;
+	}
+	
+	@Override
+	public Pair getPair(String baseCurrency, String quoteCurrency) throws ExchangeException {
+		
+		String pairName = baseCurrency + quoteCurrency;
+		return this.getPairsMap().get(pairName);
+		
 	}
 
 }

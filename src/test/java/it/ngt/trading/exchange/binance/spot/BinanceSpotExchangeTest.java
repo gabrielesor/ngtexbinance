@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
-import it.ngt.trading.core.KrakenException;
+import it.ngt.trading.core.EngineException;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
@@ -49,11 +49,11 @@ class BinanceSpotExchangeTest {
 		
 		apiKey 		= properties.getProperty(accountName + ".apikey");
 		if (apiKey == null) {
-			throw new KrakenException("apiKey cannot be null, accountName: " + accountName);
+			throw new EngineException("apiKey cannot be null, accountName: " + accountName);
 		}
 		apiSecret 	= properties.getProperty(accountName + ".secretkey");
 		if (apiSecret == null) {
-			throw new KrakenException("apiSecret cannot be null, accountName: " + accountName);
+			throw new EngineException("apiSecret cannot be null, accountName: " + accountName);
 		}
 
 		this.exchange = new BinanceSpotExchange(accountName, apiKey, apiSecret);
