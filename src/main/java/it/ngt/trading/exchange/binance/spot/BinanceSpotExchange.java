@@ -1057,5 +1057,10 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		return this.getPairsMap().get(pairName);
 		
 	}
-
+	
+	@Override
+	public boolean isReferenceOfExchange(String reference) {
+		return reference != null && reference.startsWith("web_");
+	}
+	
 }

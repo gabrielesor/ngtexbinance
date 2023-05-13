@@ -226,7 +226,7 @@ class BinanceSpotExchangeTest {
 		//main.testGetPairs();
 		//main.testGetPrices();
 		//main.testGetSymbols();
-		main.testPairsAndPrices();
+		//main.testPairsAndPrices();
 		
 	}
 	
