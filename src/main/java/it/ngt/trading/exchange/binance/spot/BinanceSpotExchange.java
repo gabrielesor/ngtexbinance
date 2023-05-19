@@ -1063,4 +1063,28 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		return reference != null && reference.startsWith("web_");
 	}
 	
+	/**
+	 * return true is the the getBalances method returns the fields "locked" set
+	 */
+	@Override
+	public boolean isBalanceLockedManaged() {
+		return true;
+	}
+	
+	/**
+	 * return true is the the getBalances method returns the fields "locked" set
+	 */
+	@Override
+	public boolean isBalanceFreezeManaged() {
+		return true;
+	}	
+	
+	/**
+	 * return true is the the getBalances method returns the fields "locked" set
+	 */
+	@Override
+	public boolean isBalanceValuationManaged() {
+		return true;
+	}
+	
 }

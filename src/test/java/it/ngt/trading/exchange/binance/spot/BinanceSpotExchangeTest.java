@@ -218,9 +218,9 @@ class BinanceSpotExchangeTest {
 		BinanceSpotExchangeTest main = new BinanceSpotExchangeTest();
 		
 		//main.switchSubaccount("adara.keys.bit1.binance.main.001");
-		main.switchSubaccount("adara.keys.bseo.binance.main.001");
+		main.switchSubaccount("adara.keys.bit1.binance.sub001.001");
 		
-		//main.testGetBalances();
+		main.testGetBalances();
 		//main.testGetOpenOrders();
 		//main.testGetPair();
 		//main.testGetPairs();
