@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonObject;
 
 import it.ngt.trading.core.entity.Order;
+import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.util.JsonUtil;
-import it.ngt.trading.exchange.ExchangeException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

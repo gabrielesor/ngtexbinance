@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import it.ngt.trading.exchange.ExchangeException;
+import it.ngt.trading.core.exchange.ExchangeException;
 
 class BinanceOrderTest {
 

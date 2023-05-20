@@ -6,8 +6,8 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 
+import it.ngt.trading.core.exchange.ExchangeErrorCode;
 import it.ngt.trading.core.util.JsonUtil;
-import it.ngt.trading.exchange.ExchangeErrorCode;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
