@@ -33,12 +33,12 @@ import it.ngt.trading.core.exchange.ExchangeErrorCode;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.exchange.ITickExchange;
+import it.ngt.trading.core.exchange.MarketEnum;
 import it.ngt.trading.core.messages.IMessageType;
 import it.ngt.trading.core.util.JsonUtil;
 import it.ngt.trading.core.util.MathUtil;
 import it.ngt.trading.core.util.TimeUtil;
 import it.ngt.trading.exchange.ExchangeAbstract;
-import it.ngt.trading.exchange.MarketEnum;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceBalance;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertResponse;
@@ -84,11 +84,21 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	private final Wallet walletClient;
 	private final Trade tradeClient;
 	
-	private final List<Pair> pairs;
-	private final Map<String, Pair> pairsMap;
-
-	private List<Price> prices;
-	private Map<String, Price> pricesMap;
+	//
+	// in Binance a Pair has the same Name, Code and Symbol
+	//
+	
+	//it's the original Map of Pairs,
+	//all other Maps and Lists of Pairs are obtained browsing this Map
+	//key=pairName	
+	private final Map<String, Pair> pairsMap = new TreeMap<>();
+	private final List<Pair> pairs = new ArrayList<>();
+	
+	//it's the original Map of Prices,
+	//all other Maps and Lists of Prices are obtained browsing this Map
+	//key=pairName	
+	private final Map<String, Price> pricesMap = new TreeMap<>();
+	private final List<Price> prices = new ArrayList<>();
 	
 	private static final int DAYS_OFFSET_MAX = 30;	
 	
@@ -100,12 +110,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		tradeClient = client.createTrade();
 		walletClient = client.createWallet();
 	
-		pricesMap = this.loadPricesMap();
-		pairsMap = this.loadPairsMap();
-		//this.updatePrices();
-		
-		prices = this.loadPrices();
-		pairs = this.loadPairs();
+		this.loadPricesMap();
+		this.loadPairsMap();
 		
 	}
 	
@@ -223,11 +229,15 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				if (log.isDebugEnabled()) log.debug("bbalance: " +  bbalance);
 				Balance balance = new Balance();
 				balance.setAvailable(Double.valueOf(bbalance.getFree()));
+				balance.setAvailableS(bbalance.getFree());
 				balance.setCurrency(bbalance.getAsset());
 				balance.setLocked(Double.valueOf(bbalance.getLocked()));
+				balance.setLockedS(bbalance.getLocked());
 				balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
-				balance.setValuationAsset("BTC");	//TODO:param
+				balance.setFreezeS(bbalance.getFreeze());
+				balance.setValuationAsset("BTC");
 				balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
+				balance.setValuationS(bbalance.getBtcValuation());
 				balancesMap.put(balance.getCurrency(), balance);
 			}
 		} catch (JsonProcessingException e) {
@@ -736,40 +746,25 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		return type;
 	}
+	
+	//
+	// Pair and Prices, methods begin
+	//
+	
+	@Override
+	public void refreshPairsAndPrices() throws ExchangeException {
+		
+		this.loadPricesMap();
+		this.loadPairsMap();
+		
+	}	
 
-	@Override
-	public List<Pair> getPairs() throws ExchangeException {
-		return this.pairs;
-	}
-	
-	//key=pairName
-	@Override
-	public Map<String, Pair> getPairsMap() throws ExchangeException {
-		return this.pairsMap;
-	}
-	//key=pairCode
-	@Override
-	public Map<String, Pair> getPairsCodeMap() throws ExchangeException {
-		return this.pairsMap;
-	}		
-	
-	private List<Pair> loadPairs() {
-		
-		final List<Pair> list = new ArrayList<>();
-
-		this.pairsMap.forEach((pairName, pair) -> {
-			list.add(pair);
-		});
-		
-		return list;
-		
-	}
-	
-	private Map<String, Pair> loadPairsMap() throws ExchangeException {
+	private void loadPairsMap() throws ExchangeException {
 
 		if (log.isDebugEnabled()) log.debug("loading the pairs");
 		
-		Map<String, Pair> map = new TreeMap<>();
+		this.pairsMap.clear();
+		
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
 		String result = marketClient.exchangeInfo(parameters);
 		try {
@@ -823,9 +818,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				}
 				BigDecimal minQuantityBig = BigDecimal.valueOf(minQuantity).setScale(quantityDecimals, RoundingMode.CEILING);
 				minQuantity = minQuantityBig.floatValue();
-				
-				
-				
+							
 				Pair pair = new Pair();
 				pair.setName(symbol.getSymbol());
 				pair.setCode(symbol.getSymbol());
@@ -839,19 +832,138 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				pair.setBaseMin(minQuantity);
 				pair.setQuoteMin(minQuote);
 				pair.setQuote(symbol.getQuoteAsset());
-				map.put(pair.getName(), pair);
+				this.pairsMap.put(pair.getName(), pair);
 			}
 			
 		} catch (JsonProcessingException e) {
 			throw new ExchangeException("invalid response in getPairs exception: " + e);
 		}
 		
-		if (log.isDebugEnabled()) log.debug("retrieved the pairs, numberOfPairs: " + map.size());
-		
-		return map;
+		if (log.isDebugEnabled()) log.debug("retrieved the pairs, numberOfPairs: " + this.pairsMap.size());
+
+		//
+		// build the Maps and Lists of the Pairs
+		//
+		this.buildPairsMapsAndLists();
 		
 	}
 	
+	/**
+	 * build all the Maps and Lists of Pairs from the pairsMap
+	 */
+	private void buildPairsMapsAndLists() {
+		
+		//
+		// build the List of Pairs
+		//
+		this.pairs.clear();
+		this.pairsMap.forEach((pairName, pair) -> {
+			this.pairs.add(pair);
+		});				
+		
+	}
+	
+	private void loadPricesMap() throws ExchangeException {
+	
+		if (log.isDebugEnabled()) log.debug("loading the prices");
+		
+		this.pricesMap.clear();
+		
+	    LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		String result = marketClient.tickerSymbol(parameters);
+		try {
+			BinancePrice[] bprices = (BinancePrice[]) JsonUtil.fromJson(result, BinancePrice[].class);
+			if (log.isDebugEnabled()) log.debug("numberOfPrices: " + bprices.length);
+			for(BinancePrice bprice : bprices) {
+				Price price = new Price();
+				price.setPairCode(bprice.getSymbol());
+				price.setPairName(bprice.getSymbol());
+				price.setPrice(bprice.getPrice());
+				
+				this.pricesMap.put(price.getPairName(), price);
+			}
+		} catch (JsonProcessingException e) {
+			throw new ExchangeException("invalid response in getPairs exception: " + e);
+		}
+		
+		if (log.isDebugEnabled()) log.debug("retrieved the prices, numberOfPrices: " + prices.size());		
+		
+		//
+		// build the Maps and Lists of the Prices
+		//
+		this.buildPricesMapsAndLists();
+		
+	}
+	
+	private void buildPricesMapsAndLists() {
+	
+		//
+		// Build the List of Prices
+		//
+		this.prices.clear();
+		this.pricesMap.forEach((priceName, price) -> {
+			prices.add(price);
+		});
+	
+	}
+
+	//key=pairNname
+	@Override
+	public Map<String, Pair> getPairsMap() throws ExchangeException {
+		
+		return this.pairsMap;
+		
+	}
+
+	//key=pairCode
+	@Override
+	public Map<String, Pair> getPairsCodeMap() throws ExchangeException {
+
+		return this.pairsMap;
+		
+	}
+
+	//key=pairSymbol
+	@Override
+	public Map<String, Pair> getPairsSymbolMap() throws ExchangeException {
+
+		return this.pairsMap;
+		
+	}	
+	
+	@Override
+	public List<Pair> getPairs() throws ExchangeException {
+		
+		return this.pairs;
+		
+	}
+	
+	@Override
+	public List<Price> getPrices() throws ExchangeException {
+		
+		return this.prices;	
+		
+	}
+	
+	@Override
+	public Map<String, Price> getPricesMap() throws ExchangeException {
+
+		return this.pricesMap;
+		
+	}
+	
+	@Override
+	public Map<String, Price> getPricesCodeMap() throws ExchangeException {
+		
+		return this.pricesMap;
+		
+	}
+	
+	//
+	// Pair and Prices, methods end
+	//
+	
+
 	//	10		->  -1
 	//	1		->	0	10000
 	//	0.1		->	1	1000
@@ -941,83 +1053,6 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		if (log.isDebugEnabled()) log.debug("retrieved the symbols, numberOfSymbols: " + symbols.size());
 		
 		return symbols;
-	
-	}
-	
-	@Override
-	public List<Price> getPrices() throws ExchangeException {
-		return this.prices;
-	}
-	
-	@Override
-	public Map<String, Price> getPricesMap() throws ExchangeException {
-		return this.pricesMap;
-	}
-
-	@Override
-	public Map<String, Price> getPricesCodeMap() throws ExchangeException {
-		return this.pricesMap;
-	}
-	
-	private List<Price> loadPrices() {
-		
-		final List<Price> list = new ArrayList<>();
-
-		this.pricesMap.forEach((priceName, price) -> {
-			list.add(price);
-		});
-		
-		return list;
-		
-	}
-	@Override
-	public void refreshPrices() throws ExchangeException {
-		
-		pricesMap = this.loadPricesMap();
-		this.updatePrices();
-		
-	}	
-	
-	private void updatePrices() throws ExchangeException {
-		
-		this.pricesMap.forEach((pairCode, price)-> {	
-			Pair pair = this.pairsMap.get(pairCode);
-			if (pair == null) {
-				if (log.isWarnEnabled()) log.warn("pair not found in updatePrice, pairCode: " + pairCode + ", pair: " + pair);
-			} else {
-				price.setPairName(pair.getName());				
-			}
-			
-		});
-		
-	}
-		
-	private Map<String, Price> loadPricesMap() throws ExchangeException {
-
-		if (log.isDebugEnabled()) log.debug("loading the prices");
-		
-		Map<String, Price> prices = new TreeMap<>();
-		
-        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-		String result = marketClient.tickerSymbol(parameters);
-		try {
-			BinancePrice[] bprices = (BinancePrice[]) JsonUtil.fromJson(result, BinancePrice[].class);
-			if (log.isDebugEnabled()) log.debug("numberOfPrices: " + bprices.length);
-			for(BinancePrice bprice : bprices) {
-				Price price = new Price();
-				price.setPairCode(bprice.getSymbol());
-				price.setPairName(bprice.getSymbol());
-				price.setPrice(bprice.getPrice());
-				
-				prices.put(price.getPairName(), price);
-			}
-		} catch (JsonProcessingException e) {
-			throw new ExchangeException("invalid response in getPairs exception: " + e);
-		}
-		
-		if (log.isDebugEnabled()) log.debug("retrieved the prices, numberOfPrices: " + prices.size());
-		
-		return prices;
 	
 	}
 	
