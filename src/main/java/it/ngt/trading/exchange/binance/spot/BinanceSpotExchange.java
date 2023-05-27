@@ -35,6 +35,7 @@ import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.exchange.ITickExchange;
 import it.ngt.trading.core.exchange.MarketEnum;
 import it.ngt.trading.core.messages.IMessageType;
+import it.ngt.trading.core.util.FormatUtil;
 import it.ngt.trading.core.util.JsonUtil;
 import it.ngt.trading.core.util.MathUtil;
 import it.ngt.trading.core.util.TimeUtil;
@@ -84,6 +85,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	private final Wallet walletClient;
 	private final Trade tradeClient;
 	
+	private static final double FEE_PERCENT = 0.001;	//0.1%, TODO:bseo:params
 	//
 	// in Binance a Pair has the same Name, Code and Symbol
 	//
@@ -238,6 +240,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				balance.setValuationAsset("BTC");
 				balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
 				balance.setValuationS(bbalance.getBtcValuation());
+				double total = balance.getAvailable()
+							 + balance.getLocked()
+							 + balance.getFreeze();
+				balance.setTotal(total);
+				balance.setTotalS(FormatUtil.format(total));
 				balancesMap.put(balance.getCurrency(), balance);
 			}
 		} catch (JsonProcessingException e) {
@@ -391,11 +398,12 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		      "selfTradePreventionMode":"NONE"
 		   }		
 	*/
-	private Order buildOrder(BinanceOrder border, String result) {
+	private Order buildOrder(BinanceOrder border, String result) throws ExchangeException {
 	
 		double orderedPrice;
-		double filledPrice;
 		double filledQuantity = Double.valueOf(border.getExecutedQty());
+		String feeCurrency;
+		double feeQuantity;
 		
 		OrderType orderType = this.buildOrderTypeTo(border.getType(), result);
 		if (orderType.equals(OrderType.MARKET)) {
@@ -403,13 +411,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		} else {
 			orderedPrice = Double.valueOf(border.getPrice());
 		}
-		
-		if (filledQuantity == 0) {
-			filledPrice = 0;
-		} else {
-			filledPrice = Double.valueOf(border.getPrice());
-		}
-		
+				
 		Order order = new Order();
 		order.setId(border.getOrderId() + "");
 		order.setWayType(WayType.SPOT);
@@ -417,7 +419,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		order.setOrderedPrice(orderedPrice);
 		order.setOrderedQuantity(Double.valueOf(border.getOrigQty()));
 		order.setFilledQuantity(filledQuantity);
-		order.setFilledPrice(filledPrice);
+		order.setFilledPrice(filledQuantity==0?0:Double.valueOf(border.getPrice()));
 		order.setActionCode(this.buildActionCode(border.getSide(), result));
 		order.setClosed(this.buildClosed(border.getStatus(), result));
 		order.setOrderType(this.buildOrderTypeTo(border.getType(), result));
@@ -427,6 +429,33 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		order.setCreateTimeMs(border.getTime());
 		order.setUpdateTimeMs(border.getUpdateTime());
 		order.setRawFormat(result);
+		order.setReference(border.getClientOrderId());
+
+		if (order.getFilledQuantity() == 0) {
+			feeCurrency = "";
+			feeQuantity = 0;
+		} else {
+			Pair pair = this.getPairsSymbolMap().get(border.getSymbol());
+			if (order.isBuy()) {
+				feeQuantity = order.getFilledQuantity() * FEE_PERCENT;				
+				if (pair == null) {
+					if (log.isWarnEnabled()) log.warn("pair not found in calculation of of the fee of an order, pairName: " + border.getSymbol() + ", border: " + border);
+					feeCurrency = "unknown";
+				} else {
+					feeCurrency = pair.getBase();
+				}
+			} else {
+				feeQuantity = order.getFilledAmount() * FEE_PERCENT;								
+				if (pair == null) {
+					if (log.isWarnEnabled()) log.warn("pair not found in calculation of of the fee of an order, pairName: " + border.getSymbol() + ", border: " + border);
+					feeCurrency = "unknown";
+				} else {
+					feeCurrency = pair.getQuote();
+				}
+			}
+		}
+		order.setFeeCurrency(feeCurrency);
+		order.setFeeQuantity(feeQuantity);		
 		
 		return order;
 		
@@ -786,7 +815,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 						Price price = pricesMap.get(symbol.getSymbol());
 						if (price != null) {
 							Float minNotationalDouble = Float.valueOf(filter.getMinNotional());
-							Float priceDouble = Float.valueOf(price.getPrice());
+							Float priceDouble = (float) price.getPrice();
 							minQuantity = minNotationalDouble / priceDouble;
 							minQuote = minNotationalDouble;
 							if (log.isTraceEnabled()) log.trace("symbolName: " + symbol.getSymbol() + ", minNotationalDouble: " + minNotationalDouble
@@ -878,8 +907,9 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				Price price = new Price();
 				price.setPairCode(bprice.getSymbol());
 				price.setPairName(bprice.getSymbol());
-				price.setPrice(bprice.getPrice());
-				
+				price.setPriceS(bprice.getPrice());
+				price.setPriceBD(MathUtil.convertToBD(price.getPriceS()));
+				price.setPrice(MathUtil.convertToDouble(price.getPriceS()));				
 				this.pricesMap.put(price.getPairName(), price);
 			}
 		} catch (JsonProcessingException e) {
