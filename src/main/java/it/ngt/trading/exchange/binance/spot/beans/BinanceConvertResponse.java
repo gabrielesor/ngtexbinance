@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.util.JsonUtil;
 import lombok.Data;
 
@@ -48,8 +49,9 @@ public class BinanceConvertResponse {
 		    "limit": 100,
 		    "moreData": false
 		  }	 
+	 * @throws ProblemException 
 	 */
-	public static BinanceConvertResponse buildFromPayload(String payload) throws IOException {
+	public static BinanceConvertResponse buildFromPayload(String payload) throws IOException, ProblemException {
 		return (BinanceConvertResponse) JsonUtil.fromJson(payload, BinanceConvertResponse.class);
 	}
 	

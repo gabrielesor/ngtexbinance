@@ -8,9 +8,11 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
+import it.ngt.trading.core.ProblemException;
+
 class BinanceConvertResponseTest {
 
-	void loadBean() throws IOException {
+	void loadBean() throws IOException, ProblemException {
 		
 		String filenameJson = "src/test/resources/json/binance.convert.tradeflow.json";
 		String jsonContent = Files.readString(Paths.get(filenameJson));
@@ -20,7 +22,7 @@ class BinanceConvertResponseTest {
 		System.out.println("response: " + response);
 		
 	}
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ProblemException {
 	
 		BinanceConvertResponseTest main = new BinanceConvertResponseTest();
 		main.loadBean();

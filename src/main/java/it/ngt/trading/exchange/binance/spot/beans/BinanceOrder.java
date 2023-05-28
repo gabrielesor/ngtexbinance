@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonObject;
 
+import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.util.JsonUtil;
@@ -61,35 +62,29 @@ public class BinanceOrder {
 	  "B":"2.00000000"               // lastPreventedQuantity(Appear if the order has expired due to STP)
 	}	
 	 */
-	public BinanceOrder(String executioReport) throws ExchangeException {
+	public BinanceOrder(String executioReport) throws ExchangeException, ProblemException {
 		
-		try {
-			JsonObject jo = (JsonObject) JsonUtil.fromJson(executioReport, JsonObject.class);
-			symbol = jo.get("s").getAsString();
-			orderId = jo.get("i").getAsInt();
-			orderListId = jo.get("g").getAsInt();
-			clientOrderId = jo.get("c").getAsString();
-			price = jo.get("p").getAsString();
-			origQty = jo.get("q").getAsString();
-			executedQty = "";	//TODO:check
-			cummulativeQuoteQty = jo.get("z").getAsString();
-			status = jo.get("X").getAsString();
-			timeInForce = jo.get("f").getAsString();
-			type = jo.get("o").getAsString();
-			side = jo.get("S").getAsString();
-			stopPrice = jo.get("P").getAsString();
-			icebergQty = jo.get("F").getAsString();
-			time = jo.get("E").getAsLong();
-			updateTime = 0;	//TODO:check
-			isWorking = false; //TODO:check
-			workingTime = 0; //TODO:check
-			origQuoteOrderQty = jo.get("Q").getAsString();
-			selfTradePreventionMode = jo.get("V").getAsString();
-		} catch (JsonProcessingException e) {
-			String message = "exchange error in getOpenOrders, exception: "  + e;
-			if (log.isErrorEnabled()) log.error(message);
-			throw new ExchangeException(message);
-		}
+		JsonObject jo = (JsonObject) JsonUtil.fromJson(executioReport, JsonObject.class);
+		symbol = jo.get("s").getAsString();
+		orderId = jo.get("i").getAsInt();
+		orderListId = jo.get("g").getAsInt();
+		clientOrderId = jo.get("c").getAsString();
+		price = jo.get("p").getAsString();
+		origQty = jo.get("q").getAsString();
+		executedQty = "";	//TODO:check
+		cummulativeQuoteQty = jo.get("z").getAsString();
+		status = jo.get("X").getAsString();
+		timeInForce = jo.get("f").getAsString();
+		type = jo.get("o").getAsString();
+		side = jo.get("S").getAsString();
+		stopPrice = jo.get("P").getAsString();
+		icebergQty = jo.get("F").getAsString();
+		time = jo.get("E").getAsLong();
+		updateTime = 0;	//TODO:check
+		isWorking = false; //TODO:check
+		workingTime = 0; //TODO:check
+		origQuoteOrderQty = jo.get("Q").getAsString();
+		selfTradePreventionMode = jo.get("V").getAsString();
 		
 	}
 	

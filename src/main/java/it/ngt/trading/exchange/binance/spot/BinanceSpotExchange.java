@@ -18,6 +18,7 @@ import com.binance.connector.client.impl.spot.Trade;
 import com.binance.connector.client.impl.spot.Wallet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.ChannelType;
 import it.ngt.trading.core.entity.ITick;
@@ -247,7 +248,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				balance.setTotalS(FormatUtil.format(total));
 				balancesMap.put(balance.getCurrency(), balance);
 			}
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			String message = "exchange error in getBalances, exception: "  + e;
 			if (log.isErrorEnabled()) log.error(message);
 			throw new ExchangeException(message);
@@ -310,7 +311,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			if (log.isDebugEnabled()) log.debug("doOrderRaw order executed, order: " + border);
 			long borderId = border.getOrderId();
 			orderId = borderId + "";
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			String message = "exchange error in doOrder, action: " + action + ", exception: "  + e;
 			if (log.isErrorEnabled()) log.error(message);
 			throw new ExchangeException(message);
@@ -339,7 +340,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				Order order = this.buildOrder(border, result);
 				orders.add(order);
 			}
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			String message = "exchange error in getOpenOrders, exception: "  + e;
 			if (log.isErrorEnabled()) log.error(message);
 			throw new ExchangeException(message);
@@ -538,7 +539,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				Order order = this.buildOrder(border, result);
 				orders.add(order);
 			}
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			String message = "exchange error in getOpenOrders, exception: "  + e;
 			if (log.isErrorEnabled()) log.error(message);
 			throw new ExchangeException(message);
@@ -560,8 +561,9 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	 * @param toTime
 	 * @return
 	 * @throws ExchangeException
+	 * @throws ProblemException 
 	 */
-	public List<BinanceConvertOrder> getOrdersConvert(long fromTime, long toTime) throws ExchangeException {
+	public List<BinanceConvertOrder> getOrdersConvert(long fromTime, long toTime) throws ExchangeException, ProblemException {
 		
 		List<BinanceConvertOrder> borders = new ArrayList<>();
         
@@ -596,7 +598,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 	}
 	
-	private List<BinanceConvertOrder> getOrdersConvertBetween(long fromTime, long toTime) throws ExchangeException {
+	private List<BinanceConvertOrder> getOrdersConvertBetween(long fromTime, long toTime) throws ExchangeException, ProblemException {
 		
 		List<BinanceConvertOrder> borders;
 		
@@ -864,7 +866,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				this.pairsMap.put(pair.getName(), pair);
 			}
 			
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			throw new ExchangeException("invalid response in getPairs exception: " + e);
 		}
 		
@@ -912,7 +914,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				price.setPrice(MathUtil.convertToDouble(price.getPriceS()));				
 				this.pricesMap.put(price.getPairName(), price);
 			}
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			throw new ExchangeException("invalid response in getPairs exception: " + e);
 		}
 		
@@ -1076,7 +1078,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			
 			symbols = ei.getSymbols();
 			
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			throw new ExchangeException("invalid response in getPairs exception: " + e);
 		}
 		
@@ -1102,7 +1104,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			tick.setAskPrice(price);
 			tick.setBidPrice(price);
 			tick.setOpenPriceToday(Float.valueOf(btick.getOpenPrice()));
-		} catch (JsonProcessingException e) {
+		} catch (ProblemException e) {
 			throw new ExchangeException("invalid response in getCurrentTick, pair: " + pair + ", exception: " + e);
 		}
 		

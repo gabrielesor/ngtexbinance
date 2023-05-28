@@ -10,11 +10,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.util.JsonUtil;
 
 public class BinancePairsTest {
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ProblemException {
 		
 		String pairsSpot = Files.readString(Paths.get("src/test/resources/json/binance.exchangeinfo.json"));		
 		JsonObject joPairsSpot = (JsonObject) JsonUtil.fromJson(pairsSpot, JsonObject.class);

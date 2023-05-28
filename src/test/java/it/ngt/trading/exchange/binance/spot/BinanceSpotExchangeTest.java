@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 import it.ngt.trading.core.EngineException;
+import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
@@ -84,7 +85,7 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
-	private void testGetOpenOrders() throws ExchangeException {
+	private void testGetOpenOrders() throws ExchangeException, ProblemException {
 		
 		List<Order> orders = this.exchange.getOpenOrders(null);
 		int i=0;
