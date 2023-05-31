@@ -34,7 +34,7 @@ import it.ngt.trading.core.exchange.ExchangeErrorCode;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.exchange.ITickExchange;
-import it.ngt.trading.core.exchange.MarketEnum;
+import it.ngt.trading.core.exchange.ExchangeCode;
 import it.ngt.trading.core.messages.IMessageType;
 import it.ngt.trading.core.util.FormatUtil;
 import it.ngt.trading.core.util.JsonUtil;
@@ -120,12 +120,12 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 	@Override
 	public String getName() {
-		return MarketEnum.BN_S.getCode();
+		return ExchangeCode.BN_S.getCode();
 	}
 	
 	@Override
 	public String getFriendlyName() {
-		return MarketEnum.BN_S.getName();
+		return ExchangeCode.BN_S.getName();
 	}	
 
 	@Override
