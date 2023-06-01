@@ -26,6 +26,8 @@ import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.OrderType;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
+import it.ngt.trading.core.entity.Problem;
+import it.ngt.trading.core.entity.ProblemType;
 import it.ngt.trading.core.entity.Tick;
 import it.ngt.trading.core.entity.TraderAction;
 import it.ngt.trading.core.entity.TraderActionCode;
@@ -194,7 +196,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	}
 	
 	@Override
-	public Map<String, Balance> getBalances() throws ExchangeException {
+	public Map<String, Balance> getBalances() throws ProblemException {
 		
 		Map<String, Balance> balancesMap = new TreeMap<>();
 		
@@ -204,54 +206,49 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		String result = walletClient.getUserAsset(parameters);
 		System.out.println("result:\n" + result);
 		if (log.isDebugEnabled()) log.debug("API executed getBalances, binanceResult:\n" + result);
-		try {
-			/*
-				[
-				    {
-				       "asset":"BTC",
-				       "free":"55.27772165",
-				       "locked":"0",
-				       "freeze":"0.2975",
-				       "withdrawing":"0",
-				       "ipoable":"0",
-				       "btcValuation":"55.57522165"
-				    },
-				    {
-				       "asset":"ETH",
-				       "free":"46.37437279",
-				       "locked":"0",
-				       "freeze":"0",
-				       "withdrawing":"0",
-				       "ipoable":"0",
-				       "btcValuation":"3.10026594"
-				    }
-				 ]			
-			 */
-			BinanceBalance[] bbalances = (BinanceBalance[]) JsonUtil.fromJson(result, BinanceBalance[].class);
-			for(BinanceBalance bbalance : bbalances) {
-				if (log.isDebugEnabled()) log.debug("bbalance: " +  bbalance);
-				Balance balance = new Balance();
-				balance.setAvailable(Double.valueOf(bbalance.getFree()));
-				balance.setAvailableS(bbalance.getFree());
-				balance.setCurrency(bbalance.getAsset());
-				balance.setLocked(Double.valueOf(bbalance.getLocked()));
-				balance.setLockedS(bbalance.getLocked());
-				balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
-				balance.setFreezeS(bbalance.getFreeze());
-				balance.setValuationAsset("BTC");
-				balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
-				balance.setValuationS(bbalance.getBtcValuation());
-				double total = balance.getAvailable()
-							 + balance.getLocked()
-							 + balance.getFreeze();
-				balance.setTotal(total);
-				balance.setTotalS(FormatUtil.format(total));
-				balancesMap.put(balance.getCurrency(), balance);
-			}
-		} catch (ProblemException e) {
-			String message = "exchange error in getBalances, exception: "  + e;
-			if (log.isErrorEnabled()) log.error(message);
-			throw new ExchangeException(message);
+
+		/*
+			[
+			    {
+			       "asset":"BTC",
+			       "free":"55.27772165",
+			       "locked":"0",
+			       "freeze":"0.2975",
+			       "withdrawing":"0",
+			       "ipoable":"0",
+			       "btcValuation":"55.57522165"
+			    },
+			    {
+			       "asset":"ETH",
+			       "free":"46.37437279",
+			       "locked":"0",
+			       "freeze":"0",
+			       "withdrawing":"0",
+			       "ipoable":"0",
+			       "btcValuation":"3.10026594"
+			    }
+			 ]			
+		 */
+		BinanceBalance[] bbalances = (BinanceBalance[]) JsonUtil.fromJson(result, BinanceBalance[].class);
+		for(BinanceBalance bbalance : bbalances) {
+			if (log.isDebugEnabled()) log.debug("bbalance: " +  bbalance);
+			Balance balance = new Balance();
+			balance.setAvailable(Double.valueOf(bbalance.getFree()));
+			balance.setAvailableS(bbalance.getFree());
+			balance.setCurrency(bbalance.getAsset());
+			balance.setLocked(Double.valueOf(bbalance.getLocked()));
+			balance.setLockedS(bbalance.getLocked());
+			balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
+			balance.setFreezeS(bbalance.getFreeze());
+			balance.setValuationAsset("BTC");
+			balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
+			balance.setValuationS(bbalance.getBtcValuation());
+			double total = balance.getAvailable()
+						 + balance.getLocked()
+						 + balance.getFreeze();
+			balance.setTotal(total);
+			balance.setTotalS(FormatUtil.format(total));
+			balancesMap.put(balance.getCurrency(), balance);
 		}
 		
 		return balancesMap;

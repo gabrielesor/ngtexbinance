@@ -63,7 +63,7 @@ class BinanceSpotExchangeTest {
 	
 	}
 	
-	private void testGetBalances() throws ExchangeException {
+	private void testGetBalances() throws ProblemException {
 		
 		Map<String, Balance> balances = this.exchange.getBalances();
 		System.out.println("balances: " + balances);
@@ -214,7 +214,7 @@ class BinanceSpotExchangeTest {
 		});
 	}	
 	
-	public static void main(String[] args) throws FileNotFoundException, IOException, ExchangeException {
+	public static void main(String[] args) throws FileNotFoundException, IOException, ExchangeException, ProblemException {
 		
 		BinanceSpotExchangeTest main = new BinanceSpotExchangeTest();
 		
