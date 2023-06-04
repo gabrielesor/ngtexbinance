@@ -77,7 +77,7 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
-	private void testGetPairs() throws ExchangeException {
+	private void testGetPairs() throws ProblemException {
 		
 		Map<String, Pair> pairs = this.exchange.getPairsMap();
 		System.out.println("numberOfPairs: " + pairs.size());
@@ -96,7 +96,7 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
-	private void testGetPrices() throws ExchangeException {
+	private void testGetPrices() throws ProblemException {
 		
 		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
 		
@@ -202,7 +202,7 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
-	private void testPairsAndPrices() throws ExchangeException {
+	private void testPairsAndPrices() throws ProblemException {
 		
 		Map<String, Pair> pairs = this.exchange.getPairsMap();
 		Map<String, Price> prices = this.exchange.getPricesMap();

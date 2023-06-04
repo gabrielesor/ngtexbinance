@@ -968,21 +968,21 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	}
 	
 	@Override
-	public List<Price> getPrices() throws ExchangeException {
+	public List<Price> getPrices() throws ProblemException {
 		
 		return this.prices;	
 		
 	}
 	
 	@Override
-	public Map<String, Price> getPricesMap() throws ExchangeException {
+	public Map<String, Price> getPricesMap() throws ProblemException {
 
 		return this.pricesMap;
 		
 	}
 	
 	@Override
-	public Map<String, Price> getPricesCodeMap() throws ExchangeException {
+	public Map<String, Price> getPricesCodeMap() throws ProblemException {
 		
 		return this.pricesMap;
 		
