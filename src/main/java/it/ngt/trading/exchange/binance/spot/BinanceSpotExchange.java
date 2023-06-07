@@ -26,8 +26,6 @@ import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.OrderType;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
-import it.ngt.trading.core.entity.Problem;
-import it.ngt.trading.core.entity.ProblemType;
 import it.ngt.trading.core.entity.Tick;
 import it.ngt.trading.core.entity.TraderAction;
 import it.ngt.trading.core.entity.TraderActionCode;
@@ -121,12 +119,12 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	}
 	
 	@Override
-	public String getName() {
+	public String getCode() {
 		return ExchangeCode.BN_S.getCode();
 	}
 	
 	@Override
-	public String getFriendlyName() {
+	public String getName() {
 		return ExchangeCode.BN_S.getName();
 	}	
 
