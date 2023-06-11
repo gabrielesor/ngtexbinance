@@ -194,7 +194,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	}
 	
 	@Override
-	public Map<String, Balance> getBalances() throws ProblemException {
+	public Map<String, Balance> getBalancesMap() throws ProblemException {
 		
 		Map<String, Balance> balancesMap = new TreeMap<>();
 		

@@ -65,7 +65,7 @@ class BinanceSpotExchangeTest {
 	
 	private void testGetBalances() throws ProblemException {
 		
-		Map<String, Balance> balances = this.exchange.getBalances();
+		Map<String, Balance> balances = this.exchange.getBalancesMap();
 		System.out.println("balances: " + balances);
 		
 	}
