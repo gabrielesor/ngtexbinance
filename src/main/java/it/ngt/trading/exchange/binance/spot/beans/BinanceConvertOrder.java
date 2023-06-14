@@ -19,6 +19,7 @@ import lombok.Data;
 @Data
 public class BinanceConvertOrder {
 
+	  private String accountCode;
 	  private String quoteId;
 	  private long orderId;
 	  private String orderStatus;
