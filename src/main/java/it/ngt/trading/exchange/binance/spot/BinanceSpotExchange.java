@@ -431,6 +431,16 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			feeCurrency = "";
 			feeQuantity = 0;
 		} else {
+			/*
+			 * 	https://www.binance.com/en/support/faq/what-is-binance-spot-trading-fee-and-how-to-calculate-e85d6e703b874674840122196b89780a
+				How are trading fees calculated?
+				Trading fees are always charged in the asset you receive. For example, if you buy ETH/USDT, the fee is paid in ETH. If you sell ETH/USDT, the fee is paid in USDT.
+				For example:
+				You place an order to buy 10 ETH for 3,452.55 USDT each:
+				Trading fee = 10 ETH * 0.1% = 0.01 ETH
+				Or you place an order to sell 10 ETH for 3,452.55 USDT each:
+				Trading fee = (10 ETH * 3,452.55 USDT) * 0.1% = 34.5255 USDT
+			 */
 			Pair pair = this.getPairsSymbolMap().get(border.getSymbol());
 			if (order.isBuy()) {
 				feeQuantity = order.getFilledQuantity() * FEE_PERCENT;				
