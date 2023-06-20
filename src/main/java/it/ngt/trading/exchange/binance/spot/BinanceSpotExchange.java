@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.binance.connector.client.exceptions.BinanceClientException;
 import com.binance.connector.client.impl.SpotClientImpl;
@@ -19,6 +21,7 @@ import com.binance.connector.client.impl.spot.Wallet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import it.ngt.trading.core.ProblemException;
+import it.ngt.trading.core.entity.Asset;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.ChannelType;
 import it.ngt.trading.core.entity.ITick;
@@ -228,24 +231,36 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			 ]			
 		 */
 		BinanceBalance[] bbalances = (BinanceBalance[]) JsonUtil.fromJson(result, BinanceBalance[].class);
-		for(BinanceBalance bbalance : bbalances) {
-			if (log.isDebugEnabled()) log.debug("bbalance: " +  bbalance);
+		if (bbalances.length > 0) {
+			for(BinanceBalance bbalance : bbalances) {
+				if (log.isDebugEnabled()) log.debug("bbalance: " +  bbalance);
+				Balance balance = new Balance();
+				balance.setAvailable(Double.valueOf(bbalance.getFree()));
+				balance.setAvailableS(bbalance.getFree());
+				balance.setCurrency(bbalance.getAsset());
+				balance.setLocked(Double.valueOf(bbalance.getLocked()));
+				balance.setLockedS(bbalance.getLocked());
+				balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
+				balance.setFreezeS(bbalance.getFreeze());
+				balance.setValuationAsset("BTC");
+				balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
+				balance.setValuationS(bbalance.getBtcValuation());
+				double total = balance.getAvailable()
+							 + balance.getLocked()
+							 + balance.getFreeze();
+				balance.setTotal(total);
+				balance.setTotalS(FormatUtil.format(total));
+				balancesMap.put(balance.getCurrency(), balance);
+			}			
+		} else {
 			Balance balance = new Balance();
-			balance.setAvailable(Double.valueOf(bbalance.getFree()));
-			balance.setAvailableS(bbalance.getFree());
-			balance.setCurrency(bbalance.getAsset());
-			balance.setLocked(Double.valueOf(bbalance.getLocked()));
-			balance.setLockedS(bbalance.getLocked());
-			balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
-			balance.setFreezeS(bbalance.getFreeze());
-			balance.setValuationAsset("BTC");
-			balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
-			balance.setValuationS(bbalance.getBtcValuation());
-			double total = balance.getAvailable()
-						 + balance.getLocked()
-						 + balance.getFreeze();
-			balance.setTotal(total);
-			balance.setTotalS(FormatUtil.format(total));
+			balance.setEmpty(true);
+			balance.setCurrency("---");
+			balance.setAvailableS("0");
+			balance.setLockedS("0");
+			balance.setFreezeS("0");
+			balance.setValuationS("0");
+			balance.setTotalS("0");
 			balancesMap.put(balance.getCurrency(), balance);
 		}
 		
@@ -1114,6 +1129,22 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		
 		return tick;
+		
+	}
+	
+	@Override
+	public List<Asset> getAssets() throws ExchangeException, ProblemException {
+		
+		Set<String> assets = new TreeSet<>();
+		for(Pair pair : this.getPairs()) {
+			assets.add(pair.getBase());
+			assets.add(pair.getQuote());
+		}
+		List<Asset> assetsList = new ArrayList<>();
+		for(String assetE : assets) {
+			assetsList.add(new Asset(assetE, assetE));
+		}
+		return assetsList;
 		
 	}
 	
