@@ -873,6 +873,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				minQuantity = minQuantityBig.floatValue();
 							
 				Pair pair = new Pair();
+				pair.setExchangeName(this.getName());
 				pair.setName(symbol.getSymbol());
 				pair.setCode(symbol.getSymbol());
 				pair.setSymbol(symbol.getSymbol());
@@ -929,6 +930,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			if (log.isDebugEnabled()) log.debug("numberOfPrices: " + bprices.length);
 			for(BinancePrice bprice : bprices) {
 				Price price = new Price();
+				price.setExchangeName(this.getName());
 				price.setPairCode(bprice.getSymbol());
 				price.setPairName(bprice.getSymbol());
 				price.setPriceS(bprice.getPrice());
@@ -1160,6 +1162,17 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		String pairName = baseCurrency + quoteCurrency;
 		return this.getPairsMap().get(pairName);
+		
+	}
+	
+	@Override
+	public Pair getPair(String pairName) {
+		
+		Pair pair = this.pairsMap.get(pairName);
+		if (pair == null) {
+			throw new ProblemException("Pair not found, pairName: " + pairName);
+		}
+		return pair;
 		
 	}
 	
