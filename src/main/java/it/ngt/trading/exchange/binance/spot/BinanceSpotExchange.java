@@ -58,6 +58,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Api documentation:
  * 	https://docs.binance.us/
+ * 
+ * Orders
  * 	https://binance-docs.github.io/apidocs/spot/en/#order-status-user_data
  * 	Orders filters
  * 		https://dev.binance.vision/t/min-notional-filter-error/9746
@@ -1142,7 +1144,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		List<Asset> assetsList = new ArrayList<>();
 		for(String assetE : assets) {
-			assetsList.add(new Asset(assetE, assetE));
+			assetsList.add(new Asset(this.getName(), assetE, assetE));
 		}
 		return assetsList;
 		
