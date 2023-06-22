@@ -620,6 +620,43 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 	}
 	
+	/*
+	 * order canceled:
+		{
+		  "symbol": "BTCEUR",
+		  "origClientOrderId": "web_01492108254c4267a2786bac0f922ac0",
+		  "orderId": 2922746149,
+		  "orderListId": -1,
+		  "clientOrderId": "unDQEbhT5QHFZTCMhktXhs",
+		  "price": "20000.00000000",
+		  "origQty": "0.00050000",
+		  "executedQty": "0.00000000",
+		  "cummulativeQuoteQty": "0.00000000",
+		  "status": "CANCELED",
+		  "timeInForce": "GTC",
+		  "type": "LIMIT",
+		  "side": "BUY",
+		  "selfTradePreventionMode": "NONE"
+		}
+		
+		order not found:
+		{"code":-2011,"msg":"Unknown order sent."}
+			
+	 */
+	@Override
+	public boolean cancelOrder(String orderId, String pair) throws ExchangeException {
+	
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("symbol", pair);
+        parameters.put("orderId", orderId);
+        String result = this.tradeClient.cancelOrder(parameters);
+        if (log.isDebugEnabled()) log.debug("binanceResult: " + result);
+        BinanceResponse response = new BinanceResponse(result);
+        
+        return !response.isError();	//TODO:BSEO:missing check the "status"
+				
+	}
+	
 	private List<BinanceConvertOrder> getOrdersConvertBetween(long fromTime, long toTime) throws ExchangeException, ProblemException {
 		
 		List<BinanceConvertOrder> borders;
