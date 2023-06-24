@@ -315,6 +315,10 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
         parameters.put("quantity", quantityS);  
         parameters.put("price", priceS);
         parameters.put("timeInForce", this.buildTimeInForceFrom(action));
+        if (action.getReference() != null) {
+	        parameters.put("newClientOrderId", action.getReference().getValue());
+        }  
+        
         if (log.isDebugEnabled()) log.debug("before newOrder, parameters: " + parameters);
         String result = client.createTrade().newOrder(parameters);
         if (log.isDebugEnabled()) log.debug("after newOrder, result: " + result);
@@ -1213,6 +1217,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 	}
 	
+	@Override
+	public boolean isPairExist(String pairName) {
+		return this.pairsMap.containsKey(pairName);
+	}
+
 	@Override
 	public boolean isReferenceOfExchange(String reference) {
 		return reference != null && reference.startsWith("web_");
