@@ -888,6 +888,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			
 			for(Symbol symbol : symbols) {
 				
+				if (!symbol.getStatus().equals("TRADING")) {
+					if (log.isTraceEnabled()) log.trace("pair not in TRADING status; it's skipped, symbol: " + symbol);
+					continue;
+				}
+				
 				Float minQuantity = null;
 				Float minQuote = null;
 				Integer priceDecimals = null;
@@ -965,7 +970,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	/**
 	 * build all the Maps and Lists of Pairs from the pairsMap
 	 */
-	private void buildPairsDerived() {
+	@Override
+	protected void buildPairsDerived() {
 		
 		//
 		// build the List of Pairs
@@ -1025,7 +1031,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 	}
 	
-	private void buildPricesDerived() {
+	@Override
+	protected void buildPricesDerived() {
 	
 		//
 		// Build the List of Prices
@@ -1259,7 +1266,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 	}
 	
-	private void buildAssetsDerived() {
+	@Override
+	protected void buildAssetsDerived() {
 		
 		//
 		// Build the List of Assets
