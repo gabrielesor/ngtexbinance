@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import com.google.gson.Gson;
 
 import it.ngt.trading.core.EngineException;
 import it.ngt.trading.core.ProblemException;
+import it.ngt.trading.core.entity.Asset;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
@@ -212,6 +215,57 @@ class BinanceSpotExchangeTest {
 				System.out.println("prices not in pairs, pairName: " + pairName);
 			}
 		});
+	}
+		
+	private void testPricesDerived() {
+
+		List<Asset> assets = this.exchange.getAssets();
+		List<Pair> pairs = this.exchange.getPairs();
+		List<Price> prices = this.exchange.getPrices();
+		
+		int numberOfAssets = assets.size();
+		int numberOfPairs = pairs.size();
+		int numberOfPrices = prices.size();
+		
+		System.out.println("numberOfAssets: " + numberOfAssets);
+		System.out.println("numberOfPairs: " + numberOfPairs);
+		System.out.println("numberOfPrices: " + numberOfPrices);
+	
+		Set<String> pairsNamesExistent1 = new TreeSet<>();
+		for(Pair pair : pairs) {
+			pairsNamesExistent1.add(pair.getName());
+		}
+		
+		Set<String> pairsNamesExistent2 = new TreeSet<>();
+		for(int i=0; i<numberOfAssets; i++) {
+			Asset asset1 = assets.get(i);
+			for(int j=0; j<numberOfAssets; j++) {
+				Asset asset2 = assets.get(j);
+				if (exchange.isPairExist(asset1.getAltname(), asset2.getAltname())) {
+					pairsNamesExistent2.add(asset1.getAltname() +  asset2.getAltname());
+				} else {
+				}
+			}
+		}
+		 
+		System.out.println("pairsNamesExistent1.size: " + pairsNamesExistent1.size());		
+		System.out.println("pairsNamesExistent2.size: " + pairsNamesExistent2.size());		
+	
+		int counterMissing = 0;
+		for(int i=0; i<numberOfAssets; i++) {
+			Asset asset = assets.get(i);
+			if (
+				exchange.isPairExist("BTC", asset.getAltname())
+			||  exchange.isPairExist(asset.getAltname(), "EUR")
+			||  exchange.isPairExist(asset.getAltname(), "BTC")
+			||  exchange.isPairExist("EUR", asset.getAltname())
+			) {
+			} else {
+				counterMissing++;
+				System.out.println("[asset][BTC] | [BTC][asset] not found, asset: " + asset);
+			}
+		}
+		System.out.println("counterMissing: " + counterMissing);
 	}	
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ExchangeException, ProblemException {
@@ -219,15 +273,16 @@ class BinanceSpotExchangeTest {
 		BinanceSpotExchangeTest main = new BinanceSpotExchangeTest();
 		
 		//main.switchSubaccount("adara.keys.bit1.binance.main.001");
-		main.switchSubaccount("adara.keys.bit1.binance.sub001.001");
+		main.switchSubaccount("adara.keys.bseo.binance.main.001");
 		
-		main.testGetBalances();
+		//main.testGetBalances();
 		//main.testGetOpenOrders();
 		//main.testGetPair();
 		//main.testGetPairs();
 		//main.testGetPrices();
 		//main.testGetSymbols();
 		//main.testPairsAndPrices();
+		main.testPricesDerived();
 		
 	}
 	

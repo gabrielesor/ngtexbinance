@@ -92,21 +92,32 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	private final Trade tradeClient;
 	
 	private static final double FEE_PERCENT = 0.001;	//0.1%, TODO:bseo:params
+	
 	//
 	// in Binance a Pair has the same Name, Code and Symbol
 	//
 	
-	//it's the original Map of Pairs,
-	//all other Maps and Lists of Pairs are obtained browsing this Map
-	//key=pairName	
+	//
+	//	original Map of Pairs, Prices and Assets
+	//	
+	//key=pairName
 	private final Map<String, Pair> pairsMap = new TreeMap<>();
+
+	//key=pairName
+	private final Map<String, Price> pricesMap = new TreeMap<>();
+	
+	//key=assetAltName
+	private final Map<String, Asset> assetsMap = new TreeMap<>();
+	
+	//
+	//	derived Maps and Lists of Pairs, Prices and Assets obtained browsing the original List
+	//
+	
 	private final List<Pair> pairs = new ArrayList<>();
 	
-	//it's the original Map of Prices,
-	//all other Maps and Lists of Prices are obtained browsing this Map
-	//key=pairName	
-	private final Map<String, Price> pricesMap = new TreeMap<>();
 	private final List<Price> prices = new ArrayList<>();
+	
+	private final List<Asset> assets = new ArrayList<>();
 	
 	private static final int DAYS_OFFSET_MAX = 30;	
 	
@@ -120,6 +131,10 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 		this.loadPricesMap();
 		this.loadPairsMap();
+		super.alignPairsAndPrices(pairsMap, pricesMap);		
+		this.loadAssetsMap();
+		
+		super.updatePricesConversion(pricesMap);
 		
 	}
 	
@@ -846,10 +861,14 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	//
 	
 	@Override
-	public void refreshPairsAndPrices() throws ExchangeException {
+	public void refreshPairsPricesAssets() throws ExchangeException {
 		
 		this.loadPricesMap();
 		this.loadPairsMap();
+		super.alignPairsAndPrices(pairsMap, pricesMap);	
+		this.loadAssetsMap();
+		
+		super.updatePricesConversion(pricesMap);
 		
 	}	
 
@@ -937,16 +956,16 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		if (log.isDebugEnabled()) log.debug("retrieved the pairs, numberOfPairs: " + this.pairsMap.size());
 
 		//
-		// build the Maps and Lists of the Pairs
+		// build the Pairs Derived
 		//
-		this.buildPairsMapsAndLists();
+		this.buildPairsDerived();
 		
 	}
 	
 	/**
 	 * build all the Maps and Lists of Pairs from the pairsMap
 	 */
-	private void buildPairsMapsAndLists() {
+	private void buildPairsDerived() {
 		
 		//
 		// build the List of Pairs
@@ -970,29 +989,43 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			BinancePrice[] bprices = (BinancePrice[]) JsonUtil.fromJson(result, BinancePrice[].class);
 			if (log.isDebugEnabled()) log.debug("numberOfPrices: " + bprices.length);
 			for(BinancePrice bprice : bprices) {
+				
+				String pairCode = bprice.getSymbol(); 
+				
+				/*
+				Pair pair = this.pairsMap.get(pairCode);
+				if (pair == null) {
+					// there are some Prices without a Pair currently supported;
+					//	it's correct skip them
+					if (log.isDebugEnabled()) log.debug("pair not found loading the prices, exchange: " + this.getName() + " ,pairName: " + pairCode);
+					continue;
+				}
+				*/		
+				
 				Price price = new Price();
 				price.setExchangeName(this.getName());
-				price.setPairCode(bprice.getSymbol());
-				price.setPairName(bprice.getSymbol());
+				price.setPairCode(pairCode);
+				price.setPairName(pairCode);
 				price.setPriceS(bprice.getPrice());
 				price.setPriceBD(MathUtil.convertToBD(price.getPriceS()));
-				price.setPrice(MathUtil.convertToDouble(price.getPriceS()));				
+				price.setPrice(MathUtil.convertToDouble(price.getPriceS()));
+				price.setPriceReversed(1 / price.getPrice());
 				this.pricesMap.put(price.getPairName(), price);
 			}
 		} catch (ProblemException e) {
 			throw new ExchangeException("invalid response in getPairs exception: " + e);
 		}
 		
-		if (log.isDebugEnabled()) log.debug("retrieved the prices, numberOfPrices: " + prices.size());		
+		if (log.isDebugEnabled()) log.debug("retrieved the prices, numberOfPrices: " + pricesMap.size());		
 		
 		//
-		// build the Maps and Lists of the Prices
+		// build Prices derived
 		//
-		this.buildPricesMapsAndLists();
+		this.buildPricesDerived();
 		
 	}
 	
-	private void buildPricesMapsAndLists() {
+	private void buildPricesDerived() {
 	
 		//
 		// Build the List of Prices
@@ -1179,6 +1212,20 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 	@Override
 	public List<Asset> getAssets() throws ExchangeException, ProblemException {
+		return this.assets;
+	}
+	
+	private void loadAssetsMap() throws ExchangeException, ProblemException {
+		
+		this.assetsMap.clear();
+		
+		Set<String> assetsInPairs = new TreeSet<>();
+		for(Pair pair : pairs) {
+			assetsInPairs.add(pair.getBase());
+			assetsInPairs.add(pair.getQuote());
+		}
+		if (log.isDebugEnabled()) log.debug("load Assets in Pairs, exchange: " + this.getName() + ", numberOfAssetsInPair: " + assetsInPairs.size());		
+		
 		
 		Set<String> assets = new TreeSet<>();
 		for(Pair pair : this.getPairs()) {
@@ -1189,10 +1236,41 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		for(String assetE : assets) {
 			assetsList.add(new Asset(this.getName(), assetE, assetE));
 		}
-		return assetsList;
+		
+		for(Asset asset : assetsList) {
+			String assetName = asset.getAltname();
+			if (!assetsInPairs.contains(assetName)) {
+				// there are some Asset without any Pairs currently supported;
+				//	it's correct skip them
+				if (log.isDebugEnabled()) log.debug("asset not found in the pairs loading the assets, exchange: " + this.getName() +  ", asset: " + assetName);
+				continue;
+			}
+			
+			this.assetsMap.put(asset.getAltname(), asset);
+		}
+				
+		if (log.isDebugEnabled()) log.debug("load Assets in Pairs, numberOfAssets: " + this.assetsMap.size());		
+		
+		//
+		// build Assets derived
+		//
+		this.buildAssetsDerived();
+		
 		
 	}
 	
+	private void buildAssetsDerived() {
+		
+		//
+		// Build the List of Assets
+		//
+		this.assets.clear();
+		this.assetsMap.forEach((assetName, asset) -> {
+			assets.add(asset);
+		});	
+		
+	}
+
 	@Override
 	public boolean isConvertOrdersManaged() {
 		return true;
