@@ -28,6 +28,7 @@ import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.exchange.IExchange;
+import it.ngt.trading.core.util.FormatUtil;
 import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Filter;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Symbol;
@@ -241,8 +242,8 @@ class BinanceSpotExchangeTest {
 			Asset asset1 = assets.get(i);
 			for(int j=0; j<numberOfAssets; j++) {
 				Asset asset2 = assets.get(j);
-				if (exchange.isPairExist(asset1.getAltname(), asset2.getAltname())) {
-					pairsNamesExistent2.add(asset1.getAltname() +  asset2.getAltname());
+				if (exchange.isPairExist(asset1.getName(), asset2.getName())) {
+					pairsNamesExistent2.add(asset1.getName() +  asset2.getName());
 				} else {
 				}
 			}
@@ -250,22 +251,21 @@ class BinanceSpotExchangeTest {
 		 
 		System.out.println("pairsNamesExistent1.size: " + pairsNamesExistent1.size());		
 		System.out.println("pairsNamesExistent2.size: " + pairsNamesExistent2.size());		
-	
-		int counterMissing = 0;
+		
+		System.out.println("universal price BTC");
 		for(int i=0; i<numberOfAssets; i++) {
 			Asset asset = assets.get(i);
-			if (
-				exchange.isPairExist("BTC", asset.getAltname())
-			||  exchange.isPairExist(asset.getAltname(), "EUR")
-			||  exchange.isPairExist(asset.getAltname(), "BTC")
-			||  exchange.isPairExist("EUR", asset.getAltname())
-			) {
-			} else {
-				counterMissing++;
-				System.out.println("[asset][BTC] | [BTC][asset] not found, asset: " + asset);
-			}
+			double price = exchange.getPriceUniversal(asset.getName(), "BTC");
+			System.out.println(asset.getName() + "\t" + FormatUtil.formatDecimalsMax(price));
+		}		
+		
+		System.out.println("universal price EUR");
+		for(int i=0; i<numberOfAssets; i++) {
+			Asset asset = assets.get(i);
+			double price = exchange.getPriceUniversal(asset.getName(), "EUR");
+			System.out.println(asset.getName() + "\t" + FormatUtil.format2(price));
 		}
-		System.out.println("counterMissing: " + counterMissing);
+
 	}	
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ExchangeException, ProblemException {

@@ -39,7 +39,6 @@ import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.exchange.ITickExchange;
 import it.ngt.trading.core.exchange.ExchangeCode;
 import it.ngt.trading.core.messages.IMessageType;
-import it.ngt.trading.core.util.FormatUtil;
 import it.ngt.trading.core.util.JsonUtil;
 import it.ngt.trading.core.util.MathUtil;
 import it.ngt.trading.core.util.TimeUtil;
@@ -131,10 +130,12 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 		this.loadPricesMap();
 		this.loadPairsMap();
-		super.alignPairsAndPrices(pairsMap, pricesMap);		
+		super.alignPairsPrices(pairsMap, pricesMap);		
 		this.loadAssetsMap();
-		
+		super.alignAssets(pairsMap, pricesMap, assetsMap);
 		super.updatePricesConversion(pricesMap);
+		
+		super.checkPairsPricesAssets();
 		
 	}
 	
@@ -250,36 +251,16 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		BinanceBalance[] bbalances = (BinanceBalance[]) JsonUtil.fromJson(result, BinanceBalance[].class);
 		if (bbalances.length > 0) {
 			for(BinanceBalance bbalance : bbalances) {
-				if (log.isDebugEnabled()) log.debug("bbalance: " +  bbalance);
-				Balance balance = new Balance();
-				balance.setAvailable(Double.valueOf(bbalance.getFree()));
-				balance.setAvailableS(bbalance.getFree());
-				balance.setCurrency(bbalance.getAsset());
-				balance.setLocked(Double.valueOf(bbalance.getLocked()));
-				balance.setLockedS(bbalance.getLocked());
-				balance.setFreeze(Double.valueOf(bbalance.getFreeze()));
-				balance.setFreezeS(bbalance.getFreeze());
-				balance.setValuationAsset("BTC");
-				balance.setValuation(Double.valueOf(bbalance.getBtcValuation()));
-				balance.setValuationS(bbalance.getBtcValuation());
-				double total = balance.getAvailable()
-							 + balance.getLocked()
-							 + balance.getFreeze();
-				balance.setTotal(total);
-				balance.setTotalS(FormatUtil.format(total));
-				balancesMap.put(balance.getCurrency(), balance);
+				if (log.isDebugEnabled()) log.debug("bbalance: " +  bbalance);				
+				String asset = bbalance.getAsset();
+				balancesMap.put(asset, super.createBalance(asset, bbalance.getFree(), bbalance.getLocked(), bbalance.getFreeze()));
 			}			
 		} else {
-			Balance balance = new Balance();
-			balance.setEmpty(true);
-			balance.setCurrency("---");
-			balance.setAvailableS("0");
-			balance.setLockedS("0");
-			balance.setFreezeS("0");
-			balance.setValuationS("0");
-			balance.setTotalS("0");
-			balancesMap.put(balance.getCurrency(), balance);
+			Balance balanceEmpty = super.createBalanceEmpty();
+			balancesMap.put(balanceEmpty.getAsset(), balanceEmpty);
 		}
+		
+		super.removeBalancesEmpty(balancesMap);
 		
 		return balancesMap;
 		
@@ -865,11 +846,13 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		this.loadPricesMap();
 		this.loadPairsMap();
-		super.alignPairsAndPrices(pairsMap, pricesMap);	
+		super.alignPairsPrices(pairsMap, pricesMap);	
 		this.loadAssetsMap();
-		
+		super.alignAssets(pairsMap, pricesMap, assetsMap);		
 		super.updatePricesConversion(pricesMap);
 		
+		super.checkPairsPricesAssets();
+
 	}	
 
 	private void loadPairsMap() throws ExchangeException {
@@ -887,7 +870,6 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			if (log.isDebugEnabled()) log.debug("retrievied the symbols, numberOfSymbols: " + symbols.size());
 			
 			for(Symbol symbol : symbols) {
-				
 				if (!symbol.getStatus().equals("TRADING")) {
 					if (log.isTraceEnabled()) log.trace("pair not in TRADING status; it's skipped, symbol: " + symbol);
 					continue;
@@ -959,7 +941,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		
 		if (log.isDebugEnabled()) log.debug("retrieved the pairs, numberOfPairs: " + this.pairsMap.size());
-
+		
 		//
 		// build the Pairs Derived
 		//
@@ -1245,7 +1227,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		
 		for(Asset asset : assetsList) {
-			String assetName = asset.getAltname();
+			String assetName = asset.getName();
 			if (!assetsInPairs.contains(assetName)) {
 				// there are some Asset without any Pairs currently supported;
 				//	it's correct skip them
@@ -1253,7 +1235,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				continue;
 			}
 			
-			this.assetsMap.put(asset.getAltname(), asset);
+			this.assetsMap.put(asset.getName(), asset);
 		}
 				
 		if (log.isDebugEnabled()) log.debug("load Assets in Pairs, numberOfAssets: " + this.assetsMap.size());		
