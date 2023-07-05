@@ -199,12 +199,6 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	}
 
 	@Override
-	public Balance getBalance(String currency) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String buildPairName(String baseCurrency, String quoteCurrency) {
 		return baseCurrency + quoteCurrency;
 	}
@@ -255,9 +249,6 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				String asset = bbalance.getAsset();
 				balancesMap.put(asset, super.createBalance(asset, bbalance.getFree(), bbalance.getLocked(), bbalance.getFreeze()));
 			}			
-		} else {
-			Balance balanceEmpty = super.createBalanceEmpty();
-			balancesMap.put(balanceEmpty.getAsset(), balanceEmpty);
 		}
 		
 		super.removeBalancesEmpty(balancesMap);
@@ -296,27 +287,13 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		if (log.isDebugEnabled()) log.debug("doOrderRaw started, action: " + action);
 		
+		LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		this.doOrderUpdateParameters(parameters, action);
+		
 		String orderId;
-		
-		double price = MathUtil.truncateDecimal(action.getPrice(), action.getPriceDecimals());
-		double quantity = MathUtil.truncateDecimal(action.getQuantity(), action.getQuantityDecimals());
-		String priceS = String.format("%16." + action.getPriceDecimals() + "f", price).trim();
-		String quantityS = String.format("%16." + action.getQuantityDecimals() + "f", quantity).trim();
-		if (log.isDebugEnabled()) log.debug("priceSx: " + priceS + ", price: " + action.getPrice() + ", priceDecimals: " + action.getPriceDecimals() + ", quantityS: " + quantityS + ", quantity: " + quantity + ", quantityDecimals: " + action.getQuantityDecimals());
-		
-        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-        parameters.put("symbol", action.getPair());
-        parameters.put("side", this.buildSide(action.getCode()));
-        parameters.put("type", this.buildOrderTypeFrom(action));
-        parameters.put("quantity", quantityS);  
-        parameters.put("price", priceS);
-        parameters.put("timeInForce", this.buildTimeInForceFrom(action));
-        if (action.getReference() != null) {
-	        parameters.put("newClientOrderId", action.getReference().getValue());
-        }  
         
         if (log.isDebugEnabled()) log.debug("before newOrder, parameters: " + parameters);
-        String result = client.createTrade().newOrder(parameters);
+        String result = this.tradeClient.newOrder(parameters);
         if (log.isDebugEnabled()) log.debug("after newOrder, result: " + result);
         try {
 			BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
@@ -330,6 +307,51 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		
 		return orderId;
+		
+	}
+	
+	@Override
+	public String doOrderSimulated(TraderAction action) {
+					
+		if (log.isDebugEnabled()) log.debug("doOrderRaw started, action: " + action);
+		
+		String error;
+		
+		LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		this.doOrderUpdateParameters(parameters, action);
+        
+        if (log.isDebugEnabled()) log.debug("before newOrder, parameters: " + parameters);
+        try {
+            String result = this.tradeClient.testNewOrder(parameters);
+            if (log.isDebugEnabled()) log.debug("after newOrder, result: " + result);        	
+            error = result.equals("{}")?null:result;
+        } catch(BinanceClientException e) {
+        	error = e.getMessage();
+        }
+        
+        return error;
+		
+	}
+	
+	private void doOrderUpdateParameters(LinkedHashMap<String, Object> parameters, TraderAction action) {
+			
+		double price = MathUtil.truncateDecimal(action.getPrice(), action.getPriceDecimals());
+		double quantity = MathUtil.truncateDecimal(action.getQuantity(), action.getQuantityDecimals());
+		String priceS = String.format("%16." + action.getPriceDecimals() + "f", price).trim();
+		String quantityS = String.format("%16." + action.getQuantityDecimals() + "f", quantity).trim();
+		if (log.isDebugEnabled()) log.debug("priceSx: " + priceS + ", price: " + action.getPrice() + ", priceDecimals: " + action.getPriceDecimals() + ", quantityS: " + quantityS + ", quantity: " + quantity + ", quantityDecimals: " + action.getQuantityDecimals());
+		
+        parameters.put("symbol", action.getPair());
+        parameters.put("side", this.buildSide(action.getCode()));
+        parameters.put("type", this.buildOrderTypeFrom(action));
+        parameters.put("quantity", quantityS);  
+        if (action.getPrice() != 0) {
+            parameters.put("price", priceS);
+            parameters.put("timeInForce", this.buildTimeInForceFrom(action));        	
+        }
+        if (action.getReference() != null) {
+	        parameters.put("newClientOrderId", action.getReference().getValue());
+        }  		
 		
 	}
 	
@@ -831,8 +853,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			type = OrderType.MARKET;
 			break;
 		default:
-			type = OrderType.UNDEFINED;
-			if (log.isWarnEnabled()) log.warn("OrderType not recognized; set UNDEFINED, binanceType: " + btype + ", binanceOrder: " + border);
+			throw new ProblemException("OrderType invalid in Binance, orderType: " + btype);
 		}
 		return type;
 	}
@@ -1270,7 +1291,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	public Pair getPair(String baseCurrency, String quoteCurrency) throws ExchangeException {
 		
 		String pairName = baseCurrency + quoteCurrency;
-		return this.getPairsMap().get(pairName);
+		return this.getPair(pairName);
 		
 	}
 	
@@ -1316,6 +1337,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	 */
 	@Override
 	public boolean isBalanceValuationManaged() {
+		return true;
+	}
+	
+	@Override
+	public boolean isManageSimulationOrder() {
 		return true;
 	}
 	
