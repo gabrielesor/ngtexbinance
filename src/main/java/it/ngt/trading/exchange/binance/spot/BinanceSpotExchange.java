@@ -409,7 +409,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		    "selfTradePreventionMode": "NONE"
 		  }	
 			  
-		FILLED order
+		FILLED LIMIT order
 		   {
 		      "symbol":"BTCEUR",
 		      "orderId":2838503151,
@@ -431,41 +431,72 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		      "workingTime":1681219308015,
 		      "origQuoteOrderQty":"0.00000000",
 		      "selfTradePreventionMode":"NONE"
-		   }		
+		   }
+
+		FILLED MARKET order		   
+		  {
+		    "symbol":"BTCEUR",
+		    "orderId":2838537044,
+		    "orderListId":-1,
+		    "clientOrderId":"nKyBryDhnomnU981ABV9PA",
+		    "price":"0.00000000",
+		    "origQty":"0.00050000",
+		    "executedQty":"0.00050000",
+		    "cummulativeQuoteQty":"13.87415000",
+		    "status":"FILLED",
+		    "timeInForce":"GTC",
+		    "type":"MARKET",
+		    "side":"SELL",
+		    "stopPrice":"0.00000000",
+		    "icebergQty":"0.00000000",
+		    "time":1681220336570,
+		    "updateTime":1681220336570,
+		    "isWorking":true,
+		    "workingTime":1681220336570,
+		    "origQuoteOrderQty":"0.00000000",
+		    "selfTradePreventionMode":"NONE"
+		  }	   		
 	*/
+	/**
+	 * 	https://dev.binance.vision/t/explaining-origqty-executedqty-and-cummulativequoteqty/218/2
+			origQty is the client’s original quantity from the request, which is 1.5.
+			executedQty is how many BNB is matched in the order, which is 0.5
+			cummulativeQuoteQty is how much Alice paid for buying BNB in USDT, which is $17.5.	
+	 */
 	private Order buildOrder(BinanceOrder border, String result) throws ExchangeException {
-	
-		double orderedPrice;
-		double filledQuantity = Double.valueOf(border.getExecutedQty());
-		String feeCurrency;
-		double feeQuantity;
-		
+
 		OrderType orderType = this.buildOrderTypeTo(border.getType(), result);
-		if (orderType.equals(OrderType.MARKET)) {
-			orderedPrice = 0;
-		} else {
-			orderedPrice = Double.valueOf(border.getPrice());
-		}
+
+		double orderedQuantity = Double.valueOf(border.getOrigQty());
+		double filledQuantity = Double.valueOf(border.getExecutedQty());
+		double filledAmount = Double.valueOf(border.getCummulativeQuoteQty());
+		double orderedPrice = Double.valueOf(border.getPrice());
+		double filledPrice = filledQuantity == 0 ? 0 : filledAmount / filledQuantity;
 				
 		Order order = new Order();
 		order.setId(border.getOrderId() + "");
 		order.setWayType(WayType.SPOT);
+		order.setOrderType(orderType);
 		order.setPair(border.getSymbol());
-		order.setOrderedPrice(orderedPrice);
-		order.setOrderedQuantity(Double.valueOf(border.getOrigQty()));
-		order.setFilledQuantity(filledQuantity);
-		order.setFilledPrice(filledQuantity==0?0:Double.valueOf(border.getPrice()));
 		order.setActionCode(this.buildActionCode(border.getSide(), result));
 		order.setClosed(this.buildClosed(border.getStatus(), result));
-		order.setOrderType(this.buildOrderTypeTo(border.getType(), result));
 		order.setCancelled(this.buildCanceled(border.getStatus(), result));
 		order.setStatus(border.getStatus());
-		order.setFilledAmount(Double.valueOf(border.getCummulativeQuoteQty()));
+		order.setOrderedPrice(orderedPrice);
+		order.setOrderedQuantity(orderedQuantity);
+		order.setFilledQuantity(filledQuantity);
+		order.setFilledPrice(filledPrice);
+		order.setFilledAmount(filledAmount);
 		order.setCreateTimeMs(border.getTime());
 		order.setUpdateTimeMs(border.getUpdateTime());
 		order.setRawFormat(result);
 		order.setReference(border.getClientOrderId());
 
+		//
+		//	fee data
+		//
+		String feeCurrency;
+		double feeQuantity;		
 		if (order.getFilledQuantity() == 0) {
 			feeCurrency = "";
 			feeQuantity = 0;
@@ -758,7 +789,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			closed = true;
 			break;
 		case "PENDING_CANCEL":
-			if (log.isWarnEnabled()) log.warn("Closed not recognized for status unused; set false, binanceStatus: " + bstatus + ", binanceOrder: " + border);
+			if (log.isWarnEnabled()) log.warn("Closed not recognized for status unused; set 'closed' to false, binanceStatus: " + bstatus + ", binanceOrder: " + border);
 			closed = false;
 			break;
 		case "REJECTED":
@@ -771,8 +802,9 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			closed = true;
 			break;
 		default:
-			if (log.isWarnEnabled()) log.warn("Closed not recognized; set false, binanceStatus: " + bstatus + ", binanceOrder: " + border);
-			closed = false;
+			String error = "Binance Order with the Status not recognized during the 'closed' set, status: " + bstatus + ", binanceOrder: " + border;
+			if (log.isErrorEnabled()) log.error(error);
+			throw new ProblemException(error);
 		}
 		
 		return closed;
@@ -796,7 +828,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			canceled = true;
 			break;
 		case "PENDING_CANCEL":
-			if (log.isWarnEnabled()) log.warn("Canceled not recognized for status unused; set false, binanceStatus: " + bstatus + ", binanceOrder: " + border);
+			if (log.isWarnEnabled()) log.warn("Canceled not recognized for status unused; set 'canceled' to false, binanceStatus: " + bstatus + ", binanceOrder: " + border);
 			canceled = false;
 			break;
 		case "REJECTED":
@@ -809,8 +841,9 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			canceled = true;
 			break;
 		default:
-			if (log.isWarnEnabled()) log.warn("Closed not recognized; set false, binanceStatus: " + bstatus + ", binanceOrder: " + border);
-			canceled = false;
+			String error = "Binance Order with the Status not recognized during the 'canceled' set, status: " + bstatus + ", binanceOrder: " + border;
+			if (log.isErrorEnabled()) log.error(error);
+			throw new ProblemException(error);
 		}
 		
 		return canceled;
@@ -853,7 +886,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			type = OrderType.MARKET;
 			break;
 		default:
-			throw new ProblemException("OrderType invalid in Binance, orderType: " + btype);
+			type = OrderType.OTHER;
+			break;
 		}
 		return type;
 	}
