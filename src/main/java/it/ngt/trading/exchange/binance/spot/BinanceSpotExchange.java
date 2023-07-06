@@ -897,7 +897,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	//
 	
 	@Override
-	public void refreshPairsPricesAssets() throws ExchangeException {
+	public void refresh() throws ExchangeException {
 		
 		this.loadPricesMap();
 		this.loadPairsMap();
