@@ -111,6 +111,15 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
+	private void testGetOrder() throws ProblemException {
+		
+		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
+		
+		Order order = exchange.getOrder("3064696013", "BTCEUR");
+		System.out.println("order: " + order);
+		
+	}
+	
 	private void testGetSymbols() throws ExchangeException {
 		
 		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
@@ -277,12 +286,13 @@ class BinanceSpotExchangeTest {
 		
 		//main.testGetBalances();
 		//main.testGetOpenOrders();
+		main.testGetOrder();
 		//main.testGetPair();
 		//main.testGetPairs();
 		//main.testGetPrices();
 		//main.testGetSymbols();
 		//main.testPairsAndPrices();
-		main.testPricesDerived();
+		//main.testPricesDerived();
 		
 	}
 	

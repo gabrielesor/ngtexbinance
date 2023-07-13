@@ -258,8 +258,23 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	}
 
 	@Override
-	public Order getOrderRaw(String orderId) throws ExchangeException {
-		return null;
+	public Order getOrderRaw(String orderId, String pairName) throws ExchangeException, ProblemException {
+		return this.getOrder(orderId, pairName);
+	}
+	
+	@Override
+	public Order getOrder(String orderId, String pairName) throws ExchangeException {
+		
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("symbol", pairName);
+        parameters.put("orderId", orderId);        
+		String result = tradeClient.getOrder(parameters);
+		if (log.isDebugEnabled()) log.debug("result:\n" + result);
+		BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
+		System.out.println("binanceOrder: " + border);	
+		Order order = this.buildOrder(border, result);
+		return order;
+		
 	}
 
 	/**
@@ -1376,6 +1391,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 	@Override
 	public boolean isManageSimulationOrder() {
+		return true;
+	}
+	
+	@Override
+	public boolean isReferenceMustBeUnique() {
 		return true;
 	}
 	
