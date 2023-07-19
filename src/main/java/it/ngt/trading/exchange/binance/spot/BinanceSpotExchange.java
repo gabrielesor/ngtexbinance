@@ -302,6 +302,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		if (log.isDebugEnabled()) log.debug("doOrderRaw started, action: " + action);
 		
+
+		if (log.isDebugEnabled()) log.debug("sleeping before Order, sleepMs: " + this.getOrderSleepMs() + ", exchange: " + getName());
+		super.sleep(getOrderSleepMs());
+		if (log.isDebugEnabled()) log.debug("ended sleep Order, sleepMs: " + this.getOrderSleepMs() + ", exchange: " + getName());		
+				
 		LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
 		this.doOrderUpdateParameters(parameters, action);
 		
@@ -324,6 +329,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		return orderId;
 		
 	}
+	
+	@Override
+	public int getOrderSleepMs() {
+		return 250;	//TODO:BSEO:params
+	}	
 	
 	@Override
 	public String doOrderSimulated(TraderAction action) {

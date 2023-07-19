@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -277,9 +278,39 @@ class BinanceSpotExchangeTest {
 
 	}	
 	
+	private boolean confirm(String message) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("> " + message);
+		return scanner.nextLine().toLowerCase().equals("y");		
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ExchangeException, ProblemException {
 		
 		BinanceSpotExchangeTest main = new BinanceSpotExchangeTest();
+		
+		// REMEMBER TO SET TO false
+		// REMEMBER TO SET TO false
+		// REMEMBER TO SET TO false
+		// REMEMBER TO SET TO false
+		boolean doAction = false;
+		// REMEMBER TO SET TO false
+		// REMEMBER TO SET TO false
+		// REMEMBER TO SET TO false
+		// REMEMBER TO SET TO false		
+		
+		if (doAction) {
+			if (main.confirm("Confirm to proceed with this Proof?")) {	
+
+			} else {
+				System.out.println("ACTION not confirmed");
+				System.out.println("Proof ended with no action");
+				return;
+			}
+		} else {
+			System.out.println("NO PROCEED did, the flag was false, if you really want do this action then set it to true");
+			System.out.println("Proof ended with no action");
+			return;
+		}	
 		
 		//main.switchSubaccount("adara.keys.bit1.binance.main.001");
 		main.switchSubaccount("adara.keys.bseo.binance.main.001");
