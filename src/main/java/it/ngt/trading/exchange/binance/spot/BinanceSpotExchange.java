@@ -29,6 +29,7 @@ import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.OrderType;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
+import it.ngt.trading.core.entity.Reference;
 import it.ngt.trading.core.entity.Tick;
 import it.ngt.trading.core.entity.TraderAction;
 import it.ngt.trading.core.entity.TraderActionCode;
@@ -515,7 +516,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		order.setCreateTimeMs(border.getTime());
 		order.setUpdateTimeMs(border.getUpdateTime());
 		order.setRawFormat(result);
-		order.setReference(border.getClientOrderId());
+		order.setReference(new Reference(border.getClientOrderId()));
 
 		//
 		//	fee data
