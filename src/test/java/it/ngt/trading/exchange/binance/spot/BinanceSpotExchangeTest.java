@@ -273,7 +273,7 @@ class BinanceSpotExchangeTest {
 		for(int i=0; i<numberOfAssets; i++) {
 			Asset asset = assets.get(i);
 			double price = exchange.getPriceUniversal(asset.getName(), "EUR");
-			System.out.println(asset.getName() + "\t" + FormatUtil.format2(price));
+			System.out.println(asset.getName() + "\t" + FormatUtil.formatConversion(price));
 		}
 
 	}	

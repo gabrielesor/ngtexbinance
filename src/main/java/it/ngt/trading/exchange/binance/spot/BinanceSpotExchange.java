@@ -361,8 +361,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 	private void doOrderUpdateParameters(LinkedHashMap<String, Object> parameters, TraderAction action) {
 			
-		double price = MathUtil.truncateDecimal(action.getPrice(), action.getPriceDecimals());
-		double quantity = MathUtil.truncateDecimal(action.getQuantity(), action.getQuantityDecimals());
+		double price = MathUtil.roundDownDecimal(action.getPrice(), action.getPriceDecimals());
+		double quantity = MathUtil.roundDownDecimal(action.getQuantity(), action.getQuantityDecimals());
 		String priceS = String.format("%16." + action.getPriceDecimals() + "f", price).trim();
 		String quantityS = String.format("%16." + action.getQuantityDecimals() + "f", quantity).trim();
 		if (log.isDebugEnabled()) log.debug("priceSx: " + priceS + ", price: " + action.getPrice() + ", priceDecimals: " + action.getPriceDecimals() + ", quantityS: " + quantityS + ", quantity: " + quantity + ", quantityDecimals: " + action.getQuantityDecimals());
