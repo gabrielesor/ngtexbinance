@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -24,6 +25,7 @@ import it.ngt.trading.core.EngineException;
 import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.entity.Asset;
 import it.ngt.trading.core.entity.Balance;
+import it.ngt.trading.core.entity.ExchangeStatus;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
@@ -112,11 +114,11 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
-	private void testGetOrder() throws ProblemException {
+	private void testGetOrder(long orderId) throws ProblemException {
 		
 		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
 		
-		Order order = exchange.getOrder("3064696013", "BTCEUR");
+		Order order = exchange.getOrder(orderId + "", "BTCEUR");
 		System.out.println("order: " + order);
 		
 	}
@@ -216,6 +218,14 @@ class BinanceSpotExchangeTest {
 		
 	}
 	
+	private void testGetExchangeStatus() {
+		
+		System.out.println("date.a: " + new Date().getTime());
+		ExchangeStatus status = this.exchange.getExchangeStatus();
+		System.out.println("date.b: " + new Date().getTime());
+		System.out.println("status: " + status);
+	}
+	
 	private void testPairsAndPrices() throws ProblemException {
 		
 		Map<String, Pair> pairs = this.exchange.getPairsMap();
@@ -292,7 +302,7 @@ class BinanceSpotExchangeTest {
 		// REMEMBER TO SET TO false
 		// REMEMBER TO SET TO false
 		// REMEMBER TO SET TO false
-		boolean doAction = false;
+		boolean doAction = true;
 		// REMEMBER TO SET TO false
 		// REMEMBER TO SET TO false
 		// REMEMBER TO SET TO false
@@ -316,8 +326,10 @@ class BinanceSpotExchangeTest {
 		main.switchSubaccount("adara.keys.bseo.binance.main.001");
 		
 		//main.testGetBalances();
+		//main.testGetExchangeStatus();
 		//main.testGetOpenOrders();
-		main.testGetOrder();
+		main.testGetOrder(2838503151l);	//BSEO-BN-02, found
+		//main.testGetOrder(2838503888l);		//BSEO-BN-02, not found
 		//main.testGetPair();
 		//main.testGetPairs();
 		//main.testGetPrices();

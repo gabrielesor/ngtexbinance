@@ -24,6 +24,8 @@ import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.entity.Asset;
 import it.ngt.trading.core.entity.Balance;
 import it.ngt.trading.core.entity.ChannelType;
+import it.ngt.trading.core.entity.ExchangeStatus;
+import it.ngt.trading.core.entity.ExchangeStatusCode;
 import it.ngt.trading.core.entity.ITick;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.OrderType;
@@ -152,51 +154,43 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 
 	@Override
 	public String extractBaseCurrency(String pair) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("extractBaseCurrency UNSUPPORTED");
 	}
 
 	@Override
 	public String extractQuoteCurrency(String pair) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("extractQuoteCurrency UNSUPPORTED");
 	}
 
 	@Override
 	public ITickExchange buildTickFromPayload(String payload) throws JsonProcessingException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("buildTickFromPayload UNSUPPORTED");
 	}
 
 	@Override
 	public List<ITickExchange> buildTicksFromPayload(String payload) throws JsonProcessingException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("buildTicksFromPayload UNSUPPORTED");
 	}
 
 	@Override
 	public ITick toTick(ITickExchange tickExchange) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("toTick UNSUPPORTED");
 	}
 
 	@Override
 	public String buildPingCommand() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("buildPingCommand UNSUPPORTED");
 	}
 
 	@Override
 	public String buildSubscribeCommand(int channelId, List<String> pairs, ChannelType channelType)
 			throws JsonProcessingException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("buildSubscribeCommand UNSUPPORTED");
 	}
 
 	@Override
 	public IMessageType selectMessageType(String payload, ChannelType channelType) throws JsonProcessingException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("selectMessageType UNSUPPORTED");
 	}
 
 	@Override
@@ -257,7 +251,32 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		return balancesMap;
 		
 	}
+	@Override
+	public Order getOrderRaw(String orderId, String pairName) throws ExchangeException, ProblemException {
+		
+        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+        parameters.put("symbol", pairName);
+        parameters.put("orderId", orderId);   
+        try {
+    		String result = tradeClient.getOrder(parameters);
+    		if (log.isDebugEnabled()) log.debug("result:\n" + result);
+    		BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
+    		System.out.println("binanceOrder: " + border);	
+    		Order order = this.buildOrder(border, result);
+    		return order;        	
+        } catch(BinanceClientException ex) {
+        	String errorResponse = ex.getMessage();
+        	if (log.isDebugEnabled()) log.debug("GetOrder failed, errorResponse: " + errorResponse);
+        	if (errorResponse.equals("{\"code\":-2013,\"msg\":\"Order does not exist.\"}")) {
+				throw new ExchangeException(ExchangeErrorCode.ORDER_NOT_FOUND, "orderId: " + orderId);        		
+        	} else {
+            	throw ex;        		
+        	}
+        }
+        
+	}
 
+	/*
 	@Override
 	public Order getOrderRaw(String orderId, String pairName) throws ExchangeException, ProblemException {
 		return this.getOrder(orderId, pairName);
@@ -268,15 +287,21 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("symbol", pairName);
-        parameters.put("orderId", orderId);        
-		String result = tradeClient.getOrder(parameters);
-		if (log.isDebugEnabled()) log.debug("result:\n" + result);
-		BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
-		System.out.println("binanceOrder: " + border);	
-		Order order = this.buildOrder(border, result);
-		return order;
+        parameters.put("orderId", orderId);   
+        try {
+    		String result = tradeClient.getOrder(parameters);
+    		if (log.isDebugEnabled()) log.debug("result:\n" + result);
+    		BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
+    		System.out.println("binanceOrder: " + border);	
+    		Order order = this.buildOrder(border, result);
+    		return order;        	
+        } catch(BinanceClientException ex) {
+        	if (log.isDebugEnabled()) log.debug("GetOrder failed, errorCode: " + ex.getMessage());
+        	throw ex;
+        }
 		
 	}
+	*/
 
 	/**
 		{
@@ -1005,6 +1030,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				pair.setName(symbol.getSymbol());
 				pair.setCode(symbol.getSymbol());
 				pair.setSymbol(symbol.getSymbol());
+				pair.setSymbolInChannel(symbol.getSymbol());
 				pair.setBase(symbol.getBaseAsset());
 				pair.setFeeMaker(0);	//TODO:bseo
 				pair.setFeeTaker(0);	//TODO:bseo
@@ -1254,6 +1280,30 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		return symbols;
 	
+	}
+	
+	@Override
+	public ExchangeStatus getExchangeStatus() {
+	
+		ExchangeStatus status;
+		
+		if (log.isDebugEnabled()) log.debug("systemStatus retrieving");
+		try {
+			String result = walletClient.systemStatus();
+			if (log.isDebugEnabled()) log.debug("systemStatus retrieved, result: " + result);
+			BinanceSystemStatusResponse statusResponse = (BinanceSystemStatusResponse) JsonUtil.fromJson(result, BinanceSystemStatusResponse.class);
+			
+			status = new ExchangeStatus();
+			status.setCode(statusResponse.getStatus()==0?ExchangeStatusCode.OPERATIVE:ExchangeStatusCode.MAINTENANCE);
+			status.setInfo(statusResponse.getMsg());			
+		} catch(Throwable t) {
+			status = new ExchangeStatus();
+			status.setCode(ExchangeStatusCode.INACCESSIBLE);
+			status.setInfo("ERROR: " + t.getMessage() + ", " + t.getClass());						
+		}
+		
+		return status;
+		
 	}
 	
 	@Override
