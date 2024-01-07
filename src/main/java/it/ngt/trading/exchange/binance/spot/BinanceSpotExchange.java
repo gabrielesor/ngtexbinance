@@ -197,11 +197,6 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	public String buildPairName(String baseCurrency, String quoteCurrency) {
 		return baseCurrency + quoteCurrency;
 	}
-
-	@Override
-	public String buildPairAliased(String baseCurrency, String quoteCurrency) {
-		return baseCurrency + quoteCurrency;
-	}
 	
 	@Override
 	public Map<String, Balance> getBalancesMap() throws ProblemException {
@@ -1311,6 +1306,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		if (log.isDebugEnabled()) log.debug("getCurrentTick started, pair: " + pair);
 		Tick tick = new Tick();
+		
+		tick.setMoment(Instant.now().toEpochMilli());
 		
         LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
         parameters.put("symbol", pair);
