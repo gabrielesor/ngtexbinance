@@ -72,6 +72,7 @@ class BinanceSpotExchangeTest {
 	
 	private void testGetBalances() throws ProblemException {
 		
+		this.exchange.addAssetDelisted("XMR");
 		Map<String, Balance> balances = this.exchange.getBalancesMap();
 		System.out.println("balances: " + balances);
 		
@@ -324,11 +325,12 @@ class BinanceSpotExchangeTest {
 		
 		//main.switchSubaccount("adara.keys.bit1.binance.main.001");
 		main.switchSubaccount("adara.keys.bseo.binance.main.001");
+		//main.switchSubaccount("adara.keys.ec.binance.01.a");
 		
-		//main.testGetBalances();
+		main.testGetBalances();
 		//main.testGetExchangeStatus();
 		//main.testGetOpenOrders();
-		main.testGetOrder(2838503151l);	//BSEO-BN-02, found
+		//main.testGetOrder(2838503151l);	//BSEO-BN-02, found
 		//main.testGetOrder(2838503888l);		//BSEO-BN-02, not found
 		//main.testGetPair();
 		//main.testGetPairs();
