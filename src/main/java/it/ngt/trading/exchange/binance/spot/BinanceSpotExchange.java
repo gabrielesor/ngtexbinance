@@ -634,41 +634,96 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	@Override
 	public List<Order> getOrders(String pair) throws ExchangeException {
 		
-		List<Order> orders = new ArrayList<>();
-		
-        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-        if (pair == null) {
-			String message = "exchange error in getOrders, pair cannot be null";
-			if (log.isErrorEnabled()) log.error(message);
-			throw new ExchangeException(ExchangeErrorCode.PAIR_IS_MANDATORY, "Pair cannot be null in Binance to retrieve the orders");        	
-        }
-        parameters.put("symbol", pair);
-        
-        String result;
-        try {
-            result = tradeClient.getOrders(parameters);
-    		if (log.isDebugEnabled()) log.debug("API executed getOrders, binanceResult:\n" + result);        	
-        } catch(BinanceClientException e) {
-        	if (log.isErrorEnabled()) log.error("ERROR in Binance Exchange getOrders, pair: " + pair + ", exception: " + e);
-			throw new ExchangeException(BinanceErrorBuilder.getExchangeErrorCode(e.getErrorCode()), "getOrders Binance Exchange error, pair: " + pair);        	        	
-        }            
-
-        try {
-			BinanceOrder[] borders = (BinanceOrder[]) JsonUtil.fromJson(result, BinanceOrder[].class);
-			for(BinanceOrder border : borders) {
-				if (log.isDebugEnabled()) log.debug("border: " + border);
-				Order order = this.buildOrder(border, result);
-				orders.add(order);
-			}
-		} catch (ProblemException e) {
-			String message = "exchange error in getOpenOrders, exception: "  + e;
-			if (log.isErrorEnabled()) log.error(message);
-			throw new ExchangeException(message);
-		}
-		
-		return orders;
+		return getOrders(pair, 0);
 		
 	}
+	
+    /**
+     * Retrieves all closed orders for the given trading pair.
+     *
+     * @param pair the trading pair to retrieve orders for.
+     * @param maximumNumberOfOrders the maximum number of orders to retrieve. If 0, retrieves all orders.
+     * @return a list of orders.
+     * @throws ExchangeException if there is an error retrieving the orders.
+     * @throws ProblemException if there is a problem with the data conversion.
+     */
+	@Override
+    public List<Order> getOrders(String pair, int maximumNumberOfOrders) throws ExchangeException, ProblemException {
+   
+		List<Order> allOrders = new ArrayList<>();
+        int fetchedOrders = 0;
+        long lastOrderId = 0;
+
+        if (pair == null) {
+            String message = "exchange error in getOrders, pair cannot be null";
+            if (log.isErrorEnabled()) log.error(message);
+            throw new ExchangeException(ExchangeErrorCode.PAIR_IS_MANDATORY, "Pair cannot be null in Binance to retrieve the orders");
+        }
+
+        try {
+            while (true) {
+                // Prepare the request parameters
+                LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+                parameters.put("symbol", pair);
+                parameters.put("limit", 1000); // Maximum limit per request
+                if (lastOrderId != 0) {
+                    parameters.put("orderId", lastOrderId);
+                }
+
+                String result;
+                try {
+                    result = tradeClient.getOrders(parameters);
+                    if (log.isDebugEnabled()) log.debug("API executed getOrders, binanceResult:\n" + result);
+                } catch (BinanceClientException e) {
+                    if (log.isErrorEnabled()) log.error("ERROR in Binance Exchange getOrders, pair: " + pair + ", exception: " + e);
+                    throw new ExchangeException(BinanceErrorBuilder.getExchangeErrorCode(e.getErrorCode()), "getOrders Binance Exchange error, pair: " + pair);
+                }
+
+                BinanceOrder[] borders;
+                try {
+                    borders = (BinanceOrder[]) JsonUtil.fromJson(result, BinanceOrder[].class);
+                } catch (Exception e) {
+                    String message = "exchange error in getOrders, exception: " + e;
+                    if (log.isErrorEnabled()) log.error(message);
+                    throw new ExchangeException(message);
+                }
+
+                if (borders.length == 0) {
+                    break;
+                }
+
+                for (BinanceOrder border : borders) {
+                    if (log.isDebugEnabled()) log.debug("border: " + border);
+                    Order order = this.buildOrder(border, result);
+                    allOrders.add(order);
+                    lastOrderId = border.getOrderId();
+                }
+
+                fetchedOrders += borders.length;
+
+                // Check if we have fetched enough orders
+                if (maximumNumberOfOrders > 0 && fetchedOrders >= maximumNumberOfOrders) {
+                    break;
+                }
+
+                // If the number of orders retrieved is less than the limit, break the loop
+                if (borders.length < 1000) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            String message = "exchange error in getOrders, exception: " + e;
+            if (log.isErrorEnabled()) log.error(message);
+            throw new ExchangeException(message);
+        }
+
+        // If a maximum number of orders is specified, trim the list
+        if (maximumNumberOfOrders > 0 && allOrders.size() > maximumNumberOfOrders) {
+            return allOrders.subList(0, maximumNumberOfOrders);
+        }
+
+        return allOrders;
+    }	
 	
 	
 	/**

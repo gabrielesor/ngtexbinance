@@ -38,7 +38,7 @@ import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Symbol;
 
 class BinanceSpotExchangeTest {
 
-	private static final String KEYS_PROPERTIES_FILENAME = "../../../keys/keys.properties";
+	private static final String KEYS_PROPERTIES_FILENAME = "../../../keys/keys.properties.bit1";
 	private IExchange exchange;
 
 	private Properties properties;
@@ -101,6 +101,20 @@ class BinanceSpotExchangeTest {
 			i++;
 			System.out.println("i: " + i + ", order: " + order);
 		}
+		
+	}
+	
+	private void testGetOrders() throws ExchangeException, ProblemException {
+		
+		System.out.println("getOrders started");
+		List<Order> orders = this.exchange.getOrders("RUNEETH");
+		System.out.println("getOrders executed, numberOfOrders: " + orders.size());
+		int i=0;
+		for(Order order : orders) {
+			i++;
+			System.out.println("i: " + i + ", order: " + order);
+		}
+		System.out.println("getOrders ended");
 		
 	}
 	
@@ -323,11 +337,11 @@ class BinanceSpotExchangeTest {
 			return;
 		}	
 		
-		//main.switchSubaccount("adara.keys.bit1.binance.main.001");
-		main.switchSubaccount("adara.keys.bseo.binance.main.001");
+		main.switchSubaccount("adara.keys.bit1.binance.01.a");
+		//main.switchSubaccount("adara.keys.bseo.binance.main.001");
 		//main.switchSubaccount("adara.keys.ec.binance.01.a");
 		
-		main.testGetBalances();
+		//main.testGetBalances();
 		//main.testGetExchangeStatus();
 		//main.testGetOpenOrders();
 		//main.testGetOrder(2838503151l);	//BSEO-BN-02, found
@@ -336,6 +350,7 @@ class BinanceSpotExchangeTest {
 		//main.testGetPairs();
 		//main.testGetPrices();
 		//main.testGetSymbols();
+		main.testGetOrders();
 		//main.testPairsAndPrices();
 		//main.testPricesDerived();
 		
