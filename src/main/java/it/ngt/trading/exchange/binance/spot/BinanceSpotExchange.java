@@ -748,7 +748,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			if (log.isErrorEnabled()) log.error(message);
 			throw new ExchangeException(message);			
 		}
-		long betweenDays = TimeUtil.betweenDays(fromTime, toTime);
+		long betweenDays = TimeUtil.calculateDaysBetween(fromTime, toTime);
 		if (log.isDebugEnabled()) log.debug("fromTime: " + fromTime + ", toTime: " + toTime + ", betweenDays: " + betweenDays);
 						
 		long fromTimeDo = fromTime;
