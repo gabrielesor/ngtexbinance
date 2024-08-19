@@ -29,6 +29,7 @@ import it.ngt.trading.core.entity.ExchangeStatus;
 import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
+import it.ngt.trading.core.entity.Trade;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.util.FormatUtil;
@@ -301,7 +302,15 @@ class BinanceSpotExchangeTest {
 			System.out.println(asset.getName() + "\t" + FormatUtil.formatConversion(price));
 		}
 
-	}	
+	}
+	
+	private void testGetTrades(String orderId) throws ExchangeException {
+		
+		List<Trade> trades = this.exchange.getTrades(orderId, "SOLBTC");
+		
+		System.out.println("testTradesOutput: " + trades);
+		
+	}
 	
 	private boolean confirm(String message) {
 		Scanner scanner = new Scanner(System.in);
@@ -337,7 +346,7 @@ class BinanceSpotExchangeTest {
 			return;
 		}	
 		
-		main.switchSubaccount("adara.keys.bit1.binance.01.a");
+		main.switchSubaccount("adara.keys.bit1.binance.03.b");
 		//main.switchSubaccount("adara.keys.bseo.binance.main.001");
 		//main.switchSubaccount("adara.keys.ec.binance.01.a");
 		
@@ -350,9 +359,10 @@ class BinanceSpotExchangeTest {
 		//main.testGetPairs();
 		//main.testGetPrices();
 		//main.testGetSymbols();
-		main.testGetOrders();
+		//main.testGetOrders();
 		//main.testPairsAndPrices();
 		//main.testPricesDerived();
+		main.testGetTrades("2101118331"); //B1-BN-03
 		
 	}
 	

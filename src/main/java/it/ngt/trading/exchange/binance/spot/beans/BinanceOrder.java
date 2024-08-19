@@ -1,17 +1,13 @@
 package it.ngt.trading.exchange.binance.spot.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonObject;
 
 import it.ngt.trading.core.ProblemException;
-import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.util.JsonUtil;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Data
 public class BinanceOrder {
 	

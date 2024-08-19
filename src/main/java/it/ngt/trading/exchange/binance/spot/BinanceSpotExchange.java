@@ -28,6 +28,7 @@ import it.ngt.trading.core.entity.ExchangeStatus;
 import it.ngt.trading.core.entity.ExchangeStatusCode;
 import it.ngt.trading.core.entity.ITick;
 import it.ngt.trading.core.entity.Order;
+import it.ngt.trading.core.entity.OrderStatus;
 import it.ngt.trading.core.entity.OrderType;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
@@ -52,6 +53,7 @@ import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertResponse;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceTick;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceTrade;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.ExchangeInfoSpot;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Filter;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Symbol;
@@ -510,6 +512,12 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			cummulativeQuoteQty is how much Alice paid for buying BNB in USDT, which is $17.5.	
 	 */
 	private Order buildOrder(BinanceOrder border, String result) throws ExchangeException {
+		
+		Pair pair = this.getPairsSymbolMap().get(border.getSymbol());
+		if (pair == null) {
+			if (log.isWarnEnabled()) log.warn("Pair not found converting the order, pairSymbol: " + border.getSymbol() + ", border: " + border);
+			pair = new Pair();
+		}
 
 		OrderType orderType = this.buildOrderTypeTo(border.getType(), result);
 
@@ -518,23 +526,28 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		double filledAmount = Double.valueOf(border.getCummulativeQuoteQty());
 		double orderedPrice = Double.valueOf(border.getPrice());
 		double filledPrice = filledQuantity == 0 ? 0 : filledAmount / filledQuantity;
+		
+		OrderStatus orderStatus = this.buildOrderStatus(border.getStatus());
 				
 		Order order = new Order();
 		order.setId(border.getOrderId() + "");
 		order.setWayType(WayType.SPOT);
 		order.setOrderType(orderType);
 		order.setPair(border.getSymbol());
+		order.setBaseCurrency(pair.getBase());
+		order.setQuoteCurrency(pair.getQuote());
 		order.setActionCode(this.buildActionCode(border.getSide(), result));
-		order.setClosed(this.buildClosed(border.getStatus(), result));
+		order.setClosed(orderStatus.isClosed());
 		order.setCancelled(this.buildCanceled(border.getStatus(), result));
-		order.setStatus(border.getStatus());
+		order.setStatus(orderStatus);
+		order.setStatusExchange(border.getStatus());
 		order.setOrderedPrice(orderedPrice);
 		order.setOrderedQuantity(orderedQuantity);
 		order.setFilledQuantity(filledQuantity);
 		order.setFilledPrice(filledPrice);
 		order.setFilledAmount(filledAmount);
-		order.setCreateTimeMs(border.getTime());
-		order.setUpdateTimeMs(border.getUpdateTime());
+		order.setExecutionTime(border.getTime());
+		order.setClosedTime(border.getUpdateTime());
 		order.setRawFormat(result);
 		order.setReference(new Reference(border.getClientOrderId()));
 
@@ -557,7 +570,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				Or you place an order to sell 10 ETH for 3,452.55 USDT each:
 				Trading fee = (10 ETH * 3,452.55 USDT) * 0.1% = 34.5255 USDT
 			 */
-			Pair pair = this.getPairsSymbolMap().get(border.getSymbol());
+			//Pair pair = this.getPairsSymbolMap().get(border.getSymbol());
 			if (order.isBuy()) {
 				feeQuantity = order.getFilledQuantity() * FEE_PERCENT;				
 				if (pair == null) {
@@ -581,6 +594,36 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		return order;
 		
+	}
+	
+	private OrderStatus buildOrderStatus(String binanceStatus) {
+		if (binanceStatus == null) {
+	        return null;
+	    }
+		
+		switch (binanceStatus) {         
+        case "NEW":
+        	return OrderStatus.NEW;
+		case "PARTIALLY_FILLED":
+			return OrderStatus.PARTIALLY_FILLED;
+		case "FILLED":
+			return OrderStatus.FILLED;
+		case "CANCELED":
+			return OrderStatus.CANCELED;
+		case "PENDING_CANCEL":
+			if (log.isWarnEnabled()) log.warn("Closed not recognized for status unused; set 'closed' to false, binanceStatus: " + binanceStatus);
+			return OrderStatus.PENDING_CANCEL;
+		case "REJECTED":
+			return OrderStatus.REJECTED;
+		case "EXPIRED":
+			return OrderStatus.EXPIRED;
+		case "EXPIRED_IN_MATCH":
+			return OrderStatus.EXPIRED;
+		default:
+			String error = "Binance Order with the Status not recognized during the 'closed' set, status: " + binanceStatus;
+			if (log.isErrorEnabled()) log.error(error);
+			throw new ProblemException(error);
+		}
 	}
 
 	/*
@@ -872,7 +915,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 	}
 	
-	private boolean buildClosed(String bstatus, String border) {
+	/*private boolean buildClosed(String bstatus, String border) {
 	
 		boolean closed;
 		
@@ -909,7 +952,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		
 		return closed;
-	}
+	}*/
 	
 	private boolean buildCanceled(String bstatus, String border) {
 	
@@ -1510,6 +1553,53 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	@Override
 	public boolean isReferenceMustBeUnique() {
 		return true;
+	}
+	
+	@Override
+	public List<it.ngt.trading.core.entity.Trade> getTrades(String orderId, String pair) {
+		
+		List<it.ngt.trading.core.entity.Trade> trades = new ArrayList<>();
+		
+		LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		if (pair != null && orderId != null) {
+			parameters.put("symbol", pair);  
+	        parameters.put("orderId", orderId);
+		}
+        String result = tradeClient.myTrades(parameters);
+        if (log.isDebugEnabled()) log.debug("API executed myTrades, tradesResult:\n" + result);
+        
+        try {
+			BinanceTrade[] btrades = (BinanceTrade[]) JsonUtil.fromJson(result, BinanceTrade[].class);
+			for(BinanceTrade btrade : btrades) {
+				if (log.isDebugEnabled()) log.debug("binance trade: " + btrade);
+				
+				it.ngt.trading.core.entity.Trade trade = new it.ngt.trading.core.entity.Trade();
+				
+				trade.setTradeId(String.valueOf(btrade.getId()));
+				trade.setOrderId(String.valueOf(btrade.getOrderId()));
+				trade.setPair(btrade.getSymbol());
+				trade.setSide(btrade.isBuyer());
+				trade.setSide(btrade.isBuyer());
+				trade.setQuantityB(Double.parseDouble(btrade.getQty()));
+				trade.setQuantityQ(Double.parseDouble(btrade.getQuoteQty()));
+				trade.setPriceBQ(Double.parseDouble(btrade.getPrice()));
+				trade.setFeeQuantity(Double.parseDouble(btrade.getCommission()));
+				trade.setFeeToken(btrade.getCommissionAsset());
+				trade.setMaker(btrade.isMaker());
+				trade.setOrigin("E");
+				trade.setExchange("binance");
+				trade.setPayload(result);
+				trade.setExecutionTime(btrade.getTime());
+				
+				trades.add(trade);
+			}
+		} catch (ProblemException e) {
+			String message = "exchange error in getTrades, exception: "  + e;
+			if (log.isErrorEnabled()) log.error(message);
+			throw new ExchangeException(message);
+		}
+		
+		return trades;
 	}
 	
 }
