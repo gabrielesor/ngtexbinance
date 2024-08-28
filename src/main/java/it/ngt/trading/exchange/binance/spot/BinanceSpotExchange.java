@@ -546,6 +546,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		order.setFilledQuantity(filledQuantity);
 		order.setFilledPrice(filledPrice);
 		order.setFilledAmount(filledAmount);
+		order.setExchange("binance");
+		order.setOrigin("E");
 		order.setExecutionTime(border.getTime());
 		order.setClosedTime(border.getUpdateTime());
 		order.setRawFormat(result);
