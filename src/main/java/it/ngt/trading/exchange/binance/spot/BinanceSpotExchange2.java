@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ import it.ngt.trading.core.exchange.ExchangeCode;
 import it.ngt.trading.core.messages.IMessageType;
 import it.ngt.trading.core.util.JsonUtil;
 import it.ngt.trading.core.util.MathUtil;
+import it.ngt.trading.core.util.PairUtil;
 import it.ngt.trading.core.util.TimeUtil;
 import it.ngt.trading.exchange.ExchangeAbstract;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceBalance;
@@ -90,7 +92,7 @@ import lombok.extern.slf4j.Slf4j;
  *  	Binance 24h volume is reported to be at $7,140,493,375.97
  */
 @Slf4j
-public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
+public class BinanceSpotExchange2 extends ExchangeAbstract implements IExchange {
 
 	private final SpotClientImpl client;
 
@@ -129,7 +131,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 	private static final int DAYS_OFFSET_MAX = 30;	
 	
-	public BinanceSpotExchange(String accountName, String apiKey, String apiSecret) throws ExchangeException {
+	public BinanceSpotExchange2(String accountName, String apiKey, String apiSecret) throws ExchangeException {
 		super(accountName);
 		client = new SpotClientImpl(apiKey, apiSecret);
 		convertClient = client.createConvert();
@@ -274,9 +276,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 
 	@Override
 	public String buildPingCommand() {
-		
 		return null;
-		
 	}
 
 	@Override
@@ -300,6 +300,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		return sb.toString();
 		
 	}
+
 	/**
 {
    "stream":"btceur@ticker",
@@ -698,8 +699,6 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		order.setFilledQuantity(filledQuantity);
 		order.setFilledPrice(filledPrice);
 		order.setFilledAmount(filledAmount);
-		order.setExchange("binance");
-		order.setOrigin("E");
 		order.setExecutionTime(border.getTime());
 		order.setClosedTime(border.getUpdateTime());
 		order.setRawFormat(result);
