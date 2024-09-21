@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -1754,6 +1755,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		
 		return trades;
+	}
+
+	@Override
+	public List<String> getTimeFrames() {
+		return Arrays.asList("1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d",  "1w", "1M");
 	}
 	
 }
