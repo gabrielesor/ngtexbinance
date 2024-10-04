@@ -100,7 +100,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	private final Wallet walletClient;
 	private final Trade tradeClient;
 	
-	private static final double FEE_PERCENT = 0.001;	//0.1%, TODO:bseo:params
+	//private static final double FEE_PERCENT = 0.001;	//0.1%, TODO:bseo:params
 	
 	//
 	// in Binance a Pair has the same Name, Code and Symbol
@@ -664,12 +664,91 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			executedQty is how many BNB is matched in the order, which is 0.5
 			cummulativeQuoteQty is how much Alice paid for buying BNB in USDT, which is $17.5.	
 	 */
+	/**
+	 * Explains how fees are handled by Binance during trading operations.
+	 * 
+	 * <p>Binance applies fees depending on the trading pair and the user's settings, especially regarding the use of 
+	 * Binance Coin (BNB) for fee payments. The default behavior and alternative scenarios are described below:</p>
+	 * 
+	 * <h2>Default Behavior:</h2>
+	 * <p>By default, Binance charges the trading fees in the <strong>asset received</strong> during the transaction. This 
+	 * means that the fee will be deducted from the amount of the asset you receive as a result of the trade. For example:</p>
+	 * 
+	 * <ul>
+	 *     <li><strong>Buy order:</strong> For the trading pair <code>BTCEUR</code>, if you place a buy order, the fee 
+	 *     will be charged in <strong>BTC</strong> (the asset you are receiving).</li>
+	 *     <li><strong>Sell order:</strong> For the same pair, if you place a sell order, the fee will be charged in 
+	 *     <strong>EUR</strong> (the asset you are receiving).</li>
+	 * </ul>
+	 * 
+	 * <h2>Alternative Behavior: Using BNB to Pay Fees:</h2>
+	 * <p>Binance offers an option to pay trading fees using <strong>BNB (Binance Coin)</strong>. If the user has enabled 
+	 * this option and holds a sufficient balance of BNB, the fees will be charged in BNB, regardless of the trading pair. 
+	 * This option provides a discount on trading fees, which is one of the reasons users might choose to activate it.</p>
+	 * 
+	 * <p>If this option is enabled, even if you're trading a pair like <code>BTCUSDT</code> or <code>BTCEUR</code>, the 
+	 * fees will be deducted from your BNB balance. For instance:</p>
+	 * 
+	 * <ul>
+	 *     <li><strong>Buy order:</strong> For the trading pair <code>BTCEUR</code>, the fee will be charged in BNB 
+	 *     instead of BTC if this option is active.</li>
+	 *     <li><strong>Sell order:</strong> Similarly, for a sell order, the fee will be charged in BNB rather than EUR.</li>
+	 * </ul>
+	 * 
+	 * <h2>Example JSON Responses:</h2>
+	 * <p>Here are examples of the JSON responses for both cases:</p>
+	 * 
+	 * <h3>1. Default Case (Fee in received asset):</h3>
+	 * <pre>{@code
+	 * [
+	 *   {
+	 *     "symbol": "BTCEUR",
+	 *     "id": 123456789,
+	 *     "orderId": 987654321,
+	 *     "price": "40000.00",
+	 *     "qty": "0.001",
+	 *     "commission": "0.0000005",  // Fee paid in BTC (received asset)
+	 *     "commissionAsset": "BTC",   // Asset used to pay the fee
+	 *     "time": 1622659447000,
+	 *     "isBuyer": true,
+	 *     "isMaker": false,
+	 *     "isBestMatch": true
+	 *   }
+	 * ]
+	 * }</pre>
+	 * 
+	 * <h3>2. Fee Paid in BNB (with discount):</h3>
+	 * <pre>{@code
+	 * [
+	 *   {
+	 *     "symbol": "BTCEUR",
+	 *     "id": 123456789,
+	 *     "orderId": 987654321,
+	 *     "price": "40000.00",
+	 *     "qty": "0.001",
+	 *     "commission": "0.0005",      // Fee paid in BNB
+	 *     "commissionAsset": "BNB",    // Asset used to pay the fee
+	 *     "time": 1622659447000,
+	 *     "isBuyer": true,
+	 *     "isMaker": false,
+	 *     "isBestMatch": true
+	 *   }
+	 * ]
+	 * }</pre>
+	 * 
+	 * <h2>Summary:</h2>
+	 * <ul>
+	 *   <li>By default, fees are charged in the asset you receive (e.g., BTC for a buy order, EUR for a sell order).</li>
+	 *   <li>If the option is enabled, fees can be charged in BNB, providing a discount on the standard fees.</li>
+	 * </ul>
+	 */	
 	private Order buildOrder(BinanceOrder border, String result) throws ExchangeException {
 		
 		Pair pair = this.getPairsSymbolMap().get(border.getSymbol());
 		if (pair == null) {
 			if (log.isWarnEnabled()) log.warn("Pair not found converting the order, pairSymbol: " + border.getSymbol() + ", border: " + border);
 			pair = new Pair();
+			pair.setBaseQuoteDefault();
 		}
 
 		OrderType orderType = this.buildOrderTypeTo(border.getType(), result);
@@ -699,7 +778,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		order.setFilledQuantity(filledQuantity);
 		order.setFilledPrice(filledPrice);
 		order.setFilledAmount(filledAmount);
-		order.setExchange("binance");
+		order.setExchange(this.getName());
 		order.setOrigin("E");
 		order.setExecutionTime(border.getTime());
 		order.setClosedTime(border.getUpdateTime());
@@ -709,12 +788,35 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		//
 		//	fee data
 		//
-		String feeCurrency;
-		double feeQuantity;		
-		if (order.getFilledQuantity() == 0) {
-			feeCurrency = "";
-			feeQuantity = 0;
-		} else {
+		String feeCurrency = "[token]";
+		double feeQuantity = 0;		
+		if (order.getStatus().hasPotentialTrades()) {
+			List<it.ngt.trading.core.entity.Trade> trades = this.getTrades(order.getId(), order.getPair());
+			String firstFeeCurrency = null;
+			if (log.isDebugEnabled()) log.debug("retrieving Trades, orderId: " + order.getId());
+			for(it.ngt.trading.core.entity.Trade trade : trades) {
+				feeQuantity += trade.getFeeQuantity();
+				if (firstFeeCurrency == null) {
+					firstFeeCurrency = trade.getFeeToken();
+				} else {
+					if (!firstFeeCurrency.equals(trade.getFeeToken())) {
+						feeCurrency = "[token]";
+						feeQuantity = 0;
+						if (log.isWarnEnabled()) log.warn("The Trades of the Orders have not the same token for the fee, orderId: " + order.getId());
+						if (log.isDebugEnabled()) log.debug("Trades with different fee token, orderId: " + order.getId() + ", trades: " + trades);
+						break;
+					}
+				}
+			}
+		}
+		
+		order.setFeeCurrency(feeCurrency);
+		order.setFeeQuantity(feeQuantity);		
+
+		//if (order.getFilledQuantity() == 0) {
+		//	feeCurrency = "";
+		//	feeQuantity = 0;
+		//} else {
 			/*
 			 * 	https://www.binance.com/en/support/faq/what-is-binance-spot-trading-fee-and-how-to-calculate-e85d6e703b874674840122196b89780a
 				How are trading fees calculated?
@@ -726,6 +828,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				Trading fee = (10 ETH * 3,452.55 USDT) * 0.1% = 34.5255 USDT
 			 */
 			//Pair pair = this.getPairsSymbolMap().get(border.getSymbol());
+			/*
 			if (order.isBuy()) {
 				feeQuantity = order.getFilledQuantity() * FEE_PERCENT;				
 				if (pair == null) {
@@ -744,8 +847,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				}
 			}
 		}
-		order.setFeeCurrency(feeCurrency);
-		order.setFeeQuantity(feeQuantity);		
+		*/
 		
 		return order;
 		
@@ -1734,7 +1836,6 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				trade.setOrderId(String.valueOf(btrade.getOrderId()));
 				trade.setPair(btrade.getSymbol());
 				trade.setSide(btrade.isBuyer());
-				trade.setSide(btrade.isBuyer());
 				trade.setQuantityB(Double.parseDouble(btrade.getQty()));
 				trade.setQuantityQ(Double.parseDouble(btrade.getQuoteQty()));
 				trade.setPriceBQ(Double.parseDouble(btrade.getPrice()));
@@ -1742,7 +1843,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				trade.setFeeToken(btrade.getCommissionAsset());
 				trade.setMaker(btrade.isMaker());
 				trade.setOrigin("E");
-				trade.setExchange("binance");
+				trade.setExchange(this.getName());
 				trade.setPayload(result);
 				trade.setExecutionTime(btrade.getTime());
 				
