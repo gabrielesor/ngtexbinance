@@ -137,7 +137,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		marketClient = client.createMarket();
 		tradeClient = client.createTrade();
 		walletClient = client.createWallet();
-	
+		
 		this.loadPricesMap();
 		this.loadPairsMap();
 		super.alignPairsPrices(pairsMap, pricesMap);		
@@ -146,6 +146,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		super.updatePricesConversion(pricesMap);
 		
 		super.checkPairsPricesAssets();
+		
+		super.refresh();	// update refresh time
 		
 	}
 	
@@ -1299,7 +1301,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 	@Override
 	public void refresh() throws ExchangeException {
-		
+	
 		this.loadPricesMap();
 		this.loadPairsMap();
 		super.alignPairsPrices(pairsMap, pricesMap);	
@@ -1308,6 +1310,8 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		super.updatePricesConversion(pricesMap);
 		
 		super.checkPairsPricesAssets();
+		
+		super.refresh();
 
 	}	
 
