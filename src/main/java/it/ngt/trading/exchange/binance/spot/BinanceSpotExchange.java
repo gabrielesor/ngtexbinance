@@ -798,28 +798,28 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		//
 		//	fee data
 		//
-		String feeCurrency = "[token]"; //TODO:DSD
+		String feeCurrency = "[token]";
 		double feeQuantity = 0;		
 		if (order.getStatus().hasPotentialTrades()) {
 			List<it.ngt.trading.core.entity.Trade> trades = this.getTrades(order.getId(), order.getPair());
 			String firstFeeCurrency = null;
-			if (log.isDebugEnabled()) log.debug("retrieving Trades, orderId: " + order.getId());
-			for(it.ngt.trading.core.entity.Trade trade : trades) {
+			if (log.isDebugEnabled()) log.debug("Retrieving Trades, orderId: " + order.getId());
+			for (it.ngt.trading.core.entity.Trade trade : trades) {
 				feeQuantity += trade.getFeeQuantity();
 				if (firstFeeCurrency == null) {
 					firstFeeCurrency = trade.getFeeToken();
+					feeCurrency = firstFeeCurrency;
 				} else {
 					if (!firstFeeCurrency.equals(trade.getFeeToken())) {
-						feeCurrency = "[token]"; //TODO:DSD
+						feeCurrency = "[token]";
 						feeQuantity = 0;
-						if (log.isWarnEnabled()) log.warn("The Trades of the Orders have not the same token for the fee, orderId: " + order.getId());
-						if (log.isDebugEnabled()) log.debug("Trades with different fee token, orderId: " + order.getId() + ", trades: " + trades);
+						if (log.isWarnEnabled()) log.warn("The Trades of the Order do not have the same token for the fee, orderId: " + order.getId());
+						if (log.isDebugEnabled()) log.debug("Trades with different fee tokens, orderId: " + order.getId() + ", trades: " + trades);
 						break;
 					}
 				}
 			}
 		}
-		
 		order.setFeeCurrency(feeCurrency);
 		order.setFeeQuantity(feeQuantity);
 
