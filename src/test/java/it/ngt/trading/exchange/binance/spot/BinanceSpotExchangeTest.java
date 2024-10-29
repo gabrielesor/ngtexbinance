@@ -346,7 +346,7 @@ class BinanceSpotExchangeTest {
 			return;
 		}	
 		
-		main.switchSubaccount("adara.keys.bit1.binance.03.b");
+		main.switchSubaccount("adara.keys.bit1.binance.01.b");
 		//main.switchSubaccount("adara.keys.bseo.binance.main.001");
 		//main.switchSubaccount("adara.keys.ec.binance.01.a");
 		
@@ -355,6 +355,7 @@ class BinanceSpotExchangeTest {
 		//main.testGetOpenOrders();
 		//main.testGetOrder(2838503151l);	//BSEO-BN-02, found
 		//main.testGetOrder(2838503888l);		//BSEO-BN-02, not found
+		main.testGetOrder(124640709);
 		//main.testGetPair();
 		//main.testGetPairs();
 		//main.testGetPrices();
@@ -362,7 +363,7 @@ class BinanceSpotExchangeTest {
 		//main.testGetOrders();
 		//main.testPairsAndPrices();
 		//main.testPricesDerived();
-		main.testGetTrades("2101118331"); //B1-BN-03
+		//main.testGetTrades("2101118331"); //B1-BN-03
 		
 	}
 	
