@@ -406,26 +406,34 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	@Override
 	public Order getOrderRaw(String orderId, String pairName) throws ExchangeException, ProblemException {
 		
-        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
-        parameters.put("symbol", pairName);
-        parameters.put("orderId", orderId);   
-        try {
-    		String result = tradeClient.getOrder(parameters);
-    		if (log.isDebugEnabled()) log.debug("result:\n" + result);
-    		BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
-    		System.out.println("binanceOrder: " + border);	
-    		Order order = this.buildOrder(border, result);
-    		return order;        	
-        } catch(BinanceClientException ex) {
-        	String errorResponse = ex.getMessage();
-        	if (log.isDebugEnabled()) log.debug("GetOrder failed, errorResponse: " + errorResponse);
-        	if (errorResponse.equals("{\"code\":-2013,\"msg\":\"Order does not exist.\"}")) {
+		LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+		parameters.put("symbol", pairName);
+		parameters.put("orderId", orderId);   
+		try {
+			String result = tradeClient.getOrder(parameters);
+			if (log.isDebugEnabled()) log.debug("result:\n" + result);
+			BinanceOrder border = (BinanceOrder) JsonUtil.fromJson(result, BinanceOrder.class);
+			System.out.println("binanceOrder: " + border);	
+			Order order = this.buildOrder(border, result);
+			return order;
+		} catch(BinanceClientException ex) {
+			String errorResponse = ex.getMessage();
+			if (log.isDebugEnabled()) log.debug("GetOrder failed, errorResponse: " + errorResponse);
+			if (errorResponse.equals("{\"code\":-2013,\"msg\":\"Order does not exist.\"}")) {
 				throw new ExchangeException(ExchangeErrorCode.ORDER_NOT_FOUND, "orderId: " + orderId);        		
-        	} else {
-            	throw ex;        		
-        	}
-        }
-        
+			} else if (errorResponse != null && errorResponse.contains("\"code\":-2026")) {
+
+				// {"code":-2026,"msg":"Order was canceled or expired with no executed qty over 90 days ago and has been archived."}
+
+				Order order = new Order();
+				order.setOrigin("P"); // P: expired
+				order.setExchange(this.getName());
+    		return order;
+			} else {
+					throw ex;        		
+			}
+		}
+				
 	}
 
 	/*
@@ -790,7 +798,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		//
 		//	fee data
 		//
-		String feeCurrency = "[token]";
+		String feeCurrency = "[token]"; //TODO:DSD
 		double feeQuantity = 0;		
 		if (order.getStatus().hasPotentialTrades()) {
 			List<it.ngt.trading.core.entity.Trade> trades = this.getTrades(order.getId(), order.getPair());
@@ -802,7 +810,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 					firstFeeCurrency = trade.getFeeToken();
 				} else {
 					if (!firstFeeCurrency.equals(trade.getFeeToken())) {
-						feeCurrency = "[token]";
+						feeCurrency = "[token]"; //TODO:DSD
 						feeQuantity = 0;
 						if (log.isWarnEnabled()) log.warn("The Trades of the Orders have not the same token for the fee, orderId: " + order.getId());
 						if (log.isDebugEnabled()) log.debug("Trades with different fee token, orderId: " + order.getId() + ", trades: " + trades);
@@ -813,7 +821,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		}
 		
 		order.setFeeCurrency(feeCurrency);
-		order.setFeeQuantity(feeQuantity);		
+		order.setFeeQuantity(feeQuantity);
 
 		//if (order.getFilledQuantity() == 0) {
 		//	feeCurrency = "";
