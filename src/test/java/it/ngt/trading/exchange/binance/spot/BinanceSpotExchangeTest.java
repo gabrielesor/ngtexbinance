@@ -134,7 +134,7 @@ class BinanceSpotExchangeTest {
 		
 		BinanceSpotExchange exchange = (BinanceSpotExchange) this.exchange;
 		
-		Order order = exchange.getOrder(orderId + "", "BTCEUR");
+		Order order = exchange.getOrder(orderId + "", "XMRETH");
 		System.out.println("order: " + order);
 		
 	}
@@ -355,7 +355,10 @@ class BinanceSpotExchangeTest {
 		//main.testGetOpenOrders();
 		//main.testGetOrder(2838503151l);	//BSEO-BN-02, found
 		//main.testGetOrder(2838503888l);		//BSEO-BN-02, not found
-		main.testGetOrder(124640709);
+		//main.testGetOrder(124640709);
+		//main.testGetOrder(365603662); // available
+		main.testGetOrder(363573945); // unavailable
+		//main.testGetOrder(126520939); // unavailable
 		//main.testGetPair();
 		//main.testGetPairs();
 		//main.testGetPrices();
