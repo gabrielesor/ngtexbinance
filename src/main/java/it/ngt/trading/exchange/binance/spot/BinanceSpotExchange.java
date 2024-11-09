@@ -25,6 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.entity.Asset;
 import it.ngt.trading.core.entity.Balance;
+import it.ngt.trading.core.entity.Candle;
 import it.ngt.trading.core.entity.ChannelType;
 import it.ngt.trading.core.entity.ExchangeStatus;
 import it.ngt.trading.core.entity.ExchangeStatusCode;
@@ -51,6 +52,7 @@ import it.ngt.trading.core.util.MathUtil;
 import it.ngt.trading.core.util.TimeUtil;
 import it.ngt.trading.exchange.ExchangeAbstract;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceBalance;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceCandle;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertResponse;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceOrder;
@@ -1873,6 +1875,126 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	@Override
 	public List<String> getTimeFrames() {
 		return Arrays.asList("1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h", "1d", "3d",  "1w", "1M");
+	}
+
+	/**
+		[
+		  [
+		    1731074400000,
+		    "0.03864000",
+		    "0.03877000",
+		    "0.03858000",
+		    "0.03873000",
+		    "820.95240000",
+		    1731076199999,
+		    "31.75209560",
+		    4129,
+		    "426.80000000",
+		    "16.50715200",
+		    "0"
+		  ],
+		  [
+		    1731076200000,
+		    "0.03873000",
+		    "0.03875000",
+		    "0.03844000",
+		    "0.03846000",
+		    "2449.09780000",
+		    1731077999999,
+		    "94.38465781",
+		    8715,
+		    "1490.88620000",
+		    "57.44565952",
+		    "0"
+		  ],
+		  [
+		    1731078000000,
+		    "0.03846000",
+		    "0.03852000",
+		    "0.03833000",
+		    "0.03844000",
+		    "1041.32280000",
+		    1731079799999,
+		    "40.01850513",
+		    4999,
+		    "546.82220000",
+		    "21.01454038",
+		    "0"
+		  ]
+		]	 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Candle> getCandles(String pair, int timeframeSec, int limit) {
+		
+	    // Check if the limit is negative
+	    if (limit < 0) {
+	        throw new ExchangeException("The limit parameter cannot be negative, limit: " + limit);
+	    }
+	    
+		List<Candle> candles = new ArrayList<>();
+		
+	    try {
+
+	        // Prepare API request parameters
+	        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
+	        parameters.put("symbol", pair.toUpperCase());
+
+	        // Convert timeframeSec to Binance interval format
+	        String interval = TimeUtil.toTimeUnits(timeframeSec);
+	        if (interval.equals(timeframeSec + "")) {
+	            throw new IllegalArgumentException("Invalid timeframeSec: " + timeframeSec);
+	        }
+	        parameters.put("interval", interval);
+
+	        // Optionally, set the limit for the number of candles to fetch
+	        if (limit > 0) {
+		        parameters.put("limit", limit);	        	
+	        }
+
+	        // Call the Binance API to get candlestick data
+	        String resultJson = marketClient.klines(parameters);
+
+	        // Parse the JSON response
+	        List<List<Object>> klineData = (List<List<Object>>) JsonUtil.fromJson(resultJson, List.class);
+
+            // Iterate over the kline data
+            for (List<Object> klineEntry : klineData) {
+            	
+                BinanceCandle binanceCandle = new BinanceCandle();
+
+                binanceCandle.setOpenTime(((Double)klineEntry.get(0)).longValue());
+                binanceCandle.setOpen(klineEntry.get(1).toString());
+                binanceCandle.setHigh(klineEntry.get(2).toString());
+                binanceCandle.setLow(klineEntry.get(3).toString());
+                binanceCandle.setClose(klineEntry.get(4).toString());
+                binanceCandle.setVolume(klineEntry.get(5).toString());
+                binanceCandle.setCloseTime(((Double)klineEntry.get(6)).longValue());
+                binanceCandle.setQuoteAssetVolume(klineEntry.get(7).toString());
+                binanceCandle.setNumberOfTrades(((Double)klineEntry.get(8)).intValue());
+                binanceCandle.setTakerBuyBaseAssetVolume(klineEntry.get(9).toString());
+                binanceCandle.setTakerBuyQuoteAssetVolume(klineEntry.get(10).toString());
+                binanceCandle.setIgnore(klineEntry.get(11).toString());
+
+                // Map BinanceCandle to your own Candle object
+                Candle candle = new Candle();
+                candle.setPair(pair);
+                candle.setTimeframe(timeframeSec);
+                candle.setTime(binanceCandle.getOpenTime());
+                candle.setOpen(Double.parseDouble(binanceCandle.getOpen()));
+                candle.setClose(Double.parseDouble(binanceCandle.getClose()));
+                candle.setMin(Double.parseDouble(binanceCandle.getLow()));
+                candle.setMax(Double.parseDouble(binanceCandle.getHigh()));
+                candle.setTimeStart(binanceCandle.getOpenTime());
+                candle.setTimeEnd(binanceCandle.getCloseTime());
+                // Add the candle to the list
+                candles.add(candle);
+            }
+	    } catch (Exception e) {
+	        throw new ExchangeException("Get Candles failed, pair: " + pair + ", timeframeSec: " + timeframeSec + ", limit: " + limit + ", exception: " + e);
+	    }
+	    return candles;		
+		
 	}
 	
 }
