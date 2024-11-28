@@ -45,6 +45,7 @@ import it.ngt.trading.core.exchange.ExchangeErrorCode;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.exchange.ITickExchange;
+import it.ngt.trading.core.exchange.IExchange.DEFAULT_FEE;
 import it.ngt.trading.core.exchange.ExchangeCode;
 import it.ngt.trading.core.messages.IMessageType;
 import it.ngt.trading.core.util.JsonUtil;
@@ -57,8 +58,10 @@ import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertResponse;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
-import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTick;
-import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTickData;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTicker;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTickerData;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTrade;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTradeData;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceTick;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceTrade;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.ExchangeInfoSpot;
@@ -176,7 +179,18 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	@Override
 	public ITickExchange buildTickFromPayload(String payload) throws JsonProcessingException {
 		
-		BinanceSpotTick binanceTick = (BinanceSpotTick) JsonUtil.fromJsonJackson(payload, BinanceSpotTick.class);
+		BinanceSpotTrade binanceTrade = (BinanceSpotTrade) JsonUtil.fromJsonJackson(payload, BinanceSpotTrade.class);
+	
+		return binanceTrade;
+		
+	}
+
+	/**
+	 * Ticker works fine, but for now it's not used
+	 */
+	private ITickExchange buildTickFromPayloadTicker(String payload) throws JsonProcessingException {
+		
+		BinanceSpotTicker binanceTick = (BinanceSpotTicker) JsonUtil.fromJsonJackson(payload, BinanceSpotTicker.class);
 	
 		return binanceTick;
 		
@@ -194,8 +208,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 		tick.setMarket(this.getCode());
 		tick.setSideType(TickSideType.VIEW);
-		BinanceSpotTick bt = (BinanceSpotTick)tickExchange;
-		BinanceSpotTickData bd = bt.getData();
+		BinanceSpotTrade bt = (BinanceSpotTrade)tickExchange;
+		BinanceSpotTradeData bd = bt.getData();
+		
+		double price = Double.valueOf(bd.getP());
+		double quantity = Double.valueOf(bd.getQ());
 		
 		try {
 			tick.setId(0);
@@ -209,27 +226,27 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			//
 			//a	
 			//
-			tick.setAskPrice(Double.valueOf(bd.getA()));
-			tick.setAskWholeLotVolume((int)Double.parseDouble(bd.getAC()));
-			tick.setAskLotVolume(Double.valueOf(bd.getAC()));
+			tick.setAskPrice(price);
+			tick.setAskWholeLotVolume(0);
+			tick.setAskLotVolume(quantity);
 
 			//
 			//b	
 			//
-			tick.setBidPrice(Double.valueOf(bd.getB()));
-			tick.setBidWholeLotVolume((int)Double.parseDouble(bd.getBC()));
-			tick.setBidLotVolume(Double.valueOf(bd.getBC()));
+			tick.setBidPrice(price);
+			tick.setBidWholeLotVolume(0);
+			tick.setBidLotVolume(quantity);
 
 			//
 			//c	
 			//
-			tick.setClosePrice(Double.valueOf(bd.getO()));
-			tick.setCloseLotVolume(Double.valueOf(bd.getBC()));
+			tick.setClosePrice(price);
+			tick.setCloseLotVolume(quantity);
 
 			//
 			//v	
 			//
-			tick.setVolumeToday(Double.valueOf(bd.getV()));
+			tick.setVolumeToday(quantity);
 			// TODO:bseo:check all set at 0
 			tick.setVolumeLast24Hours(0);
 
@@ -248,19 +265,19 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			//
 			//l	
 			//
-			tick.setLowPriceToday(Double.valueOf(bd.getL()));
+			tick.setLowPriceToday(price);
 			tick.setLowPriceLast24Hours(0);
 
 			//
 			//h	
 			//
-			tick.setHighPriceToday(Double.valueOf(bd.getH()));
+			tick.setHighPriceToday(price);
 			tick.setHighPriceLast24Hours(0);
 
 			//
 			//o	
 			//
-			tick.setOpenPriceToday(Double.valueOf(bd.getO()));
+			tick.setOpenPriceToday(price);
 			tick.setOpenPriceLast24Hours(0);	
 			
 			//this.setFirstTickInSession(this.normalizeColumnBoolean(tickColumns[index++]));
@@ -284,8 +301,81 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		
 	}
 
+	/**
+		wss://stream.binance.com:9443/stream?streams=btcusdt@trade/ethbtc@trade
+		{
+		  "stream": "ethbtc@trade",
+		  "data": {		
+			  "e": "trade",         // "Event type": Indicates this is a trade event.
+			  "E": 1665678912345,   // "Event time": Timestamp of the event in milliseconds.
+			  "s": "ETHBTC",        // "Symbol": The trading pair for this trade (ETH/BTC in this case).
+			  "t": 12345678,        // "Trade ID": Unique identifier for this specific trade.
+			  "p": "0.05",          // "Price": The price at which this trade was executed.
+			  "q": "2.0",           // "Quantity": The amount of the base asset (ETH) traded.
+			  "b": 87654321,        // "Buyer order ID": The ID of the buy order that was matched.
+			  "a": 87654322,        // "Seller order ID": The ID of the sell order that was matched.
+			  "T": 1665678912345,   // "Trade time": Timestamp of the trade execution in milliseconds.
+			  "m": true,            // "Is the buyer the market maker": true if the buyer is the maker, false if the seller is.
+			  "M": true             // "Ignore": This field is always present but can be ignored.
+			}
+		}
+	 */
 	@Override
 	public String buildSubscribeCommand(int channelId, List<String> pairs, ChannelType channelType)
+			throws JsonProcessingException {
+		
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<pairs.size(); i++) {
+			String pair = pairs.get(i);
+			if (i==0) {
+				sb.append("?streams=");
+			} else {
+				sb.append("/");
+			}
+			sb.append(pair.toLowerCase() + "@trade");	
+		}
+		
+		return sb.toString();
+		
+	}
+	/*
+	{
+	   "stream":"btceur@ticker",
+	   "data":{
+	      "e":"24hrTicker",
+	      "E":1724595459892,
+	      "s":"BTCEUR",
+	      "p":"-136.41000000",
+	      "P":"-0.238",
+	      "w":"57103.95279063",
+	      "x":"57263.40000000",
+	      "c":"57132.49000000",
+	      "Q":"0.00007000",
+	      "b":"57130.42000000",
+	      "B":"0.00576000",
+	      "a":"57132.49000000",
+	      "A":"0.00607000",
+	      "o":"57268.90000000",
+	      "h":"57599.00000000",
+	      "l":"56579.30000000",
+	      "v":"107.58053000",
+	      "q":"6143273.50631090",
+	      "O":1724509059891,
+	      "C":1724595459891,
+	      "F":136299847,
+	      "L":136318457,
+	      "n":18611
+	   }
+	}
+	 */
+    private static final Pattern PATTERN_TICKER = Pattern.compile(
+    		"^\\{\"stream\":\"[^\"]+\",\"data\":\\{.*\\}\\}$"
+    );
+    
+	/**
+	 * Ticker works fine but it's not used
+	 */
+	private String buildSubscribeCommandTicker(int channelId, List<String> pairs, ChannelType channelType)
 			throws JsonProcessingException {
 		
 		// 	streams=<symbol1>@ticker/<symbol2>@ticker
@@ -305,46 +395,32 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		return sb.toString();
 		
 	}
-	/**
-{
-   "stream":"btceur@ticker",
-   "data":{
-      "e":"24hrTicker",
-      "E":1724595459892,
-      "s":"BTCEUR",
-      "p":"-136.41000000",
-      "P":"-0.238",
-      "w":"57103.95279063",
-      "x":"57263.40000000",
-      "c":"57132.49000000",
-      "Q":"0.00007000",
-      "b":"57130.42000000",
-      "B":"0.00576000",
-      "a":"57132.49000000",
-      "A":"0.00607000",
-      "o":"57268.90000000",
-      "h":"57599.00000000",
-      "l":"56579.30000000",
-      "v":"107.58053000",
-      "q":"6143273.50631090",
-      "O":1724509059891,
-      "C":1724595459891,
-      "F":136299847,
-      "L":136318457,
-      "n":18611
-   }
-}
-	 */
-    private static final Pattern patternTick = Pattern.compile(
-    		"^\\{\"stream\":\"[^\"]+\",\"data\":\\{.*\\}\\}$"
-        );
+	
+	/*
+	{
+		  "e": "trade",         // "Event type": Indicates this is a trade event.
+		  "E": 1665678912345,   // "Event time": Timestamp of the event in milliseconds.
+		  "s": "ETHBTC",        // "Symbol": The trading pair for this trade (ETH/BTC in this case).
+		  "t": 12345678,        // "Trade ID": Unique identifier for this specific trade.
+		  "p": "0.05",          // "Price": The price at which this trade was executed.
+		  "q": "2.0",           // "Quantity": The amount of the base asset (ETH) traded.
+		  "b": 87654321,        // "Buyer order ID": The ID of the buy order that was matched.
+		  "a": 87654322,        // "Seller order ID": The ID of the sell order that was matched.
+		  "T": 1665678912345,   // "Trade time": Timestamp of the trade execution in milliseconds.
+		  "m": true,            // "Is the buyer the market maker": true if the buyer is the maker, false if the seller is.
+		  "M": true             // "Ignore": This field is always present but can be ignored.
+	}
+	*/
+    private static final Pattern PATTERN_TRADE = Pattern.compile(
+    		"^\\{\"stream\":.*\"data\":\\{\"e\":\"trade\",.*\\}$"
+    );
     
 	@Override
 	public IMessageType selectMessageType(String payload, ChannelType channelType) throws JsonProcessingException {
 		
 		IMessageType message = IMessageType.UNDEFINED;
 
-		if (patternTick.matcher(payload).matches()) {
+		if (PATTERN_TRADE.matcher(payload).matches()) {
 			message = IMessageType.TICK;
 		}
 		
@@ -1923,6 +1999,24 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 		  ]
 		]	 
 	 */
+	/**
+		[
+		  [
+		    1499040000000,      // Open time
+		    "0.01634790",       // Open
+		    "0.01700000",       // High
+		    "0.01575800",       // Low
+		    "0.01577100",       // Close
+		    "148976.11427815",  // Volume
+		    1499644799999,      // Close time
+		    "2434.19055334",    // Quote asset volume
+		    308,                // Number of trades
+		    "1756.87402397",    // Taker buy base asset volume
+		    "28.46694368",      // Taker buy quote asset volume
+		    "17928899.62484339" // Ignore
+		  ]
+		]	 
+	*/
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Candle> getCandles(String pair, int timeframeSec, int limit) {
@@ -1995,6 +2089,11 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	    }
 	    return candles;		
 		
+	}
+	
+	@Override
+	public DEFAULT_FEE getDefaultFee(boolean buy) {
+		return buy ? DEFAULT_FEE.BASE_TOKEN : DEFAULT_FEE.QUOTE_TOKEN;	
 	}
 	
 }

@@ -30,6 +30,7 @@ import it.ngt.trading.core.entity.Order;
 import it.ngt.trading.core.entity.Pair;
 import it.ngt.trading.core.entity.Price;
 import it.ngt.trading.core.entity.Trade;
+import it.ngt.trading.core.entity.TraderAction;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.util.FormatUtil;
@@ -39,7 +40,11 @@ import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.Symbol;
 
 class BinanceSpotExchangeTest {
 
-	private static final String KEYS_PROPERTIES_FILENAME = "../../../keys/keys.properties.bit1";
+	//BIT1
+	//private static final String KEYS_PROPERTIES_FILENAME = "../../../keys/keys.properties.bit1";
+
+	//BSEO
+	private static final String KEYS_PROPERTIES_FILENAME = "../../../keys/keys.properties.bseo";
 	private IExchange exchange;
 
 	private Properties properties;
@@ -346,8 +351,8 @@ class BinanceSpotExchangeTest {
 			return;
 		}	
 		
-		main.switchSubaccount("adara.keys.bit1.binance.01.b");
-		//main.switchSubaccount("adara.keys.bseo.binance.main.001");
+		//main.switchSubaccount("adara.keys.bit1.binance.01.b");
+		main.switchSubaccount("adara.keys.bseo.binance.main.003");
 		//main.switchSubaccount("adara.keys.ec.binance.01.a");
 		
 		//main.testGetBalances();
@@ -357,7 +362,7 @@ class BinanceSpotExchangeTest {
 		//main.testGetOrder(2838503888l);		//BSEO-BN-02, not found
 		//main.testGetOrder(124640709);
 		//main.testGetOrder(365603662); // available
-		main.testGetOrder(363573945); // unavailable
+		//main.testGetOrder(363573945); // unavailable
 		//main.testGetOrder(126520939); // unavailable
 		//main.testGetPair();
 		//main.testGetPairs();

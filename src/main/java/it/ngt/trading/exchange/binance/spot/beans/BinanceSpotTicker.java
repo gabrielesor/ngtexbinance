@@ -34,9 +34,9 @@ import lombok.Data;
 }
  */
 @Data
-public class BinanceSpotTick implements ITickExchange {
+public class BinanceSpotTicker implements ITickExchange {
 	
 	private String stream;
-	private BinanceSpotTickData data;
+	private BinanceSpotTickerData data;
 
 }

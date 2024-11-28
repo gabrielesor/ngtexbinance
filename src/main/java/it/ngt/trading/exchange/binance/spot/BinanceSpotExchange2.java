@@ -56,8 +56,8 @@ import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertResponse;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
-import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTick;
-import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTickData;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTicker;
+import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTickerData;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceTick;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceTrade;
 import it.ngt.trading.exchange.binance.spot.beans.spot.exchangeinfo.ExchangeInfoSpot;
@@ -173,7 +173,7 @@ public class BinanceSpotExchange2 extends ExchangeAbstract implements IExchange 
 	@Override
 	public ITickExchange buildTickFromPayload(String payload) throws JsonProcessingException {
 		
-		BinanceSpotTick binanceTick = (BinanceSpotTick) JsonUtil.fromJsonJackson(payload, BinanceSpotTick.class);
+		BinanceSpotTicker binanceTick = (BinanceSpotTicker) JsonUtil.fromJsonJackson(payload, BinanceSpotTicker.class);
 	
 		return binanceTick;
 		
@@ -191,8 +191,8 @@ public class BinanceSpotExchange2 extends ExchangeAbstract implements IExchange 
 		
 		tick.setMarket(this.getCode());
 		tick.setSideType(TickSideType.VIEW);
-		BinanceSpotTick bt = (BinanceSpotTick)tickExchange;
-		BinanceSpotTickData bd = bt.getData();
+		BinanceSpotTicker bt = (BinanceSpotTicker)tickExchange;
+		BinanceSpotTickerData bd = bt.getData();
 		
 		try {
 			tick.setId(0);
