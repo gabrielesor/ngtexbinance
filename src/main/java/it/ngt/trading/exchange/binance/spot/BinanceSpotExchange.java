@@ -2101,16 +2101,20 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 			LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
 			parameters.put("symbol", pair.toUpperCase());
 			
-			// Convert timeframeSec to Binance interval format
+			// Convert timeframeSec to Binance interval format 
 			String interval = TimeUtil.toTimeUnits(timeframeSec);
 			if (interval.equals(timeframeSec + "")) {
 				throw new IllegalArgumentException("Invalid timeframeSec: " + timeframeSec);
 			}
 			parameters.put("interval", interval);
 			
-			// Add time range parameters
-			parameters.put("startTime", startTime);
-			parameters.put("endTime", endTime);
+			// Add one candle before startTime and one after endTime by adjusting the time range
+			long adjustedStartTime = startTime - (timeframeSec * 1000L); // Subtract one timeframe
+			long adjustedEndTime = endTime + (timeframeSec * 1000L); // Add one timeframe
+			
+			// Add adjusted time range parameters
+			parameters.put("startTime", adjustedStartTime);
+			parameters.put("endTime", adjustedEndTime);
 			
 			// Call the Binance API to get candlestick data
 			String resultJson = marketClient.klines(parameters);
