@@ -21,6 +21,8 @@ import com.binance.connector.client.impl.spot.Market;
 import com.binance.connector.client.impl.spot.Trade;
 import com.binance.connector.client.impl.spot.Wallet;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 import it.ngt.trading.core.ProblemException;
 import it.ngt.trading.core.entity.Asset;
@@ -1916,12 +1918,20 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
         if (log.isDebugEnabled()) log.debug("API executed myTrades, tradesResult:\n" + result);
         
         try {
+					
 			BinanceTrade[] btrades = (BinanceTrade[]) JsonUtil.fromJson(result, BinanceTrade[].class);
-			for(BinanceTrade btrade : btrades) {
-				if (log.isDebugEnabled()) log.debug("binance trade: " + btrade);
-				
+			JsonElement jsonElement = (JsonElement) JsonUtil.fromJson(result, JsonElement.class);
+			JsonArray tradesJsonArray = jsonElement.getAsJsonArray();
+
+			for (int i = 0; i < btrades.length; i++) {
+				BinanceTrade btrade = btrades[i];
+
+				if (log.isDebugEnabled()) {
+						log.debug("binance trade: " + btrade);
+				}
+
 				it.ngt.trading.core.entity.Trade trade = new it.ngt.trading.core.entity.Trade();
-				
+
 				trade.setTradeId(String.valueOf(btrade.getId()));
 				trade.setOrderId(String.valueOf(btrade.getOrderId()));
 				trade.setPair(btrade.getSymbol());
@@ -1934,9 +1944,9 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 				trade.setMaker(btrade.isMaker());
 				trade.setOrigin("E");
 				trade.setExchange(this.getName());
-				trade.setPayload(result);
+				trade.setPayload(tradesJsonArray.get(i).toString());
 				trade.setExecutionTime(btrade.getTime());
-				
+
 				trades.add(trade);
 			}
 		} catch (ProblemException e) {
