@@ -47,7 +47,6 @@ import it.ngt.trading.core.exchange.ExchangeErrorCode;
 import it.ngt.trading.core.exchange.ExchangeException;
 import it.ngt.trading.core.exchange.IExchange;
 import it.ngt.trading.core.exchange.ITickExchange;
-import it.ngt.trading.core.exchange.IExchange.DEFAULT_FEE;
 import it.ngt.trading.core.exchange.ExchangeCode;
 import it.ngt.trading.core.messages.IMessageType;
 import it.ngt.trading.core.util.JsonUtil;
@@ -61,7 +60,6 @@ import it.ngt.trading.exchange.binance.spot.beans.BinanceConvertResponse;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceOrder;
 import it.ngt.trading.exchange.binance.spot.beans.BinancePrice;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTicker;
-import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTickerData;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTrade;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceSpotTradeData;
 import it.ngt.trading.exchange.binance.spot.beans.BinanceTick;
@@ -165,7 +163,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
 	
 	@Override
 	public String getName() {
-		return ExchangeCode.BN_S.getName();
+		return ExchangeCode.BN_S.getAlias();
 	}	
 
 	@Override
@@ -1197,7 +1195,7 @@ public class BinanceSpotExchange extends ExchangeAbstract implements IExchange {
         if (log.isDebugEnabled()) log.debug("binanceResult: " + result);
         BinanceResponse response = new BinanceResponse(result);
         
-        return !response.isError();	//TODO:BSEO:missing check the "status"
+        return !response.isError();	//TODO:BSEO:improvement check the "status"
 				
 	}
 	

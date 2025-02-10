@@ -34,9 +34,9 @@ import it.ngt.trading.exchange.binance.spot.BinanceSpotExchange;
  * 
  * <p><strong>Note:</strong> This class is not intended for production use. It is strictly for testing and development.
  */
-public class SimulatedAlphaBinanceSpotExchange extends BinanceSpotExchange {
+public class BinanceSpotSimulatedAlphaExchange extends BinanceSpotExchange {
     
-	public SimulatedAlphaBinanceSpotExchange(String accountName, String apiKey, String apiSecret) throws ExchangeException {
+	public BinanceSpotSimulatedAlphaExchange(String accountName, String apiKey, String apiSecret) throws ExchangeException {
 		super(accountName, apiKey, apiSecret);
 	}
 
@@ -73,6 +73,7 @@ public class SimulatedAlphaBinanceSpotExchange extends BinanceSpotExchange {
         // Simulates the creation of an order without forwarding it to the real Exchange
         String orderId = generateSimulatedOrderId();
         Order simulatedOrder = createSimulatedOrder(action);
+        simulatedOrder.setId(orderId);
         simulatedOrders.put(orderId, simulatedOrder);
         return orderId;
         
@@ -92,8 +93,12 @@ public class SimulatedAlphaBinanceSpotExchange extends BinanceSpotExchange {
      */
     @Override
     public Order getOrder(String orderId, String pair, TraderWaiting waiting) throws ExchangeException, ProblemException {
-        // Returns the simulated order from the internal map
-        return simulatedOrders.get(orderId);
+        // Returns the simulated order from the internal map 	
+        Order order = simulatedOrders.get(orderId);
+        if (order == null) {
+        	throw new ProblemException("Order Simulated not found, orderId: " + orderId);
+        }
+        return order;
     }
 
     /**
@@ -171,10 +176,10 @@ public class SimulatedAlphaBinanceSpotExchange extends BinanceSpotExchange {
         order.setStatusExchange("FILLED");
         order.setFilledQuantity(action.getQuantity());
         order.setFilledPrice(this.getCurrentPrice(action.getPair()));
-        order.setFilledAmount(action.getQuantity() * action.getPrice());
+        order.setFilledAmount(order.getFilledQuantity() * order.getFilledPrice());
         order.setClosedTime(Instant.now().getMillis());
         order.setFeeCurrency(isBuyOrder ? action.getBaseCurrency() : action.getQuoteCurrency());
-        order.setFeeQuantity(isBuyOrder ? action.getQuantity() * feePercentDefault : action.getQuantity() * action.getPrice() * feePercentDefault);
+        order.setFeeQuantity(isBuyOrder ? order.getFilledQuantity() * feePercentDefault / 100 : order.getFilledQuantity() * order.getFilledPrice() * feePercentDefault / 100);
         order.setRawFormat(JsonUtil.toJson(order));
 
         return order;
